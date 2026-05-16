@@ -1,0 +1,60 @@
+-#include<bits/stdc++.h>
++#include<cstdio>
++#include<cstring>
++#include<cmath>
++#include<cstdlib>
++#include<map>
++#include<queue>
++#include<iostream>
++#include<algorithm>
++#define m(a,b) memset(a,b,sizeof(a));
+-int main()
+-{
++const int inf = 1 << 30;
++const int maxn = 1e5;
++typedef long long LL;
++int main(){
+-	bool flag=false;
+-	cin>>a>>b>>c;
+-	for(int i=0;i<10000000;i++)
+-	{
+-		if((a*i)%b==c%b)
+-		{
+-			flag=true;
+-			break;
+-		}
++	cin >> a >> b >> c;
++	bool ans = false;
++	for(int i = 1;i<b;i++){
++		if((a*i)%b == c%b)
++			ans = true;
+-	if(flag==true)cout<<"YES\n";
+-	else cout<<"NO\n";
+-//	if(a%b==c%b || c%b==0)
+-//	{
+-//		cout<<"YES\n";
+-//	}
+-//	else
+-//	{
+-//		bool flag=false;
+-//		int hit=0,sum=a;
+-//		while(1)
+-//		{
+-//			hit++;
+-////			a+=a;
+-//			sum+=a;
+-//			if(sum%b==c%b){
+-//				flag=true;
+-//				break;
+-//			}
+-//			if(sum>b && hit>=10)break;
+-//		}
+-//		if(flag==true)cout<<"YES\n";
+-//		else cout<<"NO\n";
+-//	}
+-//
+-//
++	if(ans)
++		cout << "YES" << endl;
++	else
++		cout << "NO" << endl;

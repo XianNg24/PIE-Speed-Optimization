@@ -1,0 +1,30 @@
+{
+  "compiled": true,
+  "passed": true,
+  "mean_ms": 3.769,
+  "median_ms": 3.86,
+  "per_test": [
+    {
+      "idx": 0,
+      "passed": true,
+      "stdout": "55\n70\n30\n0\n0\n50\n10\n50\n0\n",
+      "expected": "55\n70\n30\n0\n0\n50\n10\n50\n0\n",
+      "mean_ms": 3.917,
+      "std_ms": 0.274,
+      "timed_out": false,
+      "returncode": 0,
+      "failure_mode": null
+    },
+    {
+      "idx": 1,
+      "passed": true,
+      "stdout": "55\n70\n30\n0\n0\n50\n10\n50\n0\n",
+      "expected": "55\n70\n30\n0\n0\n50\n10\n50\n0\n",
+      "mean_ms": 3.62,
+      "std_ms": 0.375,
+      "timed_out": false,
+      "returncode": 0,
+      "failure_mode": null
+    }
+  ]
+}

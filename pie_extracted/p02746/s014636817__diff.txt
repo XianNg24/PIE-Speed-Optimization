@@ -1,0 +1,2 @@
+-	cout << calc(a, b, c, d) << endl;
++	cout << calc(a, b, c, d) << el;

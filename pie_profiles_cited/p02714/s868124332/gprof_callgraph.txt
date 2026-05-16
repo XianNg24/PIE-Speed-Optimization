@@ -1,0 +1,844 @@
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 4 byte(s) no time propagated
+
+index % time    self  children    called     name
+                0.00    0.00       8/110         void std::vector<int, std::allocator<int> >::_M_realloc_insert<int const&>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [67]
+                0.00    0.00       8/110         bool __gnu_cxx::operator!=<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [58]
+                0.00    0.00      18/110         bool __gnu_cxx::operator< <int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [28]
+                0.00    0.00      30/110         __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::difference_type __gnu_cxx::operator-<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [21]
+                0.00    0.00      46/110         bool __gnu_cxx::operator==<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [15]
+[8]      0.0    0.00    0.00     110         __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::base() const [8]
+-----------------------------------------------
+                0.00    0.00       2/60          bool __gnu_cxx::__ops::_Val_less_iter::operator()<int, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(int&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) const [90]
+                0.00    0.00       4/60          bool __gnu_cxx::__ops::_Iter_less_val::operator()<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) const [59]
+                0.00    0.00       4/60          void std::__unguarded_linear_insert<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Val_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Val_less_iter) [97]
+                0.00    0.00      16/60          void std::iter_swap<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [40]
+                0.00    0.00      34/60          bool __gnu_cxx::__ops::_Iter_less_iter::operator()<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) const [18]
+[9]      0.0    0.00    0.00      60         __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator*() const [9]
+-----------------------------------------------
+                0.00    0.00       1/35          __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator+(long) const [104]
+                0.00    0.00      17/35          std::vector<int, std::allocator<int> >::begin() [20]
+                0.00    0.00      17/35          std::vector<int, std::allocator<int> >::end() [19]
+[10]     0.0    0.00    0.00      35         __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::__normal_iterator(int* const&) [10]
+-----------------------------------------------
+                0.00    0.00      34/34          main [6]
+[11]     0.0    0.00    0.00      34         std::vector<int, std::allocator<int> >::operator[](unsigned long) [11]
+-----------------------------------------------
+                0.00    0.00       2/32          void std::__unguarded_linear_insert<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Val_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Val_less_iter) [97]
+                0.00    0.00       9/32          void std::__reverse<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::random_access_iterator_tag) [48]
+                0.00    0.00      21/32          bool std::__next_permutation<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [47]
+[12]     0.0    0.00    0.00      32         __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator--() [12]
+-----------------------------------------------
+                0.00    0.00       4/28          void std::__unguarded_linear_insert<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Val_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Val_less_iter) [97]
+                0.00    0.00      24/28          std::enable_if<std::__and_<std::__not_<std::__is_tuple_like<int> >, std::is_move_constructible<int>, std::is_move_assignable<int> >::value, void>::type std::swap<int>(int&, int&) [39]
+[13]     0.0    0.00    0.00      28         std::remove_reference<int&>::type&& std::move<int&>(int&) [13]
+-----------------------------------------------
+                0.00    0.00       1/25          int* std::__copy_move_a<false, int const*, int*>(int const*, int const*, int*) [139]
+                0.00    0.00      24/25          int* std::__relocate_a<int*, int*, std::allocator<int> >(int*, int*, int*, std::allocator<int>&) [37]
+[14]     0.0    0.00    0.00      25         int* std::__niter_base<int*>(int*) [14]
+-----------------------------------------------
+                0.00    0.00       1/23          void std::__insertion_sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [142]
+                0.00    0.00       6/23          void std::__reverse<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::random_access_iterator_tag) [48]
+                0.00    0.00      16/23          bool std::__next_permutation<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [47]
+[15]     0.0    0.00    0.00      23         bool __gnu_cxx::operator==<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [15]
+                0.00    0.00      46/110         __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::base() const [8]
+-----------------------------------------------
+                0.00    0.00      19/19          main [6]
+[16]     0.0    0.00    0.00      19         std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::operator[](unsigned long) [16]
+-----------------------------------------------
+                0.00    0.00       2/18          main [6]
+                0.00    0.00      16/18          std::vector<int, std::allocator<int> >::_M_check_len(unsigned long, char const*) const [60]
+[17]     0.0    0.00    0.00      18         std::vector<int, std::allocator<int> >::size() const [17]
+-----------------------------------------------
+                0.00    0.00       2/17          void std::__insertion_sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [142]
+                0.00    0.00      15/17          bool std::__next_permutation<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [47]
+[18]     0.0    0.00    0.00      17         bool __gnu_cxx::__ops::_Iter_less_iter::operator()<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) const [18]
+                0.00    0.00      34/60          __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator*() const [9]
+-----------------------------------------------
+                0.00    0.00       4/17          std::vector<int, std::allocator<int> >::push_back(int const&) [68]
+                0.00    0.00      13/17          main [6]
+[19]     0.0    0.00    0.00      17         std::vector<int, std::allocator<int> >::end() [19]
+                0.00    0.00      17/35          __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::__normal_iterator(int* const&) [10]
+-----------------------------------------------
+                0.00    0.00       4/17          void std::vector<int, std::allocator<int> >::_M_realloc_insert<int const&>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [67]
+                0.00    0.00      13/17          main [6]
+[20]     0.0    0.00    0.00      17         std::vector<int, std::allocator<int> >::begin() [20]
+                0.00    0.00      17/35          __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::__normal_iterator(int* const&) [10]
+-----------------------------------------------
+                0.00    0.00       1/15          void std::__sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [154]
+                0.00    0.00       1/15          void std::__introsort_loop<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, long, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, long, __gnu_cxx::__ops::_Iter_less_iter) [143]
+                0.00    0.00       1/15          void std::__final_insertion_sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [147]
+                0.00    0.00       4/15          main [6]
+                0.00    0.00       4/15          void std::vector<int, std::allocator<int> >::_M_realloc_insert<int const&>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [67]
+                0.00    0.00       4/15          std::iterator_traits<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >::difference_type std::__distance<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::random_access_iterator_tag) [70]
+[21]     0.0    0.00    0.00      15         __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::difference_type __gnu_cxx::operator-<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [21]
+                0.00    0.00      30/110         __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::base() const [8]
+-----------------------------------------------
+                0.00    0.00       5/14          __gnu_cxx::new_allocator<int>::allocate(unsigned long, void const*) [50]
+                0.00    0.00       9/14          __gnu_cxx::new_allocator<int>::max_size() const [29]
+[22]     0.0    0.00    0.00      14         __gnu_cxx::new_allocator<int>::_M_max_size() const [22]
+-----------------------------------------------
+                0.00    0.00       2/14          void std::vector<int, std::allocator<int> >::_M_range_initialize<int const*>(int const*, int const*, std::forward_iterator_tag) [132]
+                0.00    0.00       4/14          std::vector<int, std::allocator<int> >::~vector() [69]
+                0.00    0.00       8/14          void std::vector<int, std::allocator<int> >::_M_realloc_insert<int const&>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [67]
+[23]     0.0    0.00    0.00      14         std::_Vector_base<int, std::allocator<int> >::_M_get_Tp_allocator() [23]
+-----------------------------------------------
+                0.00    0.00       4/14          std::iterator_traits<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >::difference_type std::distance<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [77]
+                0.00    0.00       4/14          void std::advance<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, long>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >&, long) [74]
+                0.00    0.00       6/14          bool std::__next_permutation<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [47]
+[24]     0.0    0.00    0.00      14         std::iterator_traits<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >::iterator_category std::__iterator_category<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [24]
+-----------------------------------------------
+                0.00    0.00       1/12          __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__lower_bound<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, __gnu_cxx::__ops::_Iter_less_val>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&, __gnu_cxx::__ops::_Iter_less_val) [72]
+                0.00    0.00       2/12          void std::__insertion_sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [142]
+                0.00    0.00       3/12          void std::__reverse<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::random_access_iterator_tag) [48]
+                0.00    0.00       6/12          bool std::__next_permutation<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [47]
+[25]     0.0    0.00    0.00      12         __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator++() [25]
+-----------------------------------------------
+                0.00    0.00       4/12          void std::allocator_traits<std::allocator<int> >::construct<int, int const&>(std::allocator<int>&, int*, int const&) [66]
+                0.00    0.00       4/12          void std::vector<int, std::allocator<int> >::_M_realloc_insert<int const&>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [67]
+                0.00    0.00       4/12          void __gnu_cxx::new_allocator<int>::construct<int, int const&>(int*, int const&) [54]
+[26]     0.0    0.00    0.00      12         int const& std::forward<int const&>(std::remove_reference<int const&>::type&) [26]
+-----------------------------------------------
+                0.00    0.00       1/10          std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_S_max_size(std::allocator<std::vector<int, std::allocator<int> > > const&) [126]
+                0.00    0.00       9/10          std::vector<int, std::allocator<int> >::_S_max_size(std::allocator<int> const&) [31]
+[27]     0.0    0.00    0.00      10         unsigned long const& std::min<unsigned long>(unsigned long const&, unsigned long const&) [27]
+-----------------------------------------------
+                0.00    0.00       9/9           void std::__reverse<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::random_access_iterator_tag) [48]
+[28]     0.0    0.00    0.00       9         bool __gnu_cxx::operator< <int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [28]
+                0.00    0.00      18/110         __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::base() const [8]
+-----------------------------------------------
+                0.00    0.00       9/9           std::allocator_traits<std::allocator<int> >::max_size(std::allocator<int> const&) [30]
+[29]     0.0    0.00    0.00       9         __gnu_cxx::new_allocator<int>::max_size() const [29]
+                0.00    0.00       9/14          __gnu_cxx::new_allocator<int>::_M_max_size() const [22]
+-----------------------------------------------
+                0.00    0.00       9/9           std::vector<int, std::allocator<int> >::_S_max_size(std::allocator<int> const&) [31]
+[30]     0.0    0.00    0.00       9         std::allocator_traits<std::allocator<int> >::max_size(std::allocator<int> const&) [30]
+                0.00    0.00       9/9           __gnu_cxx::new_allocator<int>::max_size() const [29]
+-----------------------------------------------
+                0.00    0.00       1/9           std::vector<int, std::allocator<int> >::_S_check_init_len(unsigned long, std::allocator<int> const&) [131]
+                0.00    0.00       8/9           std::vector<int, std::allocator<int> >::max_size() const [33]
+[31]     0.0    0.00    0.00       9         std::vector<int, std::allocator<int> >::_S_max_size(std::allocator<int> const&) [31]
+                0.00    0.00       9/9           std::allocator_traits<std::allocator<int> >::max_size(std::allocator<int> const&) [30]
+                0.00    0.00       9/10          unsigned long const& std::min<unsigned long>(unsigned long const&, unsigned long const&) [27]
+-----------------------------------------------
+                0.00    0.00       8/8           std::vector<int, std::allocator<int> >::max_size() const [33]
+[32]     0.0    0.00    0.00       8         std::_Vector_base<int, std::allocator<int> >::_M_get_Tp_allocator() const [32]
+-----------------------------------------------
+                0.00    0.00       8/8           std::vector<int, std::allocator<int> >::_M_check_len(unsigned long, char const*) const [60]
+[33]     0.0    0.00    0.00       8         std::vector<int, std::allocator<int> >::max_size() const [33]
+                0.00    0.00       8/8           std::_Vector_base<int, std::allocator<int> >::_M_get_Tp_allocator() const [32]
+                0.00    0.00       8/9           std::vector<int, std::allocator<int> >::_S_max_size(std::allocator<int> const&) [31]
+-----------------------------------------------
+                0.00    0.00       4/8           void std::vector<int, std::allocator<int> >::_M_realloc_insert<int const&>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [67]
+                0.00    0.00       4/8           std::_Vector_base<int, std::allocator<int> >::~_Vector_base() [65]
+[34]     0.0    0.00    0.00       8         std::_Vector_base<int, std::allocator<int> >::_M_deallocate(int*, unsigned long) [34]
+                0.00    0.00       5/5           std::allocator_traits<std::allocator<int> >::deallocate(std::allocator<int>&, int*, unsigned long) [52]
+-----------------------------------------------
+                0.00    0.00       8/8           void std::vector<int, std::allocator<int> >::_M_realloc_insert<int const&>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [67]
+[35]     0.0    0.00    0.00       8         std::vector<int, std::allocator<int> >::_S_relocate(int*, int*, int*, std::allocator<int>&) [35]
+                0.00    0.00       8/8           std::vector<int, std::allocator<int> >::_S_do_relocate(int*, int*, int*, std::allocator<int>&, std::integral_constant<bool, true>) [36]
+-----------------------------------------------
+                0.00    0.00       8/8           std::vector<int, std::allocator<int> >::_S_relocate(int*, int*, int*, std::allocator<int>&) [35]
+[36]     0.0    0.00    0.00       8         std::vector<int, std::allocator<int> >::_S_do_relocate(int*, int*, int*, std::allocator<int>&, std::integral_constant<bool, true>) [36]
+                0.00    0.00       8/8           int* std::__relocate_a<int*, int*, std::allocator<int> >(int*, int*, int*, std::allocator<int>&) [37]
+-----------------------------------------------
+                0.00    0.00       8/8           std::vector<int, std::allocator<int> >::_S_do_relocate(int*, int*, int*, std::allocator<int>&, std::integral_constant<bool, true>) [36]
+[37]     0.0    0.00    0.00       8         int* std::__relocate_a<int*, int*, std::allocator<int> >(int*, int*, int*, std::allocator<int>&) [37]
+                0.00    0.00      24/25          int* std::__niter_base<int*>(int*) [14]
+                0.00    0.00       8/8           std::enable_if<std::__is_bitwise_relocatable<int, void>::value, int*>::type std::__relocate_a_1<int, int>(int*, int*, int*, std::allocator<int>&) [38]
+-----------------------------------------------
+                0.00    0.00       8/8           int* std::__relocate_a<int*, int*, std::allocator<int> >(int*, int*, int*, std::allocator<int>&) [37]
+[38]     0.0    0.00    0.00       8         std::enable_if<std::__is_bitwise_relocatable<int, void>::value, int*>::type std::__relocate_a_1<int, int>(int*, int*, int*, std::allocator<int>&) [38]
+-----------------------------------------------
+                0.00    0.00       8/8           void std::iter_swap<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [40]
+[39]     0.0    0.00    0.00       8         std::enable_if<std::__and_<std::__not_<std::__is_tuple_like<int> >, std::is_move_constructible<int>, std::is_move_assignable<int> >::value, void>::type std::swap<int>(int&, int&) [39]
+                0.00    0.00      24/28          std::remove_reference<int&>::type&& std::move<int&>(int&) [13]
+-----------------------------------------------
+                0.00    0.00       3/8           void std::__reverse<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::random_access_iterator_tag) [48]
+                0.00    0.00       5/8           bool std::__next_permutation<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [47]
+[40]     0.0    0.00    0.00       8         void std::iter_swap<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [40]
+                0.00    0.00      16/60          __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator*() const [9]
+                0.00    0.00       8/8           std::enable_if<std::__and_<std::__not_<std::__is_tuple_like<int> >, std::is_move_constructible<int>, std::is_move_assignable<int> >::value, void>::type std::swap<int>(int&, int&) [39]
+-----------------------------------------------
+                0.00    0.00       1/7           void std::sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [153]
+                0.00    0.00       6/7           bool std::next_permutation<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [46]
+[41]     0.0    0.00    0.00       7         __gnu_cxx::__ops::__iter_less_iter() [41]
+-----------------------------------------------
+                0.00    0.00       3/7           void std::_Construct<std::vector<int, std::allocator<int> >>(std::vector<int, std::allocator<int> >*) [84]
+                0.00    0.00       4/7           void __gnu_cxx::new_allocator<int>::construct<int, int const&>(int*, int const&) [54]
+[42]     0.0    0.00    0.00       7         operator new(unsigned long, void*) [42]
+-----------------------------------------------
+                0.00    0.00       6/6           std::allocator<int>::~allocator() [44]
+[43]     0.0    0.00    0.00       6         __gnu_cxx::new_allocator<int>::~new_allocator() [43]
+-----------------------------------------------
+                0.00    0.00       1/6           main [6]
+                0.00    0.00       1/6           std::vector<int, std::allocator<int> >::_S_check_init_len(unsigned long, std::allocator<int> const&) [131]
+                0.00    0.00       4/6           std::_Vector_base<int, std::allocator<int> >::_Vector_impl::~_Vector_impl() [63]
+[44]     0.0    0.00    0.00       6         std::allocator<int>::~allocator() [44]
+                0.00    0.00       6/6           __gnu_cxx::new_allocator<int>::~new_allocator() [43]
+-----------------------------------------------
+                0.00    0.00       3/6           void std::_Destroy_aux<false>::__destroy<std::vector<int, std::allocator<int> >*>(std::vector<int, std::allocator<int> >*, std::vector<int, std::allocator<int> >*) [110]
+                0.00    0.00       3/6           std::vector<int, std::allocator<int> >* std::__uninitialized_default_n_1<false>::__uninit_default_n<std::vector<int, std::allocator<int> >*, unsigned long>(std::vector<int, std::allocator<int> >*, unsigned long) [125]
+[45]     0.0    0.00    0.00       6         std::vector<int, std::allocator<int> >* std::__addressof<std::vector<int, std::allocator<int> > >(std::vector<int, std::allocator<int> >&) [45]
+-----------------------------------------------
+                0.00    0.00       6/6           main [6]
+[46]     0.0    0.00    0.00       6         bool std::next_permutation<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [46]
+                0.00    0.00       6/7           __gnu_cxx::__ops::__iter_less_iter() [41]
+                0.00    0.00       6/6           bool std::__next_permutation<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [47]
+-----------------------------------------------
+                0.00    0.00       6/6           bool std::next_permutation<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [46]
+[47]     0.0    0.00    0.00       6         bool std::__next_permutation<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [47]
+                0.00    0.00      21/32          __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator--() [12]
+                0.00    0.00      16/23          bool __gnu_cxx::operator==<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [15]
+                0.00    0.00      15/17          bool __gnu_cxx::__ops::_Iter_less_iter::operator()<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) const [18]
+                0.00    0.00       6/12          __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator++() [25]
+                0.00    0.00       6/14          std::iterator_traits<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >::iterator_category std::__iterator_category<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [24]
+                0.00    0.00       6/6           void std::__reverse<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::random_access_iterator_tag) [48]
+                0.00    0.00       5/8           void std::iter_swap<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [40]
+-----------------------------------------------
+                0.00    0.00       6/6           bool std::__next_permutation<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [47]
+[48]     0.0    0.00    0.00       6         void std::__reverse<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::random_access_iterator_tag) [48]
+                0.00    0.00       9/32          __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator--() [12]
+                0.00    0.00       9/9           bool __gnu_cxx::operator< <int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [28]
+                0.00    0.00       6/23          bool __gnu_cxx::operator==<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [15]
+                0.00    0.00       3/12          __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator++() [25]
+                0.00    0.00       3/8           void std::iter_swap<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [40]
+-----------------------------------------------
+                0.00    0.00       5/5           std::allocator_traits<std::allocator<int> >::deallocate(std::allocator<int>&, int*, unsigned long) [52]
+[49]     0.0    0.00    0.00       5         __gnu_cxx::new_allocator<int>::deallocate(int*, unsigned long) [49]
+-----------------------------------------------
+                0.00    0.00       5/5           std::allocator_traits<std::allocator<int> >::allocate(std::allocator<int>&, unsigned long) [53]
+[50]     0.0    0.00    0.00       5         __gnu_cxx::new_allocator<int>::allocate(unsigned long, void const*) [50]
+                0.00    0.00       5/14          __gnu_cxx::new_allocator<int>::_M_max_size() const [22]
+-----------------------------------------------
+                0.00    0.00       1/5           void std::vector<int, std::allocator<int> >::_M_range_initialize<int const*>(int const*, int const*, std::forward_iterator_tag) [132]
+                0.00    0.00       4/5           void std::vector<int, std::allocator<int> >::_M_realloc_insert<int const&>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [67]
+[51]     0.0    0.00    0.00       5         std::_Vector_base<int, std::allocator<int> >::_M_allocate(unsigned long) [51]
+                0.00    0.00       5/5           std::allocator_traits<std::allocator<int> >::allocate(std::allocator<int>&, unsigned long) [53]
+-----------------------------------------------
+                0.00    0.00       5/5           std::_Vector_base<int, std::allocator<int> >::_M_deallocate(int*, unsigned long) [34]
+[52]     0.0    0.00    0.00       5         std::allocator_traits<std::allocator<int> >::deallocate(std::allocator<int>&, int*, unsigned long) [52]
+                0.00    0.00       5/5           __gnu_cxx::new_allocator<int>::deallocate(int*, unsigned long) [49]
+-----------------------------------------------
+                0.00    0.00       5/5           std::_Vector_base<int, std::allocator<int> >::_M_allocate(unsigned long) [51]
+[53]     0.0    0.00    0.00       5         std::allocator_traits<std::allocator<int> >::allocate(std::allocator<int>&, unsigned long) [53]
+                0.00    0.00       5/5           __gnu_cxx::new_allocator<int>::allocate(unsigned long, void const*) [50]
+-----------------------------------------------
+                0.00    0.00       4/4           void std::allocator_traits<std::allocator<int> >::construct<int, int const&>(std::allocator<int>&, int*, int const&) [66]
+[54]     0.0    0.00    0.00       4         void __gnu_cxx::new_allocator<int>::construct<int, int const&>(int*, int const&) [54]
+                0.00    0.00       4/12          int const& std::forward<int const&>(std::remove_reference<int const&>::type&) [26]
+                0.00    0.00       4/7           operator new(unsigned long, void*) [42]
+-----------------------------------------------
+                0.00    0.00       4/4           std::allocator<int>::allocator() [61]
+[55]     0.0    0.00    0.00       4         __gnu_cxx::new_allocator<int>::new_allocator() [55]
+-----------------------------------------------
+                0.00    0.00       4/4           void std::__advance<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, long>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >&, long, std::random_access_iterator_tag) [78]
+[56]     0.0    0.00    0.00       4         __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator+=(long) [56]
+-----------------------------------------------
+                0.00    0.00       4/4           __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::lower_bound<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [71]
+[57]     0.0    0.00    0.00       4         __gnu_cxx::__ops::__iter_less_val() [57]
+-----------------------------------------------
+                0.00    0.00       1/4           void std::__sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [154]
+                0.00    0.00       3/4           void std::__insertion_sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [142]
+[58]     0.0    0.00    0.00       4         bool __gnu_cxx::operator!=<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [58]
+                0.00    0.00       8/110         __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::base() const [8]
+-----------------------------------------------
+                0.00    0.00       4/4           __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__lower_bound<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, __gnu_cxx::__ops::_Iter_less_val>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&, __gnu_cxx::__ops::_Iter_less_val) [72]
+[59]     0.0    0.00    0.00       4         bool __gnu_cxx::__ops::_Iter_less_val::operator()<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) const [59]
+                0.00    0.00       4/60          __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator*() const [9]
+-----------------------------------------------
+                0.00    0.00       4/4           void std::vector<int, std::allocator<int> >::_M_realloc_insert<int const&>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [67]
+[60]     0.0    0.00    0.00       4         std::vector<int, std::allocator<int> >::_M_check_len(unsigned long, char const*) const [60]
+                0.00    0.00      16/18          std::vector<int, std::allocator<int> >::size() const [17]
+                0.00    0.00       8/8           std::vector<int, std::allocator<int> >::max_size() const [33]
+                0.00    0.00       4/4           unsigned long const& std::max<unsigned long>(unsigned long const&, unsigned long const&) [73]
+-----------------------------------------------
+                0.00    0.00       1/4           main [6]
+                0.00    0.00       3/4           std::_Vector_base<int, std::allocator<int> >::_Vector_impl::_Vector_impl() [81]
+[61]     0.0    0.00    0.00       4         std::allocator<int>::allocator() [61]
+                0.00    0.00       4/4           __gnu_cxx::new_allocator<int>::new_allocator() [55]
+-----------------------------------------------
+                0.00    0.00       4/4           void std::_Destroy<int*>(int*, int*) [75]
+[62]     0.0    0.00    0.00       4         void std::_Destroy_aux<true>::__destroy<int*>(int*, int*) [62]
+-----------------------------------------------
+                0.00    0.00       4/4           std::_Vector_base<int, std::allocator<int> >::~_Vector_base() [65]
+[63]     0.0    0.00    0.00       4         std::_Vector_base<int, std::allocator<int> >::_Vector_impl::~_Vector_impl() [63]
+                0.00    0.00       4/6           std::allocator<int>::~allocator() [44]
+-----------------------------------------------
+                0.00    0.00       1/4           std::_Vector_base<int, std::allocator<int> >::_Vector_impl::_Vector_impl(std::allocator<int> const&) [119]
+                0.00    0.00       3/4           std::_Vector_base<int, std::allocator<int> >::_Vector_impl::_Vector_impl() [81]
+[64]     0.0    0.00    0.00       4         std::_Vector_base<int, std::allocator<int> >::_Vector_impl_data::_Vector_impl_data() [64]
+-----------------------------------------------
+                0.00    0.00       4/4           std::vector<int, std::allocator<int> >::~vector() [69]
+[65]     0.0    0.00    0.00       4         std::_Vector_base<int, std::allocator<int> >::~_Vector_base() [65]
+                0.00    0.00       4/8           std::_Vector_base<int, std::allocator<int> >::_M_deallocate(int*, unsigned long) [34]
+                0.00    0.00       4/4           std::_Vector_base<int, std::allocator<int> >::_Vector_impl::~_Vector_impl() [63]
+-----------------------------------------------
+                0.00    0.00       4/4           void std::vector<int, std::allocator<int> >::_M_realloc_insert<int const&>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [67]
+[66]     0.0    0.00    0.00       4         void std::allocator_traits<std::allocator<int> >::construct<int, int const&>(std::allocator<int>&, int*, int const&) [66]
+                0.00    0.00       4/12          int const& std::forward<int const&>(std::remove_reference<int const&>::type&) [26]
+                0.00    0.00       4/4           void __gnu_cxx::new_allocator<int>::construct<int, int const&>(int*, int const&) [54]
+-----------------------------------------------
+                0.00    0.00       4/4           std::vector<int, std::allocator<int> >::push_back(int const&) [68]
+[67]     0.0    0.00    0.00       4         void std::vector<int, std::allocator<int> >::_M_realloc_insert<int const&>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [67]
+                0.00    0.00       8/14          std::_Vector_base<int, std::allocator<int> >::_M_get_Tp_allocator() [23]
+                0.00    0.00       8/110         __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::base() const [8]
+                0.00    0.00       8/8           std::vector<int, std::allocator<int> >::_S_relocate(int*, int*, int*, std::allocator<int>&) [35]
+                0.00    0.00       4/4           std::vector<int, std::allocator<int> >::_M_check_len(unsigned long, char const*) const [60]
+                0.00    0.00       4/17          std::vector<int, std::allocator<int> >::begin() [20]
+                0.00    0.00       4/15          __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::difference_type __gnu_cxx::operator-<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [21]
+                0.00    0.00       4/5           std::_Vector_base<int, std::allocator<int> >::_M_allocate(unsigned long) [51]
+                0.00    0.00       4/12          int const& std::forward<int const&>(std::remove_reference<int const&>::type&) [26]
+                0.00    0.00       4/4           void std::allocator_traits<std::allocator<int> >::construct<int, int const&>(std::allocator<int>&, int*, int const&) [66]
+                0.00    0.00       4/8           std::_Vector_base<int, std::allocator<int> >::_M_deallocate(int*, unsigned long) [34]
+-----------------------------------------------
+                0.00    0.00       4/4           main [6]
+[68]     0.0    0.00    0.00       4         std::vector<int, std::allocator<int> >::push_back(int const&) [68]
+                0.00    0.00       4/17          std::vector<int, std::allocator<int> >::end() [19]
+                0.00    0.00       4/4           void std::vector<int, std::allocator<int> >::_M_realloc_insert<int const&>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [67]
+-----------------------------------------------
+                0.00    0.00       1/4           main [6]
+                0.00    0.00       3/4           void std::_Destroy<std::vector<int, std::allocator<int> > >(std::vector<int, std::allocator<int> >*) [85]
+[69]     0.0    0.00    0.00       4         std::vector<int, std::allocator<int> >::~vector() [69]
+                0.00    0.00       4/14          std::_Vector_base<int, std::allocator<int> >::_M_get_Tp_allocator() [23]
+                0.00    0.00       4/4           void std::_Destroy<int*, int>(int*, int*, std::allocator<int>&) [76]
+                0.00    0.00       4/4           std::_Vector_base<int, std::allocator<int> >::~_Vector_base() [65]
+-----------------------------------------------
+                0.00    0.00       4/4           std::iterator_traits<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >::difference_type std::distance<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [77]
+[70]     0.0    0.00    0.00       4         std::iterator_traits<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >::difference_type std::__distance<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::random_access_iterator_tag) [70]
+                0.00    0.00       4/15          __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::difference_type __gnu_cxx::operator-<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [21]
+-----------------------------------------------
+                0.00    0.00       4/4           main [6]
+[71]     0.0    0.00    0.00       4         __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::lower_bound<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [71]
+                0.00    0.00       4/4           __gnu_cxx::__ops::__iter_less_val() [57]
+                0.00    0.00       4/4           __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__lower_bound<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, __gnu_cxx::__ops::_Iter_less_val>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&, __gnu_cxx::__ops::_Iter_less_val) [72]
+-----------------------------------------------
+                0.00    0.00       4/4           __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::lower_bound<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [71]
+[72]     0.0    0.00    0.00       4         __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__lower_bound<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, __gnu_cxx::__ops::_Iter_less_val>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&, __gnu_cxx::__ops::_Iter_less_val) [72]
+                0.00    0.00       4/4           std::iterator_traits<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >::difference_type std::distance<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [77]
+                0.00    0.00       4/4           void std::advance<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, long>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >&, long) [74]
+                0.00    0.00       4/4           bool __gnu_cxx::__ops::_Iter_less_val::operator()<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) const [59]
+                0.00    0.00       1/12          __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator++() [25]
+-----------------------------------------------
+                0.00    0.00       4/4           std::vector<int, std::allocator<int> >::_M_check_len(unsigned long, char const*) const [60]
+[73]     0.0    0.00    0.00       4         unsigned long const& std::max<unsigned long>(unsigned long const&, unsigned long const&) [73]
+-----------------------------------------------
+                0.00    0.00       4/4           __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__lower_bound<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, __gnu_cxx::__ops::_Iter_less_val>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&, __gnu_cxx::__ops::_Iter_less_val) [72]
+[74]     0.0    0.00    0.00       4         void std::advance<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, long>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >&, long) [74]
+                0.00    0.00       4/14          std::iterator_traits<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >::iterator_category std::__iterator_category<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [24]
+                0.00    0.00       4/4           void std::__advance<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, long>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >&, long, std::random_access_iterator_tag) [78]
+-----------------------------------------------
+                0.00    0.00       4/4           void std::_Destroy<int*, int>(int*, int*, std::allocator<int>&) [76]
+[75]     0.0    0.00    0.00       4         void std::_Destroy<int*>(int*, int*) [75]
+                0.00    0.00       4/4           void std::_Destroy_aux<true>::__destroy<int*>(int*, int*) [62]
+-----------------------------------------------
+                0.00    0.00       4/4           std::vector<int, std::allocator<int> >::~vector() [69]
+[76]     0.0    0.00    0.00       4         void std::_Destroy<int*, int>(int*, int*, std::allocator<int>&) [76]
+                0.00    0.00       4/4           void std::_Destroy<int*>(int*, int*) [75]
+-----------------------------------------------
+                0.00    0.00       4/4           __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__lower_bound<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, __gnu_cxx::__ops::_Iter_less_val>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&, __gnu_cxx::__ops::_Iter_less_val) [72]
+[77]     0.0    0.00    0.00       4         std::iterator_traits<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >::difference_type std::distance<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [77]
+                0.00    0.00       4/14          std::iterator_traits<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >::iterator_category std::__iterator_category<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [24]
+                0.00    0.00       4/4           std::iterator_traits<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >::difference_type std::__distance<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::random_access_iterator_tag) [70]
+-----------------------------------------------
+                0.00    0.00       4/4           void std::advance<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, long>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >&, long) [74]
+[78]     0.0    0.00    0.00       4         void std::__advance<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, long>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >&, long, std::random_access_iterator_tag) [78]
+                0.00    0.00       4/4           __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator+=(long) [56]
+-----------------------------------------------
+                0.00    0.00       3/3           std::allocator<std::vector<int, std::allocator<int> > >::~allocator() [80]
+[79]     0.0    0.00    0.00       3         __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::~new_allocator() [79]
+-----------------------------------------------
+                0.00    0.00       1/3           main [6]
+                0.00    0.00       1/3           std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_S_check_init_len(unsigned long, std::allocator<std::vector<int, std::allocator<int> > > const&) [127]
+                0.00    0.00       1/3           std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_Vector_impl::~_Vector_impl() [113]
+[80]     0.0    0.00    0.00       3         std::allocator<std::vector<int, std::allocator<int> > >::~allocator() [80]
+                0.00    0.00       3/3           __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::~new_allocator() [79]
+-----------------------------------------------
+                0.00    0.00       3/3           std::_Vector_base<int, std::allocator<int> >::_Vector_base() [82]
+[81]     0.0    0.00    0.00       3         std::_Vector_base<int, std::allocator<int> >::_Vector_impl::_Vector_impl() [81]
+                0.00    0.00       3/4           std::allocator<int>::allocator() [61]
+                0.00    0.00       3/4           std::_Vector_base<int, std::allocator<int> >::_Vector_impl_data::_Vector_impl_data() [64]
+-----------------------------------------------
+                0.00    0.00       3/3           std::vector<int, std::allocator<int> >::vector() [83]
+[82]     0.0    0.00    0.00       3         std::_Vector_base<int, std::allocator<int> >::_Vector_base() [82]
+                0.00    0.00       3/3           std::_Vector_base<int, std::allocator<int> >::_Vector_impl::_Vector_impl() [81]
+-----------------------------------------------
+                0.00    0.00       3/3           void std::_Construct<std::vector<int, std::allocator<int> >>(std::vector<int, std::allocator<int> >*) [84]
+[83]     0.0    0.00    0.00       3         std::vector<int, std::allocator<int> >::vector() [83]
+                0.00    0.00       3/3           std::_Vector_base<int, std::allocator<int> >::_Vector_base() [82]
+-----------------------------------------------
+                0.00    0.00       3/3           std::vector<int, std::allocator<int> >* std::__uninitialized_default_n_1<false>::__uninit_default_n<std::vector<int, std::allocator<int> >*, unsigned long>(std::vector<int, std::allocator<int> >*, unsigned long) [125]
+[84]     0.0    0.00    0.00       3         void std::_Construct<std::vector<int, std::allocator<int> >>(std::vector<int, std::allocator<int> >*) [84]
+                0.00    0.00       3/7           operator new(unsigned long, void*) [42]
+                0.00    0.00       3/3           std::vector<int, std::allocator<int> >::vector() [83]
+-----------------------------------------------
+                0.00    0.00       3/3           void std::_Destroy_aux<false>::__destroy<std::vector<int, std::allocator<int> >*>(std::vector<int, std::allocator<int> >*, std::vector<int, std::allocator<int> >*) [110]
+[85]     0.0    0.00    0.00       3         void std::_Destroy<std::vector<int, std::allocator<int> > >(std::vector<int, std::allocator<int> >*) [85]
+                0.00    0.00       3/4           std::vector<int, std::allocator<int> >::~vector() [69]
+-----------------------------------------------
+                0.00    0.00       2/2           std::allocator<std::vector<int, std::allocator<int> > >::allocator(std::allocator<std::vector<int, std::allocator<int> > > const&) [92]
+[86]     0.0    0.00    0.00       2         __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::new_allocator(__gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > > const&) [86]
+-----------------------------------------------
+                0.00    0.00       2/2           std::allocator<int>::allocator(std::allocator<int> const&) [93]
+[87]     0.0    0.00    0.00       2         __gnu_cxx::new_allocator<int>::new_allocator(__gnu_cxx::new_allocator<int> const&) [87]
+-----------------------------------------------
+                0.00    0.00       2/2           void std::__insertion_sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [142]
+[88]     0.0    0.00    0.00       2         __gnu_cxx::__ops::__val_comp_iter(__gnu_cxx::__ops::_Iter_less_iter) [88]
+-----------------------------------------------
+                0.00    0.00       1/2           __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::max_size() const [103]
+                0.00    0.00       1/2           __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::allocate(unsigned long, void const*) [100]
+[89]     0.0    0.00    0.00       2         __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::_M_max_size() const [89]
+-----------------------------------------------
+                0.00    0.00       2/2           void std::__unguarded_linear_insert<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Val_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Val_less_iter) [97]
+[90]     0.0    0.00    0.00       2         bool __gnu_cxx::__ops::_Val_less_iter::operator()<int, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(int&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) const [90]
+                0.00    0.00       2/60          __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator*() const [9]
+-----------------------------------------------
+                0.00    0.00       1/2           std::vector<int, std::allocator<int> >::vector(std::initializer_list<int>, std::allocator<int> const&) [133]
+                0.00    0.00       1/2           std::initializer_list<int>::end() const [105]
+[91]     0.0    0.00    0.00       2         std::initializer_list<int>::begin() const [91]
+-----------------------------------------------
+                0.00    0.00       1/2           std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_S_check_init_len(unsigned long, std::allocator<std::vector<int, std::allocator<int> > > const&) [127]
+                0.00    0.00       1/2           std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_Vector_impl::_Vector_impl(std::allocator<std::vector<int, std::allocator<int> > > const&) [112]
+[92]     0.0    0.00    0.00       2         std::allocator<std::vector<int, std::allocator<int> > >::allocator(std::allocator<std::vector<int, std::allocator<int> > > const&) [92]
+                0.00    0.00       2/2           __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::new_allocator(__gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > > const&) [86]
+-----------------------------------------------
+                0.00    0.00       1/2           std::_Vector_base<int, std::allocator<int> >::_Vector_impl::_Vector_impl(std::allocator<int> const&) [119]
+                0.00    0.00       1/2           std::vector<int, std::allocator<int> >::_S_check_init_len(unsigned long, std::allocator<int> const&) [131]
+[93]     0.0    0.00    0.00       2         std::allocator<int>::allocator(std::allocator<int> const&) [93]
+                0.00    0.00       2/2           __gnu_cxx::new_allocator<int>::new_allocator(__gnu_cxx::new_allocator<int> const&) [87]
+-----------------------------------------------
+                0.00    0.00       1/2           std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::~vector() [130]
+                0.00    0.00       1/2           std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_default_initialize(unsigned long) [128]
+[94]     0.0    0.00    0.00       2         std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_get_Tp_allocator() [94]
+-----------------------------------------------
+                0.00    0.00       2/2           int* std::copy<int const*, int*>(int const*, int const*, int*) [152]
+[95]     0.0    0.00    0.00       2         int const* std::__miter_base<int const*>(int const*) [95]
+-----------------------------------------------
+                0.00    0.00       2/2           int* std::__copy_move_a<false, int const*, int*>(int const*, int const*, int*) [139]
+[96]     0.0    0.00    0.00       2         int const* std::__niter_base<int const*>(int const*) [96]
+-----------------------------------------------
+                0.00    0.00       2/2           void std::__insertion_sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [142]
+[97]     0.0    0.00    0.00       2         void std::__unguarded_linear_insert<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Val_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Val_less_iter) [97]
+                0.00    0.00       4/28          std::remove_reference<int&>::type&& std::move<int&>(int&) [13]
+                0.00    0.00       4/60          __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator*() const [9]
+                0.00    0.00       2/32          __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator--() [12]
+                0.00    0.00       2/2           bool __gnu_cxx::__ops::_Val_less_iter::operator()<int, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(int&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) const [90]
+-----------------------------------------------
+                0.00    0.00       1/1           _GLOBAL__sub_I_main [159]
+[98]     0.0    0.00    0.00       1         __static_initialization_and_destruction_0(int, int) [98]
+-----------------------------------------------
+                0.00    0.00       1/1           std::allocator_traits<std::allocator<std::vector<int, std::allocator<int> > > >::deallocate(std::allocator<std::vector<int, std::allocator<int> > >&, std::vector<int, std::allocator<int> >*, unsigned long) [121]
+[99]     0.0    0.00    0.00       1         __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::deallocate(std::vector<int, std::allocator<int> >*, unsigned long) [99]
+-----------------------------------------------
+                0.00    0.00       1/1           std::allocator_traits<std::allocator<std::vector<int, std::allocator<int> > > >::allocate(std::allocator<std::vector<int, std::allocator<int> > >&, unsigned long) [122]
+[100]    0.0    0.00    0.00       1         __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::allocate(unsigned long, void const*) [100]
+                0.00    0.00       1/2           __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::_M_max_size() const [89]
+-----------------------------------------------
+                0.00    0.00       1/1           std::allocator<std::vector<int, std::allocator<int> > >::allocator() [107]
+[101]    0.0    0.00    0.00       1         __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::new_allocator() [101]
+-----------------------------------------------
+                0.00    0.00       1/1           void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char const*>(char const*, char const*, std::forward_iterator_tag) [134]
+[102]    0.0    0.00    0.00       1         bool __gnu_cxx::__is_null_pointer<char const>(char const*) [102]
+-----------------------------------------------
+                0.00    0.00       1/1           std::allocator_traits<std::allocator<std::vector<int, std::allocator<int> > > >::max_size(std::allocator<std::vector<int, std::allocator<int> > > const&) [123]
+[103]    0.0    0.00    0.00       1         __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::max_size() const [103]
+                0.00    0.00       1/2           __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::_M_max_size() const [89]
+-----------------------------------------------
+                0.00    0.00       1/1           void std::__insertion_sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [142]
+[104]    0.0    0.00    0.00       1         __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator+(long) const [104]
+                0.00    0.00       1/35          __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::__normal_iterator(int* const&) [10]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<int, std::allocator<int> >::vector(std::initializer_list<int>, std::allocator<int> const&) [133]
+[105]    0.0    0.00    0.00       1         std::initializer_list<int>::end() const [105]
+                0.00    0.00       1/2           std::initializer_list<int>::begin() const [91]
+                0.00    0.00       1/1           std::initializer_list<int>::size() const [106]
+-----------------------------------------------
+                0.00    0.00       1/1           std::initializer_list<int>::end() const [105]
+[106]    0.0    0.00    0.00       1         std::initializer_list<int>::size() const [106]
+-----------------------------------------------
+                0.00    0.00       1/1           main [6]
+[107]    0.0    0.00    0.00       1         std::allocator<std::vector<int, std::allocator<int> > >::allocator() [107]
+                0.00    0.00       1/1           __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::new_allocator() [101]
+-----------------------------------------------
+                0.00    0.00       1/1           int* std::__copy_move_a2<false, int const*, int*>(int const*, int const*, int*) [141]
+[108]    0.0    0.00    0.00       1         int* std::__copy_move<false, true, std::random_access_iterator_tag>::__copy_m<int>(int const*, int const*, int*) [108]
+-----------------------------------------------
+                0.00    0.00       1/1           std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string<std::allocator<char> >(char const*, std::allocator<char> const&) [135]
+[109]    0.0    0.00    0.00       1         std::char_traits<char>::length(char const*) [109]
+-----------------------------------------------
+                0.00    0.00       1/1           void std::_Destroy<std::vector<int, std::allocator<int> >*>(std::vector<int, std::allocator<int> >*, std::vector<int, std::allocator<int> >*) [155]
+[110]    0.0    0.00    0.00       1         void std::_Destroy_aux<false>::__destroy<std::vector<int, std::allocator<int> >*>(std::vector<int, std::allocator<int> >*, std::vector<int, std::allocator<int> >*) [110]
+                0.00    0.00       3/3           void std::_Destroy<std::vector<int, std::allocator<int> > >(std::vector<int, std::allocator<int> >*) [85]
+                0.00    0.00       3/6           std::vector<int, std::allocator<int> >* std::__addressof<std::vector<int, std::allocator<int> > >(std::vector<int, std::allocator<int> >&) [45]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_create_storage(unsigned long) [115]
+[111]    0.0    0.00    0.00       1         std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_allocate(unsigned long) [111]
+                0.00    0.00       1/1           std::allocator_traits<std::allocator<std::vector<int, std::allocator<int> > > >::allocate(std::allocator<std::vector<int, std::allocator<int> > >&, unsigned long) [122]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_Vector_base(unsigned long, std::allocator<std::vector<int, std::allocator<int> > > const&) [117]
+[112]    0.0    0.00    0.00       1         std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_Vector_impl::_Vector_impl(std::allocator<std::vector<int, std::allocator<int> > > const&) [112]
+                0.00    0.00       1/1           std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_Vector_impl_data::_Vector_impl_data() [116]
+                0.00    0.00       1/2           std::allocator<std::vector<int, std::allocator<int> > >::allocator(std::allocator<std::vector<int, std::allocator<int> > > const&) [92]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::~_Vector_base() [118]
+[113]    0.0    0.00    0.00       1         std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_Vector_impl::~_Vector_impl() [113]
+                0.00    0.00       1/3           std::allocator<std::vector<int, std::allocator<int> > >::~allocator() [80]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::~_Vector_base() [118]
+[114]    0.0    0.00    0.00       1         std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_deallocate(std::vector<int, std::allocator<int> >*, unsigned long) [114]
+                0.00    0.00       1/1           std::allocator_traits<std::allocator<std::vector<int, std::allocator<int> > > >::deallocate(std::allocator<std::vector<int, std::allocator<int> > >&, std::vector<int, std::allocator<int> >*, unsigned long) [121]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_Vector_base(unsigned long, std::allocator<std::vector<int, std::allocator<int> > > const&) [117]
+[115]    0.0    0.00    0.00       1         std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_create_storage(unsigned long) [115]
+                0.00    0.00       1/1           std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_allocate(unsigned long) [111]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_Vector_impl::_Vector_impl(std::allocator<std::vector<int, std::allocator<int> > > const&) [112]
+[116]    0.0    0.00    0.00       1         std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_Vector_impl_data::_Vector_impl_data() [116]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::vector(unsigned long, std::allocator<std::vector<int, std::allocator<int> > > const&) [129]
+[117]    0.0    0.00    0.00       1         std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_Vector_base(unsigned long, std::allocator<std::vector<int, std::allocator<int> > > const&) [117]
+                0.00    0.00       1/1           std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_Vector_impl::_Vector_impl(std::allocator<std::vector<int, std::allocator<int> > > const&) [112]
+                0.00    0.00       1/1           std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_create_storage(unsigned long) [115]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::~vector() [130]
+[118]    0.0    0.00    0.00       1         std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::~_Vector_base() [118]
+                0.00    0.00       1/1           std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_deallocate(std::vector<int, std::allocator<int> >*, unsigned long) [114]
+                0.00    0.00       1/1           std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_Vector_impl::~_Vector_impl() [113]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<int, std::allocator<int> >::_Vector_base(std::allocator<int> const&) [120]
+[119]    0.0    0.00    0.00       1         std::_Vector_base<int, std::allocator<int> >::_Vector_impl::_Vector_impl(std::allocator<int> const&) [119]
+                0.00    0.00       1/2           std::allocator<int>::allocator(std::allocator<int> const&) [93]
+                0.00    0.00       1/4           std::_Vector_base<int, std::allocator<int> >::_Vector_impl_data::_Vector_impl_data() [64]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<int, std::allocator<int> >::vector(std::initializer_list<int>, std::allocator<int> const&) [133]
+[120]    0.0    0.00    0.00       1         std::_Vector_base<int, std::allocator<int> >::_Vector_base(std::allocator<int> const&) [120]
+                0.00    0.00       1/1           std::_Vector_base<int, std::allocator<int> >::_Vector_impl::_Vector_impl(std::allocator<int> const&) [119]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_deallocate(std::vector<int, std::allocator<int> >*, unsigned long) [114]
+[121]    0.0    0.00    0.00       1         std::allocator_traits<std::allocator<std::vector<int, std::allocator<int> > > >::deallocate(std::allocator<std::vector<int, std::allocator<int> > >&, std::vector<int, std::allocator<int> >*, unsigned long) [121]
+                0.00    0.00       1/1           __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::deallocate(std::vector<int, std::allocator<int> >*, unsigned long) [99]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_allocate(unsigned long) [111]
+[122]    0.0    0.00    0.00       1         std::allocator_traits<std::allocator<std::vector<int, std::allocator<int> > > >::allocate(std::allocator<std::vector<int, std::allocator<int> > >&, unsigned long) [122]
+                0.00    0.00       1/1           __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::allocate(unsigned long, void const*) [100]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_S_max_size(std::allocator<std::vector<int, std::allocator<int> > > const&) [126]
+[123]    0.0    0.00    0.00       1         std::allocator_traits<std::allocator<std::vector<int, std::allocator<int> > > >::max_size(std::allocator<std::vector<int, std::allocator<int> > > const&) [123]
+                0.00    0.00       1/1           __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::max_size() const [103]
+-----------------------------------------------
+                0.00    0.00       1/1           int* std::uninitialized_copy<int const*, int*>(int const*, int const*, int*) [144]
+[124]    0.0    0.00    0.00       1         int* std::__uninitialized_copy<true>::__uninit_copy<int const*, int*>(int const*, int const*, int*) [124]
+                0.00    0.00       1/1           int* std::copy<int const*, int*>(int const*, int const*, int*) [152]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<int, std::allocator<int> >* std::__uninitialized_default_n<std::vector<int, std::allocator<int> >*, unsigned long>(std::vector<int, std::allocator<int> >*, unsigned long) [149]
+[125]    0.0    0.00    0.00       1         std::vector<int, std::allocator<int> >* std::__uninitialized_default_n_1<false>::__uninit_default_n<std::vector<int, std::allocator<int> >*, unsigned long>(std::vector<int, std::allocator<int> >*, unsigned long) [125]
+                0.00    0.00       3/6           std::vector<int, std::allocator<int> >* std::__addressof<std::vector<int, std::allocator<int> > >(std::vector<int, std::allocator<int> >&) [45]
+                0.00    0.00       3/3           void std::_Construct<std::vector<int, std::allocator<int> >>(std::vector<int, std::allocator<int> >*) [84]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_S_check_init_len(unsigned long, std::allocator<std::vector<int, std::allocator<int> > > const&) [127]
+[126]    0.0    0.00    0.00       1         std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_S_max_size(std::allocator<std::vector<int, std::allocator<int> > > const&) [126]
+                0.00    0.00       1/1           std::allocator_traits<std::allocator<std::vector<int, std::allocator<int> > > >::max_size(std::allocator<std::vector<int, std::allocator<int> > > const&) [123]
+                0.00    0.00       1/10          unsigned long const& std::min<unsigned long>(unsigned long const&, unsigned long const&) [27]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::vector(unsigned long, std::allocator<std::vector<int, std::allocator<int> > > const&) [129]
+[127]    0.0    0.00    0.00       1         std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_S_check_init_len(unsigned long, std::allocator<std::vector<int, std::allocator<int> > > const&) [127]
+                0.00    0.00       1/1           std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_S_max_size(std::allocator<std::vector<int, std::allocator<int> > > const&) [126]
+                0.00    0.00       1/2           std::allocator<std::vector<int, std::allocator<int> > >::allocator(std::allocator<std::vector<int, std::allocator<int> > > const&) [92]
+                0.00    0.00       1/3           std::allocator<std::vector<int, std::allocator<int> > >::~allocator() [80]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::vector(unsigned long, std::allocator<std::vector<int, std::allocator<int> > > const&) [129]
+[128]    0.0    0.00    0.00       1         std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_default_initialize(unsigned long) [128]
+                0.00    0.00       1/2           std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_get_Tp_allocator() [94]
+                0.00    0.00       1/1           std::vector<int, std::allocator<int> >* std::__uninitialized_default_n_a<std::vector<int, std::allocator<int> >*, unsigned long, std::vector<int, std::allocator<int> > >(std::vector<int, std::allocator<int> >*, unsigned long, std::allocator<std::vector<int, std::allocator<int> > >&) [150]
+-----------------------------------------------
+                0.00    0.00       1/1           main [6]
+[129]    0.0    0.00    0.00       1         std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::vector(unsigned long, std::allocator<std::vector<int, std::allocator<int> > > const&) [129]
+                0.00    0.00       1/1           std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_S_check_init_len(unsigned long, std::allocator<std::vector<int, std::allocator<int> > > const&) [127]
+                0.00    0.00       1/1           std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_Vector_base(unsigned long, std::allocator<std::vector<int, std::allocator<int> > > const&) [117]
+                0.00    0.00       1/1           std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_default_initialize(unsigned long) [128]
+-----------------------------------------------
+                0.00    0.00       1/1           main [6]
+[130]    0.0    0.00    0.00       1         std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::~vector() [130]
+                0.00    0.00       1/2           std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_get_Tp_allocator() [94]
+                0.00    0.00       1/1           void std::_Destroy<std::vector<int, std::allocator<int> >*, std::vector<int, std::allocator<int> > >(std::vector<int, std::allocator<int> >*, std::vector<int, std::allocator<int> >*, std::allocator<std::vector<int, std::allocator<int> > >&) [156]
+                0.00    0.00       1/1           std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::~_Vector_base() [118]
+-----------------------------------------------
+                0.00    0.00       1/1           void std::vector<int, std::allocator<int> >::_M_range_initialize<int const*>(int const*, int const*, std::forward_iterator_tag) [132]
+[131]    0.0    0.00    0.00       1         std::vector<int, std::allocator<int> >::_S_check_init_len(unsigned long, std::allocator<int> const&) [131]
+                0.00    0.00       1/2           std::allocator<int>::allocator(std::allocator<int> const&) [93]
+                0.00    0.00       1/9           std::vector<int, std::allocator<int> >::_S_max_size(std::allocator<int> const&) [31]
+                0.00    0.00       1/6           std::allocator<int>::~allocator() [44]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<int, std::allocator<int> >::vector(std::initializer_list<int>, std::allocator<int> const&) [133]
+[132]    0.0    0.00    0.00       1         void std::vector<int, std::allocator<int> >::_M_range_initialize<int const*>(int const*, int const*, std::forward_iterator_tag) [132]
+                0.00    0.00       2/14          std::_Vector_base<int, std::allocator<int> >::_M_get_Tp_allocator() [23]
+                0.00    0.00       1/1           std::iterator_traits<int const*>::difference_type std::distance<int const*>(int const*, int const*) [158]
+                0.00    0.00       1/5           std::_Vector_base<int, std::allocator<int> >::_M_allocate(unsigned long) [51]
+                0.00    0.00       1/1           std::vector<int, std::allocator<int> >::_S_check_init_len(unsigned long, std::allocator<int> const&) [131]
+                0.00    0.00       1/1           int* std::__uninitialized_copy_a<int const*, int*, int>(int const*, int const*, int*, std::allocator<int>&) [148]
+-----------------------------------------------
+                0.00    0.00       1/1           main [6]
+[133]    0.0    0.00    0.00       1         std::vector<int, std::allocator<int> >::vector(std::initializer_list<int>, std::allocator<int> const&) [133]
+                0.00    0.00       1/1           std::initializer_list<int>::end() const [105]
+                0.00    0.00       1/1           std::_Vector_base<int, std::allocator<int> >::_Vector_base(std::allocator<int> const&) [120]
+                0.00    0.00       1/2           std::initializer_list<int>::begin() const [91]
+                0.00    0.00       1/1           void std::vector<int, std::allocator<int> >::_M_range_initialize<int const*>(int const*, int const*, std::forward_iterator_tag) [132]
+-----------------------------------------------
+                0.00    0.00       1/1           std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string<std::allocator<char> >(char const*, std::allocator<char> const&) [135]
+[134]    0.0    0.00    0.00       1         void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char const*>(char const*, char const*, std::forward_iterator_tag) [134]
+                0.00    0.00       1/1           bool __gnu_cxx::__is_null_pointer<char const>(char const*) [102]
+                0.00    0.00       1/1           std::iterator_traits<char const*>::difference_type std::distance<char const*>(char const*, char const*) [157]
+-----------------------------------------------
+                0.00    0.00       1/1           main [6]
+[135]    0.0    0.00    0.00       1         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string<std::allocator<char> >(char const*, std::allocator<char> const&) [135]
+                0.00    0.00       1/1           std::char_traits<char>::length(char const*) [109]
+                0.00    0.00       1/1           void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char const*>(char const*, char const*, std::forward_iterator_tag) [134]
+-----------------------------------------------
+                0.00    0.00       1/1           std::iterator_traits<char const*>::difference_type std::distance<char const*>(char const*, char const*) [157]
+[136]    0.0    0.00    0.00       1         std::iterator_traits<char const*>::difference_type std::__distance<char const*>(char const*, char const*, std::random_access_iterator_tag) [136]
+-----------------------------------------------
+                0.00    0.00       1/1           std::iterator_traits<int const*>::difference_type std::distance<int const*>(int const*, int const*) [158]
+[137]    0.0    0.00    0.00       1         std::iterator_traits<int const*>::difference_type std::__distance<int const*>(int const*, int const*, std::random_access_iterator_tag) [137]
+-----------------------------------------------
+                0.00    0.00       1/1           int* std::__copy_move_a<false, int const*, int*>(int const*, int const*, int*) [139]
+[138]    0.0    0.00    0.00       1         int* std::__niter_wrap<int*>(int* const&, int*) [138]
+-----------------------------------------------
+                0.00    0.00       1/1           int* std::copy<int const*, int*>(int const*, int const*, int*) [152]
+[139]    0.0    0.00    0.00       1         int* std::__copy_move_a<false, int const*, int*>(int const*, int const*, int*) [139]
+                0.00    0.00       2/2           int const* std::__niter_base<int const*>(int const*) [96]
+                0.00    0.00       1/25          int* std::__niter_base<int*>(int*) [14]
+                0.00    0.00       1/1           int* std::__copy_move_a1<false, int const*, int*>(int const*, int const*, int*) [140]
+                0.00    0.00       1/1           int* std::__niter_wrap<int*>(int* const&, int*) [138]
+-----------------------------------------------
+                0.00    0.00       1/1           int* std::__copy_move_a<false, int const*, int*>(int const*, int const*, int*) [139]
+[140]    0.0    0.00    0.00       1         int* std::__copy_move_a1<false, int const*, int*>(int const*, int const*, int*) [140]
+                0.00    0.00       1/1           int* std::__copy_move_a2<false, int const*, int*>(int const*, int const*, int*) [141]
+-----------------------------------------------
+                0.00    0.00       1/1           int* std::__copy_move_a1<false, int const*, int*>(int const*, int const*, int*) [140]
+[141]    0.0    0.00    0.00       1         int* std::__copy_move_a2<false, int const*, int*>(int const*, int const*, int*) [141]
+                0.00    0.00       1/1           int* std::__copy_move<false, true, std::random_access_iterator_tag>::__copy_m<int>(int const*, int const*, int*) [108]
+-----------------------------------------------
+                0.00    0.00       1/1           void std::__final_insertion_sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [147]
+[142]    0.0    0.00    0.00       1         void std::__insertion_sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [142]
+                0.00    0.00       3/4           bool __gnu_cxx::operator!=<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [58]
+                0.00    0.00       2/17          bool __gnu_cxx::__ops::_Iter_less_iter::operator()<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) const [18]
+                0.00    0.00       2/2           void std::__unguarded_linear_insert<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Val_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Val_less_iter) [97]
+                0.00    0.00       2/2           __gnu_cxx::__ops::__val_comp_iter(__gnu_cxx::__ops::_Iter_less_iter) [88]
+                0.00    0.00       2/12          __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator++() [25]
+                0.00    0.00       1/23          bool __gnu_cxx::operator==<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [15]
+                0.00    0.00       1/1           __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator+(long) const [104]
+-----------------------------------------------
+                0.00    0.00       1/1           void std::__sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [154]
+[143]    0.0    0.00    0.00       1         void std::__introsort_loop<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, long, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, long, __gnu_cxx::__ops::_Iter_less_iter) [143]
+                0.00    0.00       1/15          __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::difference_type __gnu_cxx::operator-<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [21]
+-----------------------------------------------
+                0.00    0.00       1/1           int* std::__uninitialized_copy_a<int const*, int*, int>(int const*, int const*, int*, std::allocator<int>&) [148]
+[144]    0.0    0.00    0.00       1         int* std::uninitialized_copy<int const*, int*>(int const*, int const*, int*) [144]
+                0.00    0.00       1/1           int* std::__uninitialized_copy<true>::__uninit_copy<int const*, int*>(int const*, int const*, int*) [124]
+-----------------------------------------------
+                0.00    0.00       1/1           std::iterator_traits<char const*>::difference_type std::distance<char const*>(char const*, char const*) [157]
+[145]    0.0    0.00    0.00       1         std::iterator_traits<char const*>::iterator_category std::__iterator_category<char const*>(char const* const&) [145]
+-----------------------------------------------
+                0.00    0.00       1/1           std::iterator_traits<int const*>::difference_type std::distance<int const*>(int const*, int const*) [158]
+[146]    0.0    0.00    0.00       1         std::iterator_traits<int const*>::iterator_category std::__iterator_category<int const*>(int const* const&) [146]
+-----------------------------------------------
+                0.00    0.00       1/1           void std::__sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [154]
+[147]    0.0    0.00    0.00       1         void std::__final_insertion_sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [147]
+                0.00    0.00       1/15          __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::difference_type __gnu_cxx::operator-<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [21]
+                0.00    0.00       1/1           void std::__insertion_sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [142]
+-----------------------------------------------
+                0.00    0.00       1/1           void std::vector<int, std::allocator<int> >::_M_range_initialize<int const*>(int const*, int const*, std::forward_iterator_tag) [132]
+[148]    0.0    0.00    0.00       1         int* std::__uninitialized_copy_a<int const*, int*, int>(int const*, int const*, int*, std::allocator<int>&) [148]
+                0.00    0.00       1/1           int* std::uninitialized_copy<int const*, int*>(int const*, int const*, int*) [144]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<int, std::allocator<int> >* std::__uninitialized_default_n_a<std::vector<int, std::allocator<int> >*, unsigned long, std::vector<int, std::allocator<int> > >(std::vector<int, std::allocator<int> >*, unsigned long, std::allocator<std::vector<int, std::allocator<int> > >&) [150]
+[149]    0.0    0.00    0.00       1         std::vector<int, std::allocator<int> >* std::__uninitialized_default_n<std::vector<int, std::allocator<int> >*, unsigned long>(std::vector<int, std::allocator<int> >*, unsigned long) [149]
+                0.00    0.00       1/1           std::vector<int, std::allocator<int> >* std::__uninitialized_default_n_1<false>::__uninit_default_n<std::vector<int, std::allocator<int> >*, unsigned long>(std::vector<int, std::allocator<int> >*, unsigned long) [125]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_default_initialize(unsigned long) [128]
+[150]    0.0    0.00    0.00       1         std::vector<int, std::allocator<int> >* std::__uninitialized_default_n_a<std::vector<int, std::allocator<int> >*, unsigned long, std::vector<int, std::allocator<int> > >(std::vector<int, std::allocator<int> >*, unsigned long, std::allocator<std::vector<int, std::allocator<int> > >&) [150]
+                0.00    0.00       1/1           std::vector<int, std::allocator<int> >* std::__uninitialized_default_n<std::vector<int, std::allocator<int> >*, unsigned long>(std::vector<int, std::allocator<int> >*, unsigned long) [149]
+-----------------------------------------------
+                0.00    0.00       1/1           void std::__sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [154]
+[151]    0.0    0.00    0.00       1         std::__lg(long) [151]
+-----------------------------------------------
+                0.00    0.00       1/1           int* std::__uninitialized_copy<true>::__uninit_copy<int const*, int*>(int const*, int const*, int*) [124]
+[152]    0.0    0.00    0.00       1         int* std::copy<int const*, int*>(int const*, int const*, int*) [152]
+                0.00    0.00       2/2           int const* std::__miter_base<int const*>(int const*) [95]
+                0.00    0.00       1/1           int* std::__copy_move_a<false, int const*, int*>(int const*, int const*, int*) [139]
+-----------------------------------------------
+                0.00    0.00       1/1           main [6]
+[153]    0.0    0.00    0.00       1         void std::sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [153]
+                0.00    0.00       1/7           __gnu_cxx::__ops::__iter_less_iter() [41]
+                0.00    0.00       1/1           void std::__sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [154]
+-----------------------------------------------
+                0.00    0.00       1/1           void std::sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [153]
+[154]    0.0    0.00    0.00       1         void std::__sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [154]
+                0.00    0.00       1/4           bool __gnu_cxx::operator!=<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [58]
+                0.00    0.00       1/15          __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::difference_type __gnu_cxx::operator-<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [21]
+                0.00    0.00       1/1           std::__lg(long) [151]
+                0.00    0.00       1/1           void std::__introsort_loop<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, long, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, long, __gnu_cxx::__ops::_Iter_less_iter) [143]
+                0.00    0.00       1/1           void std::__final_insertion_sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter) [147]
+-----------------------------------------------
+                0.00    0.00       1/1           void std::_Destroy<std::vector<int, std::allocator<int> >*, std::vector<int, std::allocator<int> > >(std::vector<int, std::allocator<int> >*, std::vector<int, std::allocator<int> >*, std::allocator<std::vector<int, std::allocator<int> > >&) [156]
+[155]    0.0    0.00    0.00       1         void std::_Destroy<std::vector<int, std::allocator<int> >*>(std::vector<int, std::allocator<int> >*, std::vector<int, std::allocator<int> >*) [155]
+                0.00    0.00       1/1           void std::_Destroy_aux<false>::__destroy<std::vector<int, std::allocator<int> >*>(std::vector<int, std::allocator<int> >*, std::vector<int, std::allocator<int> >*) [110]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::~vector() [130]
+[156]    0.0    0.00    0.00       1         void std::_Destroy<std::vector<int, std::allocator<int> >*, std::vector<int, std::allocator<int> > >(std::vector<int, std::allocator<int> >*, std::vector<int, std::allocator<int> >*, std::allocator<std::vector<int, std::allocator<int> > >&) [156]
+                0.00    0.00       1/1           void std::_Destroy<std::vector<int, std::allocator<int> >*>(std::vector<int, std::allocator<int> >*, std::vector<int, std::allocator<int> >*) [155]
+-----------------------------------------------
+                0.00    0.00       1/1           void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char const*>(char const*, char const*, std::forward_iterator_tag) [134]
+[157]    0.0    0.00    0.00       1         std::iterator_traits<char const*>::difference_type std::distance<char const*>(char const*, char const*) [157]
+                0.00    0.00       1/1           std::iterator_traits<char const*>::iterator_category std::__iterator_category<char const*>(char const* const&) [145]
+                0.00    0.00       1/1           std::iterator_traits<char const*>::difference_type std::__distance<char const*>(char const*, char const*, std::random_access_iterator_tag) [136]
+-----------------------------------------------
+                0.00    0.00       1/1           void std::vector<int, std::allocator<int> >::_M_range_initialize<int const*>(int const*, int const*, std::forward_iterator_tag) [132]
+[158]    0.0    0.00    0.00       1         std::iterator_traits<int const*>::difference_type std::distance<int const*>(int const*, int const*) [158]
+                0.00    0.00       1/1           std::iterator_traits<int const*>::iterator_category std::__iterator_category<int const*>(int const* const&) [146]
+                0.00    0.00       1/1           std::iterator_traits<int const*>::difference_type std::__distance<int const*>(int const*, int const*, std::random_access_iterator_tag) [137]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function is in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+Index by function name
+
+  [98] __static_initialization_and_destruction_0(int, int) (profile_extract_p02714_s868124332.cpp) [111] std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_allocate(unsigned long) [136] std::iterator_traits<char const*>::difference_type std::__distance<char const*>(char const*, char const*, std::random_access_iterator_tag)
+  [99] __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::deallocate(std::vector<int, std::allocator<int> >*, unsigned long) [112] std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_Vector_impl::_Vector_impl(std::allocator<std::vector<int, std::allocator<int> > > const&) [137] std::iterator_traits<int const*>::difference_type std::__distance<int const*>(int const*, int const*, std::random_access_iterator_tag)
+ [100] __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::allocate(unsigned long, void const*) [113] std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_Vector_impl::~_Vector_impl() [45] std::vector<int, std::allocator<int> >* std::__addressof<std::vector<int, std::allocator<int> > >(std::vector<int, std::allocator<int> >&)
+  [86] __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::new_allocator(__gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > > const&) [114] std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_deallocate(std::vector<int, std::allocator<int> >*, unsigned long) [71] __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::lower_bound<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&)
+ [101] __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::new_allocator() [115] std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_create_storage(unsigned long) [95] int const* std::__miter_base<int const*>(int const*)
+  [79] __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::~new_allocator() [116] std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_Vector_impl_data::_Vector_impl_data() [96] int const* std::__niter_base<int const*>(int const*)
+  [49] __gnu_cxx::new_allocator<int>::deallocate(int*, unsigned long) [94] std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_get_Tp_allocator() [14] int* std::__niter_base<int*>(int*)
+  [50] __gnu_cxx::new_allocator<int>::allocate(unsigned long, void const*) [117] std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_Vector_base(unsigned long, std::allocator<std::vector<int, std::allocator<int> > > const&) [138] int* std::__niter_wrap<int*>(int* const&, int*)
+  [54] void __gnu_cxx::new_allocator<int>::construct<int, int const&>(int*, int const&) [118] std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::~_Vector_base() [37] int* std::__relocate_a<int*, int*, std::allocator<int> >(int*, int*, int*, std::allocator<int>&)
+  [55] __gnu_cxx::new_allocator<int>::new_allocator() [51] std::_Vector_base<int, std::allocator<int> >::_M_allocate(unsigned long) [139] int* std::__copy_move_a<false, int const*, int*>(int const*, int const*, int*)
+  [87] __gnu_cxx::new_allocator<int>::new_allocator(__gnu_cxx::new_allocator<int> const&) [119] std::_Vector_base<int, std::allocator<int> >::_Vector_impl::_Vector_impl(std::allocator<int> const&) [72] __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__lower_bound<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, __gnu_cxx::__ops::_Iter_less_val>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&, __gnu_cxx::__ops::_Iter_less_val)
+  [43] __gnu_cxx::new_allocator<int>::~new_allocator() [81] std::_Vector_base<int, std::allocator<int> >::_Vector_impl::_Vector_impl() [140] int* std::__copy_move_a1<false, int const*, int*>(int const*, int const*, int*)
+ [102] bool __gnu_cxx::__is_null_pointer<char const>(char const*) [63] std::_Vector_base<int, std::allocator<int> >::_Vector_impl::~_Vector_impl() [141] int* std::__copy_move_a2<false, int const*, int*>(int const*, int const*, int*)
+  [10] __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::__normal_iterator(int* const&) [34] std::_Vector_base<int, std::allocator<int> >::_M_deallocate(int*, unsigned long) [38] std::enable_if<std::__is_bitwise_relocatable<int, void>::value, int*>::type std::__relocate_a_1<int, int>(int*, int*, int*, std::allocator<int>&)
+  [12] __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator--() [64] std::_Vector_base<int, std::allocator<int> >::_Vector_impl_data::_Vector_impl_data() [142] void std::__insertion_sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter)
+  [56] __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator+=(long) [23] std::_Vector_base<int, std::allocator<int> >::_M_get_Tp_allocator() [143] void std::__introsort_loop<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, long, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, long, __gnu_cxx::__ops::_Iter_less_iter)
+  [25] __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator++() [120] std::_Vector_base<int, std::allocator<int> >::_Vector_base(std::allocator<int> const&) [46] bool std::next_permutation<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >)
+  [57] __gnu_cxx::__ops::__iter_less_val() [82] std::_Vector_base<int, std::allocator<int> >::_Vector_base() [47] bool std::__next_permutation<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter)
+  [88] __gnu_cxx::__ops::__val_comp_iter(__gnu_cxx::__ops::_Iter_less_iter) [65] std::_Vector_base<int, std::allocator<int> >::~_Vector_base() [144] int* std::uninitialized_copy<int const*, int*>(int const*, int const*, int*)
+  [41] __gnu_cxx::__ops::__iter_less_iter() [121] std::allocator_traits<std::allocator<std::vector<int, std::allocator<int> > > >::deallocate(std::allocator<std::vector<int, std::allocator<int> > >&, std::vector<int, std::allocator<int> >*, unsigned long) [24] std::iterator_traits<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >::iterator_category std::__iterator_category<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&)
+  [15] bool __gnu_cxx::operator==<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [122] std::allocator_traits<std::allocator<std::vector<int, std::allocator<int> > > >::allocate(std::allocator<std::vector<int, std::allocator<int> > >&, unsigned long) [145] std::iterator_traits<char const*>::iterator_category std::__iterator_category<char const*>(char const* const&)
+  [28] bool __gnu_cxx::operator< <int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [123] std::allocator_traits<std::allocator<std::vector<int, std::allocator<int> > > >::max_size(std::allocator<std::vector<int, std::allocator<int> > > const&) [146] std::iterator_traits<int const*>::iterator_category std::__iterator_category<int const*>(int const* const&)
+  [21] __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::difference_type __gnu_cxx::operator-<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [52] std::allocator_traits<std::allocator<int> >::deallocate(std::allocator<int>&, int*, unsigned long) [147] void std::__final_insertion_sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter)
+  [58] bool __gnu_cxx::operator!=<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&) [53] std::allocator_traits<std::allocator<int> >::allocate(std::allocator<int>&, unsigned long) [148] int* std::__uninitialized_copy_a<int const*, int*, int>(int const*, int const*, int*, std::allocator<int>&)
+  [89] __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::_M_max_size() const [30] std::allocator_traits<std::allocator<int> >::max_size(std::allocator<int> const&) [97] void std::__unguarded_linear_insert<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Val_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Val_less_iter)
+ [103] __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::max_size() const [66] void std::allocator_traits<std::allocator<int> >::construct<int, int const&>(std::allocator<int>&, int*, int const&) [149] std::vector<int, std::allocator<int> >* std::__uninitialized_default_n<std::vector<int, std::allocator<int> >*, unsigned long>(std::vector<int, std::allocator<int> >*, unsigned long)
+  [22] __gnu_cxx::new_allocator<int>::_M_max_size() const [124] int* std::__uninitialized_copy<true>::__uninit_copy<int const*, int*>(int const*, int const*, int*) [150] std::vector<int, std::allocator<int> >* std::__uninitialized_default_n_a<std::vector<int, std::allocator<int> >*, unsigned long, std::vector<int, std::allocator<int> > >(std::vector<int, std::allocator<int> >*, unsigned long, std::allocator<std::vector<int, std::allocator<int> > >&)
+  [29] __gnu_cxx::new_allocator<int>::max_size() const [125] std::vector<int, std::allocator<int> >* std::__uninitialized_default_n_1<false>::__uninit_default_n<std::vector<int, std::allocator<int> >*, unsigned long>(std::vector<int, std::allocator<int> >*, unsigned long) [73] unsigned long const& std::max<unsigned long>(unsigned long const&, unsigned long const&)
+   [8] __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::base() const [126] std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_S_max_size(std::allocator<std::vector<int, std::allocator<int> > > const&) [27] unsigned long const& std::min<unsigned long>(unsigned long const&, unsigned long const&)
+   [9] __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator*() const [127] std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_S_check_init_len(unsigned long, std::allocator<std::vector<int, std::allocator<int> > > const&) [151] std::__lg(long)
+ [104] __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator+(long) const [128] std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_default_initialize(unsigned long) [152] int* std::copy<int const*, int*>(int const*, int const*, int*)
+  [59] bool __gnu_cxx::__ops::_Iter_less_val::operator()<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) const [129] std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::vector(unsigned long, std::allocator<std::vector<int, std::allocator<int> > > const&) [13] std::remove_reference<int&>::type&& std::move<int&>(int&)
+  [90] bool __gnu_cxx::__ops::_Val_less_iter::operator()<int, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(int&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) const [130] std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::~vector() [153] void std::sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >)
+  [18] bool __gnu_cxx::__ops::_Iter_less_iter::operator()<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) const [16] std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::operator[](unsigned long) [39] std::enable_if<std::__and_<std::__not_<std::__is_tuple_like<int> >, std::is_move_constructible<int>, std::is_move_assignable<int> >::value, void>::type std::swap<int>(int&, int&)
+  [32] std::_Vector_base<int, std::allocator<int> >::_M_get_Tp_allocator() const [31] std::vector<int, std::allocator<int> >::_S_max_size(std::allocator<int> const&) [154] void std::__sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter)
+ [105] std::initializer_list<int>::end() const [35] std::vector<int, std::allocator<int> >::_S_relocate(int*, int*, int*, std::allocator<int>&) [74] void std::advance<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, long>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >&, long)
+ [106] std::initializer_list<int>::size() const [36] std::vector<int, std::allocator<int> >::_S_do_relocate(int*, int*, int*, std::allocator<int>&, std::integral_constant<bool, true>) [26] int const& std::forward<int const&>(std::remove_reference<int const&>::type&)
+  [91] std::initializer_list<int>::begin() const [67] void std::vector<int, std::allocator<int> >::_M_realloc_insert<int const&>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) [155] void std::_Destroy<std::vector<int, std::allocator<int> >*>(std::vector<int, std::allocator<int> >*, std::vector<int, std::allocator<int> >*)
+  [60] std::vector<int, std::allocator<int> >::_M_check_len(unsigned long, char const*) const [131] std::vector<int, std::allocator<int> >::_S_check_init_len(unsigned long, std::allocator<int> const&) [156] void std::_Destroy<std::vector<int, std::allocator<int> >*, std::vector<int, std::allocator<int> > >(std::vector<int, std::allocator<int> >*, std::vector<int, std::allocator<int> >*, std::allocator<std::vector<int, std::allocator<int> > >&)
+  [17] std::vector<int, std::allocator<int> >::size() const [132] void std::vector<int, std::allocator<int> >::_M_range_initialize<int const*>(int const*, int const*, std::forward_iterator_tag) [75] void std::_Destroy<int*>(int*, int*)
+  [33] std::vector<int, std::allocator<int> >::max_size() const [19] std::vector<int, std::allocator<int> >::end() [76] void std::_Destroy<int*, int>(int*, int*, std::allocator<int>&)
+  [92] std::allocator<std::vector<int, std::allocator<int> > >::allocator(std::allocator<std::vector<int, std::allocator<int> > > const&) [20] std::vector<int, std::allocator<int> >::begin() [85] void std::_Destroy<std::vector<int, std::allocator<int> > >(std::vector<int, std::allocator<int> >*)
+ [107] std::allocator<std::vector<int, std::allocator<int> > >::allocator() [68] std::vector<int, std::allocator<int> >::push_back(int const&) [77] std::iterator_traits<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >::difference_type std::distance<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >)
+  [80] std::allocator<std::vector<int, std::allocator<int> > >::~allocator() [133] std::vector<int, std::allocator<int> >::vector(std::initializer_list<int>, std::allocator<int> const&) [157] std::iterator_traits<char const*>::difference_type std::distance<char const*>(char const*, char const*)
+  [93] std::allocator<int>::allocator(std::allocator<int> const&) [83] std::vector<int, std::allocator<int> >::vector() [158] std::iterator_traits<int const*>::difference_type std::distance<int const*>(int const*, int const*)
+  [61] std::allocator<int>::allocator() [69] std::vector<int, std::allocator<int> >::~vector() [78] void std::__advance<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, long>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >&, long, std::random_access_iterator_tag)
+  [44] std::allocator<int>::~allocator() [11] std::vector<int, std::allocator<int> >::operator[](unsigned long) [48] void std::__reverse<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::random_access_iterator_tag)
+ [108] int* std::__copy_move<false, true, std::random_access_iterator_tag>::__copy_m<int>(int const*, int const*, int*) [134] void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char const*>(char const*, char const*, std::forward_iterator_tag) [40] void std::iter_swap<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >)
+ [109] std::char_traits<char>::length(char const*) [135] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string<std::allocator<char> >(char const*, std::allocator<char> const&) [42] operator new(unsigned long, void*)
+ [110] void std::_Destroy_aux<false>::__destroy<std::vector<int, std::allocator<int> >*>(std::vector<int, std::allocator<int> >*, std::vector<int, std::allocator<int> >*) [84] void std::_Construct<std::vector<int, std::allocator<int> >>(std::vector<int, std::allocator<int> >*)
+  [62] void std::_Destroy_aux<true>::__destroy<int*>(int*, int*) [70] std::iterator_traits<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >::difference_type std::__distance<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::random_access_iterator_tag)

@@ -1,0 +1,33 @@
+-  for(int i=0;i<size;i++)
+-    for(int j=0;j<=size;j++)
+-      for(int k=0;k<2;k++)
+-        dp[i][j][k]=-INF;
++  dp[0][1-flg][1-flg]=-INF;
+-      //not select i
++      V[j]=max(V[j],dp[i][j][0]);
+-      //select i
+-      dp[i][j][1]=max(dp[i][j][1],cost);
++      dp[i][j][1]=cost;
++      V[j]=max(V[j],dp[i][j][1]);
+-  for(int i=0;i<size;i++)
+-    for(int j=0;j<=size;j++)
+-      for(int k=0;k<2;k++)
+-        V[j]=max(V[j],dp[i][j][k]);
+-      if(mp[e.to])continue;
+-      p=e.to;
+-      break;
++      if(!mp[e.to]){
++        p=e.to;
++        break;
++      }
+-      DP[i][j]=-INF;
++      DP[i][j]=dp[i][j][0]=dp[i][j][1]=-INF;
+-    for(int j=0;j<=size;j++)V[j]=-INF;
++    fill(V,V+MAX,-INF);
++    V[0]=V[1]=0;
+-    /*
+-    for(int i=0;i<A.size();i++)cout<<A[i]<<' ';cout<<endl;
+-    for(int i=0;i<B.size();i++)cout<<B[i]<<' ';cout<<endl;
+-    for(int i=0;i<A.size();i++)cout<<V[i]<<' ';cout<<endl;
+-    cout<<endl;
+-    */

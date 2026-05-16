@@ -1,0 +1,31 @@
+=== Dynamic Execution Profile ===
+
+The current program is correct but slow.
+Average runtime: 9.73 ms across 4 test cases.
+
+[Per-test-case timings]
+  test #0: 10.39 ms  (passed=True)
+  test #1: 9.70 ms  (passed=True)
+  test #2: 9.50 ms  (passed=True)
+  test #3: 9.32 ms  (passed=True)
+
+[gprof Flat Profile]
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+ no time accumulated
+
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  Ts/call  Ts/call  name    
+  0.00      0.00     0.00        1     0.00     0.00  __static_initialization_and_destruction_0(int, int)
+
+
+[perf stat]
+ Performance counter stats for '/cs/student/project_msc/2025/dsml/nmxian/defects4c_project/workspace/profile_extract_p03146_s397252877/profile_extract_p03146_s397252877.bin':
+         2,224,555      cpu_atom/cycles:u/                                                    
+     <not counted>      cpu_core/cycles:u/                                                      (0.00%)
+         3,083,735      cpu_atom/instructions:u/         #    1.39  insn per cycle            
+     <not counted>      cpu_core/instructions:u/                                                (0.00%)
+               800      cpu
+
+Use the timing breakdown and the profile data above to identify the performance hotspots, and produce a faster version that preserves correctness on every test case.

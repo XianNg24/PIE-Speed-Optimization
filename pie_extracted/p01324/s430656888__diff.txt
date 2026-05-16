@@ -1,0 +1,56 @@
+-vector<string> memo;
+-int dfs(string &now, string &goal, int d){
+-	vector<pair<string,int> >v=m[now];
+-	for(int i=0;i<v.size();i++){
+-		if(v[i].first==goal&&v[i].second!=d)return 1;
+-		if(find(memo.begin(),memo.end(),v[i].first)==memo.end()){
+-			memo.push_back(v[i].first);
+-			if(dfs(v[i].first,goal,d-v[i].second))return 1;
++char b1[99],b2[99];
++void main2(int n){
++	m.clear();
++	string s1,s2;
++	for(;n;n--){
++		int d;
++		scanf(" 1 %s = 10^%d %s",b1,&d,b2);
++		s1=b1,s2=b2;
++		m[s1].push_back(make_pair(s2,d));
++		m[s2].push_back(make_pair(s1,-d));
++	}
++	for(;!m.empty();){
++		string s=m.begin()->first;
++		vector<pair<string,int> >st={{s,0}};
++		map<string,int>memo={{s,0}};
++		for(;!st.empty();){
++			auto p=*st.rbegin();st.pop_back();
++			string cur=p.first;int d=p.second;
++			memo[cur]=d;
++			for(auto &e:m[cur]){
++				if(memo.find(e.first)==memo.end()){
++					st.emplace_back(e.first,d+e.second);
++				}else if(memo[e.first]!=d+e.second){
++					puts("No");
++					return;
++				}
++			}
++		for(auto &e:memo)m.erase(m.find(e.first));
+-	return 0;
++	puts("Yes");
+-char b1[17],b2[17];
+-void main2(int n){
+-	m.clear();memo.clear();
+-	int d,e=0;
+-	for(;n;n--){
+-		scanf(" 1 %s = 10^%d %s",b1,&d,b2);
+-		if(!e){
+-			string s1=b1,s2=b2;
+-			memo.clear();
+-			if(dfs(s1,s2,d))e=1;
+-			m[s1].push_back(make_pair(s2,d));
+-			m[s2].push_back(make_pair(s1,-d));
+-		}
+-	}
+-	puts(e?"No":"Yes");
+-}
+-main(){int n;for(;scanf("%d",&n),n;)main2(n);}
++int main(){int n;for(;~scanf("%d",&n)&&n;)main2(n);}

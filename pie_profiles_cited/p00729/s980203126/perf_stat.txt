@@ -1,0 +1,12 @@
+ Performance counter stats for '/cs/student/project_msc/2025/dsml/nmxian/defects4c_project/workspace/profile_extract_p00729_s980203126/profile_extract_p00729_s980203126.bin':
+     <not counted>      cpu_atom/cycles:u/                                                      (0.00%)
+         1,724,973      cpu_core/cycles:u/                                                    
+     <not counted>      cpu_atom/instructions:u/                                                (0.00%)
+         3,376,707      cpu_core/instructions:u/         #    1.96  insn per cycle            
+     <not counted>      cpu_atom/cache-misses:u/                                                (0.00%)
+             6,813      cpu_core/cache-misses:u/                                              
+     <not counted>      cpu_atom/branch-misses:u/                                               (0.00%)
+            16,146      cpu_core/branch-misses:u/                                             
+       0.002718816 seconds time elapsed
+       0.000000000 seconds user
+       0.001864000 seconds sys

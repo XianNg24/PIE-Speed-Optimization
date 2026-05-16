@@ -1,0 +1,2 @@
+-    s = s.substr(s.size() - 1, 1) + s.substr(0, s.size() - 1);
++    s = s.back() + s.substr(0, s.size() - 1);

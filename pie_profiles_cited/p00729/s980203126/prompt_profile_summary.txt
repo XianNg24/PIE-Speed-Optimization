@@ -1,0 +1,33 @@
+=== Dynamic Execution Profile ===
+
+The current program is correct but slow.
+Average runtime: 3.77 ms across 2 test cases.
+
+[Per-test-case timings]
+  test #0: 3.92 ms  (passed=True)
+  test #1: 3.62 ms  (passed=True)
+
+[gprof Flat Profile]
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+ no time accumulated
+
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  Ts/call  Ts/call  name    
+  0.00      0.00     0.00       63     0.00     0.00  std::vector<std::vector<std::pair<int, int>, std::allocator<std::pair<int, int> > >, std::allocator<std::vector<std::pair<int, int>, std::allocator<std::pair<int, int> > > > >::operator[](unsigned long)
+  0.00      0.00     0.00       59     0.00     0.00  std::vector<std::pair<int, int>, std::allocator<std::pair<int, int> > >::size() const
+  0.00      0.00     0.00       48     0.00     0.00  std::vector<int, std::allocator<int> >::operator[](unsigned long)
+  0.00      0.00     0.00       48     0.00     0.00  std::pair<int, int>* std::__niter_base<std::pair<int, int>*>(std::pair<int, int>*)
+  0.00      0.00     0.00       36     0.00     0.00  std::vector<std::pair<int, int>, std::allocator<std::pair<int, int> > >* std::__addressof<std::vector<std::pair<int, int>, std::allocator<std::pair<int, int> > > >(std::vector<std::pair<int, int>, std::allocator<std::pair<int, int> > >&)
+  0.00      0.00     0.00       36     0.00     0.00  s
+
+[perf stat]
+ Performance counter stats for '/cs/student/project_msc/2025/dsml/nmxian/defects4c_project/workspace/profile_extract_p00729_s980203126/profile_extract_p00729_s980203126.bin':
+     <not counted>      cpu_atom/cycles:u/                                                      (0.00%)
+         1,724,973      cpu_core/cycles:u/                                                    
+     <not counted>      cpu_atom/instructions:u/                                                (0.00%)
+         3,376,707      cpu_core/instructions:u/         #    1.96  insn per cycle            
+     <not counted>      cpu
+
+Use the timing breakdown and the profile data above to identify the performance hotspots, and produce a faster version that preserves correctness on every test case.

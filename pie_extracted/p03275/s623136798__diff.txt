@@ -1,0 +1,123 @@
+-#include<iostream>
+-#include<cstdio>
+-#include<map>
+-#include<algorithm>
++#include <iostream>
++#include <algorithm>
++#include <cstdio>
++#include <cmath>
++#include <cstring>
++#define ll long long
++#define INF 1000000007
+-const int MAXN = 100010;
+-long long sum[MAXN];
+-int a[MAXN],aa[MAXN],b[MAXN],c[MAXN];
+-int n;
+-int lowbit(int x){return x&(-x);}
+-void update(int x,int n){
+-	for (int i=x;i<=n;i+=lowbit(i)) {
+-		sum[i]++;
+-	}
+-}
+-int getSum(int x) {
+-	int ans = 0;
+-	for (int i=x;i>0;i-=lowbit(i)) {
+-		ans += sum[i];
+-	}
+-	return ans;
+-}
+-long long check(int x) {
+-	b[0] = 0;c[0] = 0;
+-	for (int i=1;i<=n;i++) {
+-		if (a[i]<=x) b[i] = 1;
+-		else b[i] = -1;
+-	}
+-	for (int i=1;i<=n;i++) {
+-		b[i] = b[i-1] + b[i];
+-		c[i] = b[i];
+-	}
+-	sort(c,c+1+n);
+-	int cnt = 1;
+-	map<int,int> mp;
+-	mp[c[0]] = 1;
+-	for (int i=1;i<=n;i++) {
+-		if (c[i]!=c[i-1]) {
+-			cnt++;
+-			mp[c[i]] = cnt;
++const int MAXN=1e5+5;
++int n,l,r;
++ll cnt,sum;
++int a[MAXN],b[MAXN],c[MAXN];
++void work(int begin,int end){
++	if(begin==end)
++		return;
++	int mid=(begin+end)/2;
++	work(begin,mid);
++	work(mid+1,end);
++	int i=begin,j=mid+1,k=begin;
++	while(i<=mid && j<=end){
++		if(b[i]<b[j])
++			c[k++]=b[i++];
++		else{
++			cnt+=(i-begin);
++			c[k++]=b[j++];
+-	for (int i=0;i<=cnt;i++) sum[i]=0;
+-	long long res = 0;
+-	update(mp[0],cnt);
+-	for (int i=1;i<=n;i++) {
+-		res += getSum(mp[b[i]]-1);
+-		update(mp[b[i]],cnt);
++	while(i<=mid)
++		c[k++]=b[i++];
++	while(j<=end){
++		cnt+=(i-begin);
++		c[k++]=b[j++];
+-	return res;
++	for(int l=begin;l<=end;l++)
++		b[l]=c[l];
+-int main()
+-{
++bool check(int m){
++	cnt=0;
++	for(int i=1;i<=n;i++){
++		if(a[i]<=m)
++			b[i]=1;
++		else
++			b[i]=-1;
++	}
++	for(int i=1;i<=n;i++){
++		b[i]+=b[i-1];
++	}
++	work(0,n);
++	if(cnt>=(sum/2+1))
++		return true;
++	return false;
++}
++int main(){
+-	for (int i=1;i<=n;i++) scanf("%d",&a[i]);
+-	for (int i=1;i<=n;i++) aa[i] = a[i];
+-	sort(aa+1,aa+1+n);
+-	long long k = 1LL * n*(n+1)/2/2+1;
+-	int l = 1,r = n,mid,ans;
+-	while(l<=r) {
+-		mid = (l+r) / 2;
+-		if (check(aa[mid])>=k) {
+-			ans = aa[mid];
+-			r = mid - 1;
++	l=INF;r=0;sum=0;
++	for(int i=1;i<=n;i++){
++		scanf("%d",&a[i]);
++		l=min(l,a[i]);
++		r=max(r,a[i]);
++		sum+=i;
++	}
++	while(l<r){
++		int m=(l+r)/2;
++		if(check(m)){
++			r=m;
++		}else{
++			l=m+1;
+-		else l = mid + 1;
+-	printf("%d\n",ans);
++	printf("%d\n",r);
++	return 0;

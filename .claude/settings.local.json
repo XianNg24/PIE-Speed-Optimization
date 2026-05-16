@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(g++ --version)",
+      "Bash(echo ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY:0:10...)",
+      "Bash(pip3 list:*)",
+      "Bash(python3 -c \"import anthropic; print\\(''''anthropic SDK version:'''', anthropic.__version__\\)\")",
+      "Bash(pip3 show:*)",
+      "Bash(pip3 install:*)",
+      "Bash(python3 -c \"import anthropic; print\\(''OK'', anthropic.__version__\\)\")",
+      "Read(//cs/student/msc/dsml/2025/nmxian/**)",
+      "Read(//cs/student/project_msc/2025/dsml/nmxian/**)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:api.github.com)",
+      "Read",
+      "Write",
+      "Edit",
+      "Bash(git *)",
+      "Bash(npm *)",
+      "Bash(python *)",
+      "Bash(grep *)",
+      "Bash(find *)",
+      "Bash(cat *)",
+      "Bash(ls *)"
+    ],
+    "ask": [
+      "Bash(rm *)",
+      "Bash(rmdir *)",
+      "Bash(unlink *)",
+      "Bash(find * -delete)"
+    ]
+  }
+}

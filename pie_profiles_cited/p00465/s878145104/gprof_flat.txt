@@ -1,0 +1,267 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  ms/call  ms/call  name    
+100.00      0.01     0.01   250054     0.00     0.00  std::__detail::_List_node_header::_M_init()
+  0.00      0.01     0.00   250054     0.00     0.00  std::__cxx11::_List_base<std::pair<int, int>, std::allocator<std::pair<int, int> > >::_M_clear()
+  0.00      0.01     0.00   250000     0.00     0.00  __gnu_cxx::new_allocator<std::_List_node<std::pair<int, int> > >::new_allocator()
+  0.00      0.01     0.00   250000     0.00     0.00  __gnu_cxx::new_allocator<std::_List_node<std::pair<int, int> > >::~new_allocator()
+  0.00      0.01     0.00   250000     0.00     0.00  std::allocator<std::_List_node<std::pair<int, int> > >::allocator()
+  0.00      0.01     0.00   250000     0.00     0.00  std::allocator<std::_List_node<std::pair<int, int> > >::~allocator()
+  0.00      0.01     0.00   250000     0.00     0.00  std::__cxx11::_List_base<std::pair<int, int>, std::allocator<std::pair<int, int> > >::_List_impl::_List_impl()
+  0.00      0.01     0.00   250000     0.00     0.00  std::__cxx11::_List_base<std::pair<int, int>, std::allocator<std::pair<int, int> > >::_List_impl::~_List_impl()
+  0.00      0.01     0.00   250000     0.00     0.00  std::__cxx11::_List_base<std::pair<int, int>, std::allocator<std::pair<int, int> > >::_List_base()
+  0.00      0.01     0.00   250000     0.00     0.00  std::__cxx11::_List_base<std::pair<int, int>, std::allocator<std::pair<int, int> > >::~_List_base()
+  0.00      0.01     0.00   250000     0.00     0.00  std::__cxx11::list<std::pair<int, int>, std::allocator<std::pair<int, int> > >::list()
+  0.00      0.01     0.00   250000     0.00     0.00  std::__cxx11::list<std::pair<int, int>, std::allocator<std::pair<int, int> > >::~list()
+  0.00      0.01     0.00   250000     0.00     0.00  std::__detail::_List_node_header::_List_node_header()
+  0.00      0.01     0.00     1226     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator*() const
+  0.00      0.01     0.00      893     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::base() const
+  0.00      0.01     0.00      359     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::__normal_iterator(int* const&)
+  0.00      0.01     0.00      332     0.00     0.00  std::remove_reference<int&>::type&& std::move<int&>(int&)
+  0.00      0.01     0.00      300     0.00     0.00  std::iterator_traits<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >::iterator_category std::__iterator_category<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&)
+  0.00      0.01     0.00      264     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator++()
+  0.00      0.01     0.00      227     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator+=(long)
+  0.00      0.01     0.00      227     0.00     0.00  bool __gnu_cxx::__ops::_Iter_less_val::operator()<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&) const
+  0.00      0.01     0.00      227     0.00     0.00  void std::advance<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, long>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >&, long)
+  0.00      0.01     0.00      227     0.00     0.00  void std::__advance<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, long>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >&, long, std::random_access_iterator_tag)
+  0.00      0.01     0.00      219     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator--()
+  0.00      0.01     0.00      200     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::difference_type __gnu_cxx::operator-<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&)
+  0.00      0.01     0.00      192     0.00     0.00  std::pair<int, int>&& std::forward<std::pair<int, int> >(std::remove_reference<std::pair<int, int> >::type&)
+  0.00      0.01     0.00      191     0.00     0.00  bool __gnu_cxx::__ops::_Val_less_iter::operator()<int, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(int&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) const
+  0.00      0.01     0.00      191     0.00     0.00  std::vector<int, std::allocator<int> >::begin()
+  0.00      0.01     0.00      173     0.00     0.00  int const& std::forward<int const&>(std::remove_reference<int const&>::type&)
+  0.00      0.01     0.00      163     0.00     0.00  bool __gnu_cxx::operator!=<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&)
+  0.00      0.01     0.00      162     0.00     0.00  int* std::__niter_base<int*>(int*)
+  0.00      0.01     0.00      156     0.00     0.00  operator new(unsigned long, void*)
+  0.00      0.01     0.00      154     0.00     0.00  std::vector<int, std::allocator<int> >::size() const
+  0.00      0.01     0.00      124     0.00     0.00  std::vector<int, std::allocator<int> >::end()
+  0.00      0.01     0.00      106     0.00     0.00  bool __gnu_cxx::__ops::_Iter_less_iter::operator()<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) const
+  0.00      0.01     0.00      104     0.00     0.00  int& std::forward<int&>(std::remove_reference<int&>::type&)
+  0.00      0.01     0.00      103     0.00     0.00  __gnu_cxx::__aligned_membuf<std::pair<int, int> >::_M_ptr()
+  0.00      0.01     0.00      103     0.00     0.00  __gnu_cxx::__aligned_membuf<std::pair<int, int> >::_M_addr()
+  0.00      0.01     0.00      103     0.00     0.00  std::_List_node<std::pair<int, int> >::_M_valptr()
+  0.00      0.01     0.00       81     0.00     0.00  __gnu_cxx::new_allocator<int>::_M_max_size() const
+  0.00      0.01     0.00       76     0.00     0.00  std::_List_iterator<std::pair<int, int> >::_List_iterator(std::__detail::_List_node_base*)
+  0.00      0.01     0.00       74     0.00     0.00  int const& std::min<int>(int const&, int const&)
+  0.00      0.01     0.00       73     0.00     0.00  void __gnu_cxx::new_allocator<int>::construct<int, int const&>(int*, int const&)
+  0.00      0.01     0.00       73     0.00     0.00  __gnu_cxx::__ops::__iter_less_val()
+  0.00      0.01     0.00       73     0.00     0.00  std::deque<std::pair<int, int>, std::allocator<std::pair<int, int> > >::empty() const
+  0.00      0.01     0.00       73     0.00     0.00  std::queue<std::pair<int, int>, std::deque<std::pair<int, int>, std::allocator<std::pair<int, int> > > >::empty() const
+  0.00      0.01     0.00       73     0.00     0.00  void std::allocator_traits<std::allocator<int> >::construct<int, int const&>(std::allocator<int>&, int*, int const&)
+  0.00      0.01     0.00       73     0.00     0.00  std::vector<int, std::allocator<int> >::push_back(int const&)
+  0.00      0.01     0.00       73     0.00     0.00  std::iterator_traits<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >::difference_type std::__distance<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, std::random_access_iterator_tag)
+  0.00      0.01     0.00       73     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::lower_bound<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&)
+  0.00      0.01     0.00       73     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__lower_bound<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int, __gnu_cxx::__ops::_Iter_less_val>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&, __gnu_cxx::__ops::_Iter_less_val)
+  0.00      0.01     0.00       73     0.00     0.00  std::iterator_traits<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >::difference_type std::distance<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >)
+  0.00      0.01     0.00       73     0.00     0.00  std::operator==(std::_Deque_iterator<std::pair<int, int>, std::pair<int, int>&, std::pair<int, int>*> const&, std::_Deque_iterator<std::pair<int, int>, std::pair<int, int>&, std::pair<int, int>*> const&)
+  0.00      0.01     0.00       72     0.00     0.00  std::__cxx11::_List_base<std::pair<int, int>, std::allocator<std::pair<int, int> > >::_M_get_Node_allocator()
+  0.00      0.01     0.00       68     0.00     0.00  std::remove_reference<std::pair<int, int>&>::type&& std::move<std::pair<int, int>&>(std::pair<int, int>&)
+  0.00      0.01     0.00       67     0.00     0.00  bool __gnu_cxx::__ops::_Iter_equal_to_iter::operator()<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) const
+  0.00      0.01     0.00       63     0.00     0.00  std::_Vector_base<int, std::allocator<int> >::_M_get_Tp_allocator()
+  0.00      0.01     0.00       63     0.00     0.00  std::_Deque_iterator<std::pair<int, int>, std::pair<int, int>&, std::pair<int, int>*>::_Deque_iterator(std::_Deque_iterator<std::pair<int, int>, std::pair<int, int>&, std::pair<int, int>*> const&)
+  0.00      0.01     0.00       62     0.00     0.00  std::pair<int, int> const& std::forward<std::pair<int, int> const&>(std::remove_reference<std::pair<int, int> const&>::type&)
+  0.00      0.01     0.00       60     0.00     0.00  __gnu_cxx::__ops::__val_comp_iter(__gnu_cxx::__ops::_Iter_less_iter)
+  0.00      0.01     0.00       60     0.00     0.00  void std::__unguarded_linear_insert<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Val_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Val_less_iter)
+  0.00      0.01     0.00       56     0.00     0.00  std::__cxx11::list<std::pair<int, int>, std::allocator<std::pair<int, int> > >::end()
+  0.00      0.01     0.00       54     0.00     0.00  __gnu_cxx::new_allocator<int>::max_size() const
+  0.00      0.01     0.00       54     0.00     0.00  std::_Vector_base<int, std::allocator<int> >::_M_get_Tp_allocator() const
+  0.00      0.01     0.00       54     0.00     0.00  std::vector<int, std::allocator<int> >::max_size() const
+  0.00      0.01     0.00       54     0.00     0.00  std::allocator_traits<std::allocator<int> >::max_size(std::allocator<int> const&)
+  0.00      0.01     0.00       54     0.00     0.00  std::vector<int, std::allocator<int> >::_S_max_size(std::allocator<int> const&)
+  0.00      0.01     0.00       54     0.00     0.00  std::vector<int, std::allocator<int> >::_S_relocate(int*, int*, int*, std::allocator<int>&)
+  0.00      0.01     0.00       54     0.00     0.00  std::vector<int, std::allocator<int> >::_S_do_relocate(int*, int*, int*, std::allocator<int>&, std::integral_constant<bool, true>)
+  0.00      0.01     0.00       54     0.00     0.00  std::__cxx11::_List_base<std::pair<int, int>, std::allocator<std::pair<int, int> > >::_M_init()
+  0.00      0.01     0.00       54     0.00     0.00  std::__cxx11::list<std::pair<int, int>, std::allocator<std::pair<int, int> > >::clear()
+  0.00      0.01     0.00       54     0.00     0.00  int* std::__relocate_a<int*, int*, std::allocator<int> >(int*, int*, int*, std::allocator<int>&)
+  0.00      0.01     0.00       54     0.00     0.00  std::enable_if<std::__is_bitwise_relocatable<int, void>::value, int*>::type std::__relocate_a_1<int, int>(int*, int*, int*, std::allocator<int>&)
+  0.00      0.01     0.00       54     0.00     0.00  unsigned long const& std::min<unsigned long>(unsigned long const&, unsigned long const&)
+  0.00      0.01     0.00       52     0.00     0.00  std::pair<int, int>::pair<int&, int&, true>(int&, int&)
+  0.00      0.01     0.00       51     0.00     0.00  std::_Deque_iterator<std::pair<int, int>, std::pair<int, int>&, std::pair<int, int>*>::operator*() const
+  0.00      0.01     0.00       51     0.00     0.00  std::operator!=(std::_List_iterator<std::pair<int, int> > const&, std::_List_iterator<std::pair<int, int> > const&)
+  0.00      0.01     0.00       46     0.00     0.00  std::__cxx11::list<std::pair<int, int>, std::allocator<std::pair<int, int> > >::empty() const
+  0.00      0.01     0.00       42     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator+(long) const
+  0.00      0.01     0.00       41     0.00     0.00  std::_Deque_base<std::pair<int, int>, std::allocator<std::pair<int, int> > >::_M_get_Tp_allocator()
+  0.00      0.01     0.00       41     0.00     0.00  std::deque<std::pair<int, int>, std::allocator<std::pair<int, int> > >::begin()
+  0.00      0.01     0.00       36     0.00     0.00  __gnu_cxx::new_allocator<std::_List_node<std::pair<int, int> > >::deallocate(std::_List_node<std::pair<int, int> >*, unsigned long)
+  0.00      0.01     0.00       36     0.00     0.00  void __gnu_cxx::new_allocator<std::_List_node<std::pair<int, int> > >::destroy<std::pair<int, int> >(std::pair<int, int>*)
+  0.00      0.01     0.00       36     0.00     0.00  __gnu_cxx::new_allocator<std::_List_node<std::pair<int, int> > >::allocate(unsigned long, void const*)
+  0.00      0.01     0.00       36     0.00     0.00  void __gnu_cxx::new_allocator<std::_List_node<std::pair<int, int> > >::construct<std::pair<int, int>, std::pair<int, int> >(std::pair<int, int>*, std::pair<int, int>&&)
+  0.00      0.01     0.00       36     0.00     0.00  __gnu_cxx::new_allocator<std::_List_node<std::pair<int, int> > >::_M_max_size() const
+  0.00      0.01     0.00       36     0.00     0.00  std::__allocated_ptr<std::allocator<std::_List_node<std::pair<int, int> > > >::__allocated_ptr(std::allocator<std::_List_node<std::pair<int, int> > >&, std::_List_node<std::pair<int, int> >*)
+  0.00      0.01     0.00       36     0.00     0.00  std::__allocated_ptr<std::allocator<std::_List_node<std::pair<int, int> > > >::~__allocated_ptr()
+  0.00      0.01     0.00       36     0.00     0.00  std::__allocated_ptr<std::allocator<std::_List_node<std::pair<int, int> > > >::operator=(decltype(nullptr))
+  0.00      0.01     0.00       36     0.00     0.00  std::allocator_traits<std::allocator<std::_List_node<std::pair<int, int> > > >::deallocate(std::allocator<std::_List_node<std::pair<int, int> > >&, std::_List_node<std::pair<int, int> >*, unsigned long)
+  0.00      0.01     0.00       36     0.00     0.00  void std::allocator_traits<std::allocator<std::_List_node<std::pair<int, int> > > >::destroy<std::pair<int, int> >(std::allocator<std::_List_node<std::pair<int, int> > >&, std::pair<int, int>*)
+  0.00      0.01     0.00       36     0.00     0.00  std::allocator_traits<std::allocator<std::_List_node<std::pair<int, int> > > >::allocate(std::allocator<std::_List_node<std::pair<int, int> > >&, unsigned long)
+  0.00      0.01     0.00       36     0.00     0.00  void std::allocator_traits<std::allocator<std::_List_node<std::pair<int, int> > > >::construct<std::pair<int, int>, std::pair<int, int> >(std::allocator<std::_List_node<std::pair<int, int> > >&, std::pair<int, int>*, std::pair<int, int>&&)
+  0.00      0.01     0.00       36     0.00     0.00  std::__cxx11::_List_base<std::pair<int, int>, std::allocator<std::pair<int, int> > >::_M_get_node()
+  0.00      0.01     0.00       36     0.00     0.00  std::__cxx11::_List_base<std::pair<int, int>, std::allocator<std::pair<int, int> > >::_M_inc_size(unsigned long)
+  0.00      0.01     0.00       36     0.00     0.00  std::__cxx11::_List_base<std::pair<int, int>, std::allocator<std::pair<int, int> > >::_M_put_node(std::_List_node<std::pair<int, int> >*)
+  0.00      0.01     0.00       36     0.00     0.00  std::_List_node<std::pair<int, int> >* std::__cxx11::list<std::pair<int, int>, std::allocator<std::pair<int, int> > >::_M_create_node<std::pair<int, int> >(std::pair<int, int>&&)
+  0.00      0.01     0.00       36     0.00     0.00  void std::__cxx11::list<std::pair<int, int>, std::allocator<std::pair<int, int> > >::_M_insert<std::pair<int, int> >(std::_List_iterator<std::pair<int, int> >, std::pair<int, int>&&)
+  0.00      0.01     0.00       36     0.00     0.00  std::__cxx11::list<std::pair<int, int>, std::allocator<std::pair<int, int> > >::push_back(std::pair<int, int>&&)
+  0.00      0.01     0.00       36     0.00     0.00  std::allocator<std::_List_node<std::pair<int, int> > >* std::__addressof<std::allocator<std::_List_node<std::pair<int, int> > > >(std::allocator<std::_List_node<std::pair<int, int> > >&)
+  0.00      0.01     0.00       36     0.00     0.00  std::__deque_buf_size(unsigned long)
+  0.00      0.01     0.00       35     0.00     0.00  void __gnu_cxx::new_allocator<std::pair<int, int> >::destroy<std::pair<int, int> >(std::pair<int, int>*)
+  0.00      0.01     0.00       35     0.00     0.00  void std::allocator_traits<std::allocator<std::pair<int, int> > >::destroy<std::pair<int, int> >(std::allocator<std::pair<int, int> >&, std::pair<int, int>*)
+  0.00      0.01     0.00       35     0.00     0.00  std::deque<std::pair<int, int>, std::allocator<std::pair<int, int> > >::front()
+  0.00      0.01     0.00       35     0.00     0.00  std::deque<std::pair<int, int>, std::allocator<std::pair<int, int> > >::pop_front()
+  0.00      0.01     0.00       35     0.00     0.00  std::queue<std::pair<int, int>, std::deque<std::pair<int, int>, std::allocator<std::pair<int, int> > > >::pop()
+  0.00      0.01     0.00       35     0.00     0.00  std::queue<std::pair<int, int>, std::deque<std::pair<int, int>, std::allocator<std::pair<int, int> > > >::front()
+  0.00      0.01     0.00       34     0.00     0.00  std::vector<int, std::allocator<int> >::operator[](unsigned long)
+  0.00      0.01     0.00       33     0.00     0.00  std::_Vector_base<int, std::allocator<int> >::_M_deallocate(int*, unsigned long)
+  0.00      0.01     0.00       33     0.00     0.00  unsigned long const& std::max<unsigned long>(unsigned long const&, unsigned long const&)
+  0.00      0.01     0.00       31     0.00     0.00  void __gnu_cxx::new_allocator<std::pair<int, int> >::construct<std::pair<int, int>, std::pair<int, int> const&>(std::pair<int, int>*, std::pair<int, int> const&)
+  0.00      0.01     0.00       31     0.00     0.00  std::_List_iterator<std::pair<int, int> >::operator*() const
+  0.00      0.01     0.00       31     0.00     0.00  std::_List_iterator<std::pair<int, int> >::operator++()
+  0.00      0.01     0.00       31     0.00     0.00  void std::allocator_traits<std::allocator<std::pair<int, int> > >::construct<std::pair<int, int>, std::pair<int, int> const&>(std::allocator<std::pair<int, int> >&, std::pair<int, int>*, std::pair<int, int> const&)
+  0.00      0.01     0.00       31     0.00     0.00  std::deque<std::pair<int, int>, std::allocator<std::pair<int, int> > >::push_back(std::pair<int, int> const&)
+  0.00      0.01     0.00       31     0.00     0.00  std::queue<std::pair<int, int>, std::deque<std::pair<int, int>, std::allocator<std::pair<int, int> > > >::push(std::pair<int, int> const&)
+  0.00      0.01     0.00       28     0.00     0.00  int* std::__niter_base<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >)
+  0.00      0.01     0.00       27     0.00     0.00  __gnu_cxx::new_allocator<int>::deallocate(int*, unsigned long)
+  0.00      0.01     0.00       27     0.00     0.00  __gnu_cxx::new_allocator<int>::allocate(unsigned long, void const*)
+  0.00      0.01     0.00       27     0.00     0.00  std::vector<int, std::allocator<int> >::_M_check_len(unsigned long, char const*) const
+  0.00      0.01     0.00       27     0.00     0.00  std::_Vector_base<int, std::allocator<int> >::_M_allocate(unsigned long)
+  0.00      0.01     0.00       27     0.00     0.00  std::allocator_traits<std::allocator<int> >::deallocate(std::allocator<int>&, int*, unsigned long)
+  0.00      0.01     0.00       27     0.00     0.00  std::allocator_traits<std::allocator<int> >::allocate(std::allocator<int>&, unsigned long)
+  0.00      0.01     0.00       27     0.00     0.00  void std::vector<int, std::allocator<int> >::_M_realloc_insert<int const&>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int const&)
+  0.00      0.01     0.00       24     0.00     0.00  __gnu_cxx::__normal_iterator<int const*, std::vector<int, std::allocator<int> > >::base() const
+  0.00      0.01     0.00       22     0.00     0.00  std::deque<std::pair<int, int>, std::allocator<std::pair<int, int> > >::end()
+  0.00      0.01     0.00       20     0.00     0.00  std::__cxx11::list<std::pair<int, int>, std::allocator<std::pair<int, int> > >::begin()
+  0.00      0.01     0.00       18     0.00     0.00  bool __gnu_cxx::operator==<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&)
+  0.00      0.01     0.00       17     0.00     0.00  bool __gnu_cxx::operator< <int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > const&)
+  0.00      0.01     0.00       17     0.00     0.00  std::enable_if<std::__and_<std::__not_<std::__is_tuple_like<int> >, std::is_move_constructible<int>, std::is_move_assignable<int> >::value, void>::type std::swap<int>(int&, int&)
+  0.00      0.01     0.00       17     0.00     0.00  void std::iter_swap<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >)
+  0.00      0.01     0.00       16     0.00     0.00  void __gnu_cxx::new_allocator<std::pair<int, int> >::construct<std::pair<int, int>, std::pair<int, int> >(std::pair<int, int>*, std::pair<int, int>&&)
+  0.00      0.01     0.00       16     0.00     0.00  std::_Deque_iterator<std::pair<int, int>, std::pair<int, int>&, std::pair<int, int>*>::operator--()
+  0.00      0.01     0.00       16     0.00     0.00  void std::allocator_traits<std::allocator<std::pair<int, int> > >::construct<std::pair<int, int>, std::pair<int, int> >(std::allocator<std::pair<int, int> >&, std::pair<int, int>*, std::pair<int, int>&&)
+  0.00      0.01     0.00       16     0.00     0.00  std::pair<int, int>& std::deque<std::pair<int, int>, std::allocator<std::pair<int, int> > >::emplace_back<std::pair<int, int> >(std::pair<int, int>&&)
+  0.00      0.01     0.00       16     0.00     0.00  std::deque<std::pair<int, int>, std::allocator<std::pair<int, int> > >::back()
+  0.00      0.01     0.00       16     0.00     0.00  std::deque<std::pair<int, int>, std::allocator<std::pair<int, int> > >::push_back(std::pair<int, int>&&)
+  0.00      0.01     0.00       16     0.00     0.00  std::queue<std::pair<int, int>, std::deque<std::pair<int, int>, std::allocator<std::pair<int, int> > > >::push(std::pair<int, int>&&)
+  0.00      0.01     0.00       14     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__miter_base<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >)
+  0.00      0.01     0.00       12     0.00     0.00  __gnu_cxx::new_allocator<std::pair<int, int>*>::new_allocator()
+  0.00      0.01     0.00       12     0.00     0.00  __gnu_cxx::new_allocator<std::pair<int, int>*>::~new_allocator()
+  0.00      0.01     0.00       12     0.00     0.00  __gnu_cxx::__normal_iterator<int const*, std::vector<int, std::allocator<int> > >::__normal_iterator<int*>(__gnu_cxx::__normal_iterator<int*, __gnu_cxx::__enable_if<std::__are_same<int*, int*>::__value, std::vector<int, std::allocator<int> > >::__type> const&)
+  0.00      0.01     0.00       12     0.00     0.00  __gnu_cxx::__normal_iterator<int const*, std::vector<int, std::allocator<int> > >::difference_type __gnu_cxx::operator-<int const*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int const*, std::vector<int, std::allocator<int> > > const&, __gnu_cxx::__normal_iterator<int const*, std::vector<int, std::allocator<int> > > const&)
+  0.00      0.01     0.00       12     0.00     0.00  std::_Deque_base<std::pair<int, int>, std::allocator<std::pair<int, int> > >::_M_get_Tp_allocator() const
+  0.00      0.01     0.00       12     0.00     0.00  std::_Deque_base<std::pair<int, int>, std::allocator<std::pair<int, int> > >::_M_get_map_allocator() const
+  0.00      0.01     0.00       12     0.00     0.00  std::allocator<std::pair<int, int>*>::allocator<std::pair<int, int> >(std::allocator<std::pair<int, int> > const&)
+  0.00      0.01     0.00       12     0.00     0.00  std::allocator<std::pair<int, int>*>::~allocator()
+  0.00      0.01     0.00       12     0.00     0.00  std::_Deque_iterator<std::pair<int, int>, std::pair<int, int>&, std::pair<int, int>*>::_M_set_node(std::pair<int, int>**)
+  0.00      0.01     0.00       12     0.00     0.00  std::_Deque_iterator<std::pair<int, int>, std::pair<int, int>&, std::pair<int, int>*>::_S_buffer_size()
+  0.00      0.01     0.00       12     0.00     0.00  std::_Deque_iterator<std::pair<int, int>, std::pair<int, int>&, std::pair<int, int>*>::_Deque_iterator()
+  0.00      0.01     0.00        9     0.00     0.00  void std::_Destroy_aux<true>::__destroy<int*>(int*, int*)
+  0.00      0.01     0.00        9     0.00     0.00  void std::_Destroy<int*>(int*, int*)
+  0.00      0.01     0.00        9     0.00     0.00  void std::_Destroy<int*, int>(int*, int*, std::allocator<int>&)
+  0.00      0.01     0.00        7     0.00     0.00  int* std::__copy_move_backward<true, true, std::random_access_iterator_tag>::__copy_move_b<int>(int const*, int const*, int*)
+  0.00      0.01     0.00        7     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__niter_wrap<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int*>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int*)
+  0.00      0.01     0.00        7     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::move_backward<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >)
+  0.00      0.01     0.00        7     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__copy_move_backward_a<true, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >)
+  0.00      0.01     0.00        7     0.00     0.00  int* std::__copy_move_backward_a1<true, int*, int*>(int*, int*, int*)
+  0.00      0.01     0.00        7     0.00     0.00  int* std::__copy_move_backward_a2<true, int*, int*>(int*, int*, int*)
+  0.00      0.01     0.00        6     0.00     0.00  solve(int)
+  0.00      0.01     0.00        6     0.00     0.00  compress(int)
+  0.00      0.01     0.00        6     0.00     0.00  __gnu_cxx::new_allocator<std::pair<int, int>*>::deallocate(std::pair<int, int>**, unsigned long)
+  0.00      0.01     0.00        6     0.00     0.00  __gnu_cxx::new_allocator<std::pair<int, int>*>::allocate(unsigned long, void const*)
+  0.00      0.01     0.00        6     0.00     0.00  __gnu_cxx::new_allocator<std::pair<int, int> >::deallocate(std::pair<int, int>*, unsigned long)
+  0.00      0.01     0.00        6     0.00     0.00  __gnu_cxx::new_allocator<std::pair<int, int> >::allocate(unsigned long, void const*)
+  0.00      0.01     0.00        6     0.00     0.00  __gnu_cxx::new_allocator<std::pair<int, int> >::new_allocator()
+  0.00      0.01     0.00        6     0.00     0.00  __gnu_cxx::new_allocator<std::pair<int, int> >::~new_allocator()
+  0.00      0.01     0.00        6     0.00     0.00  __gnu_cxx::new_allocator<int>::new_allocator()
+  0.00      0.01     0.00        6     0.00     0.00  __gnu_cxx::new_allocator<int>::~new_allocator()
+  0.00      0.01     0.00        6     0.00     0.00  __gnu_cxx::__normal_iterator<int const*, std::vector<int, std::allocator<int> > >::__normal_iterator(int const* const&)
+  0.00      0.01     0.00        6     0.00     0.00  __gnu_cxx::__ops::__iter_less_iter()
+  0.00      0.01     0.00        6     0.00     0.00  __gnu_cxx::__ops::__iter_equal_to_iter()
+  0.00      0.01     0.00        6     0.00     0.00  __gnu_cxx::new_allocator<std::pair<int, int>*>::_M_max_size() const
+  0.00      0.01     0.00        6     0.00     0.00  __gnu_cxx::new_allocator<std::pair<int, int> >::_M_max_size() const
+  0.00      0.01     0.00        6     0.00     0.00  std::vector<int, std::allocator<int> >::cbegin() const
+  0.00      0.01     0.00        6     0.00     0.00  std::allocator<std::pair<int, int> >::allocator()
+  0.00      0.01     0.00        6     0.00     0.00  std::allocator<std::pair<int, int> >::~allocator()
+  0.00      0.01     0.00        6     0.00     0.00  std::allocator<int>::allocator()
+  0.00      0.01     0.00        6     0.00     0.00  std::allocator<int>::~allocator()
+  0.00      0.01     0.00        6     0.00     0.00  std::_Deque_base<std::pair<int, int>, std::allocator<std::pair<int, int> > >::_Deque_impl::_Deque_impl()
+  0.00      0.01     0.00        6     0.00     0.00  std::_Deque_base<std::pair<int, int>, std::allocator<std::pair<int, int> > >::_Deque_impl::~_Deque_impl()
+  0.00      0.01     0.00        6     0.00     0.00  std::_Deque_base<std::pair<int, int>, std::allocator<std::pair<int, int> > >::_M_allocate_map(unsigned long)
+  0.00      0.01     0.00        6     0.00     0.00  std::_Deque_base<std::pair<int, int>, std::allocator<std::pair<int, int> > >::_M_create_nodes(std::pair<int, int>**, std::pair<int, int>**)
+  0.00      0.01     0.00        6     0.00     0.00  std::_Deque_base<std::pair<int, int>, std::allocator<std::pair<int, int> > >::_Deque_impl_data::_Deque_impl_data()
+  0.00      0.01     0.00        6     0.00     0.00  std::_Deque_base<std::pair<int, int>, std::allocator<std::pair<int, int> > >::_M_allocate_node()
+  0.00      0.01     0.00        6     0.00     0.00  std::_Deque_base<std::pair<int, int>, std::allocator<std::pair<int, int> > >::_M_destroy_nodes(std::pair<int, int>**, std::pair<int, int>**)
+  0.00      0.01     0.00        6     0.00     0.00  std::_Deque_base<std::pair<int, int>, std::allocator<std::pair<int, int> > >::_M_deallocate_map(std::pair<int, int>**, unsigned long)
+  0.00      0.01     0.00        6     0.00     0.00  std::_Deque_base<std::pair<int, int>, std::allocator<std::pair<int, int> > >::_M_initialize_map(unsigned long)
+  0.00      0.01     0.00        6     0.00     0.00  std::_Deque_base<std::pair<int, int>, std::allocator<std::pair<int, int> > >::_M_deallocate_node(std::pair<int, int>*)
+  0.00      0.01     0.00        6     0.00     0.00  std::_Deque_base<std::pair<int, int>, std::allocator<std::pair<int, int> > >::_Deque_base()
+  0.00      0.01     0.00        6     0.00     0.00  std::_Deque_base<std::pair<int, int>, std::allocator<std::pair<int, int> > >::~_Deque_base()
+  0.00      0.01     0.00        6     0.00     0.00  std::_Vector_base<int, std::allocator<int> >::_Vector_impl::_Vector_impl()
+  0.00      0.01     0.00        6     0.00     0.00  std::_Vector_base<int, std::allocator<int> >::_Vector_impl::~_Vector_impl()
+  0.00      0.01     0.00        6     0.00     0.00  std::_Vector_base<int, std::allocator<int> >::_Vector_impl_data::_Vector_impl_data()
+  0.00      0.01     0.00        6     0.00     0.00  std::_Vector_base<int, std::allocator<int> >::_Vector_base()
+  0.00      0.01     0.00        6     0.00     0.00  std::_Vector_base<int, std::allocator<int> >::~_Vector_base()
+  0.00      0.01     0.00        6     0.00     0.00  std::allocator_traits<std::allocator<std::pair<int, int>*> >::deallocate(std::allocator<std::pair<int, int>*>&, std::pair<int, int>**, unsigned long)
+  0.00      0.01     0.00        6     0.00     0.00  std::allocator_traits<std::allocator<std::pair<int, int>*> >::allocate(std::allocator<std::pair<int, int>*>&, unsigned long)
+  0.00      0.01     0.00        6     0.00     0.00  std::allocator_traits<std::allocator<std::pair<int, int> > >::deallocate(std::allocator<std::pair<int, int> >&, std::pair<int, int>*, unsigned long)
+  0.00      0.01     0.00        6     0.00     0.00  std::allocator_traits<std::allocator<std::pair<int, int> > >::allocate(std::allocator<std::pair<int, int> >&, unsigned long)
+  0.00      0.01     0.00        6     0.00     0.00  std::deque<std::pair<int, int>, std::allocator<std::pair<int, int> > >::_M_destroy_data(std::_Deque_iterator<std::pair<int, int>, std::pair<int, int>&, std::pair<int, int>*>, std::_Deque_iterator<std::pair<int, int>, std::pair<int, int>&, std::pair<int, int>*>, std::allocator<std::pair<int, int> > const&)
+  0.00      0.01     0.00        6     0.00     0.00  std::deque<std::pair<int, int>, std::allocator<std::pair<int, int> > >::deque()
+  0.00      0.01     0.00        6     0.00     0.00  std::deque<std::pair<int, int>, std::allocator<std::pair<int, int> > >::~deque()
+  0.00      0.01     0.00        6     0.00     0.00  std::queue<std::pair<int, int>, std::deque<std::pair<int, int>, std::allocator<std::pair<int, int> > > >::queue<std::deque<std::pair<int, int>, std::allocator<std::pair<int, int> > >, void>()
+  0.00      0.01     0.00        6     0.00     0.00  std::queue<std::pair<int, int>, std::deque<std::pair<int, int>, std::allocator<std::pair<int, int> > > >::~queue()
+  0.00      0.01     0.00        6     0.00     0.00  std::vector<int, std::allocator<int> >::erase(__gnu_cxx::__normal_iterator<int const*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int const*, std::vector<int, std::allocator<int> > >)
+  0.00      0.01     0.00        6     0.00     0.00  std::vector<int, std::allocator<int> >::_M_erase(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >)
+  0.00      0.01     0.00        6     0.00     0.00  std::vector<int, std::allocator<int> >::vector()
+  0.00      0.01     0.00        6     0.00     0.00  std::vector<int, std::allocator<int> >::~vector()
+  0.00      0.01     0.00        6     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__adjacent_find<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_equal_to_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_equal_to_iter)
+  0.00      0.01     0.00        6     0.00     0.00  void std::__insertion_sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter)
+  0.00      0.01     0.00        6     0.00     0.00  void std::__introsort_loop<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, long, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, long, __gnu_cxx::__ops::_Iter_less_iter)
+  0.00      0.01     0.00        6     0.00     0.00  void std::__final_insertion_sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter)
+  0.00      0.01     0.00        6     0.00     0.00  std::__lg(long)
+  0.00      0.01     0.00        6     0.00     0.00  void std::sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >)
+  0.00      0.01     0.00        6     0.00     0.00  void std::__sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter)
+  0.00      0.01     0.00        6     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::unique<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >)
+  0.00      0.01     0.00        6     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__unique<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_equal_to_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_equal_to_iter)
+  0.00      0.01     0.00        3     0.00     0.00  std::vector<int, std::allocator<int> >::_M_erase_at_end(int*)
+  0.00      0.01     0.00        3     0.00     0.00  void std::fill<int*, int>(int*, int*, int const&)
+  0.00      0.01     0.00        3     0.00     0.00  void std::__fill_a<int*, int>(int*, int*, int const&)
+  0.00      0.01     0.00        3     0.00     0.00  __gnu_cxx::__enable_if<std::__is_scalar<int>::__value, void>::__type std::__fill_a1<int*, int>(int*, int*, int const&)
+  0.00      0.01     0.00        2     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator-(long) const
+  0.00      0.01     0.00        2     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__unguarded_partition<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter)
+  0.00      0.01     0.00        2     0.00     0.00  void std::__move_median_to_first<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter)
+  0.00      0.01     0.00        2     0.00     0.00  void std::__unguarded_insertion_sort<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter)
+  0.00      0.01     0.00        2     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__unguarded_partition_pivot<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__ops::_Iter_less_iter)
+  0.00      0.01     0.00        1     0.00    10.00  __static_initialization_and_destruction_0(int, int)
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+

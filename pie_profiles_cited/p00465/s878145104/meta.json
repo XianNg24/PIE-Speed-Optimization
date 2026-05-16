@@ -1,0 +1,14 @@
+{
+  "problem_id": "p00465",
+  "submission_id_v0": "s878145104",
+  "cpu_time_v0_ms_oracle": 130.0,
+  "cpu_time_v1_ms_oracle": 70.0,
+  "improvement_frac_oracle": 46.15,
+  "n_test_cases": 2,
+  "baseline_mean_ms_local": 26.181,
+  "baseline_median_ms_local": 26.179,
+  "baseline_passed_local": true,
+  "profiled_test_idx": 1,
+  "n_user_function_hotspots": 0,
+  "n_top_gprof_entries": 1
+}

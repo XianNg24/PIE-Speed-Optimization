@@ -1,0 +1,8 @@
+-  while(cin >> R, R){
++  while(scanf("%d", &R), R){
+-      cin >> W[i] >> H[i] >> X >> Y;
++      scanf("%d %d %d %d", &W[i], &H[i], &X, &Y);
+-          cin >> L[j][k];
++          scanf("%d", &L[j][k]);
+-    cout << ret << endl;
++    printf("%d\n", ret);

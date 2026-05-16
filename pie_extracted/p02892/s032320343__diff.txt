@@ -1,0 +1,141 @@
++#define debug(v) cout<<#v<<":";for(auto x:v){cout<<x<<' ';}cout<<endl;
+-long long gcd(long long a, long long b){return (b == 0 ? a : gcd(b, a%b));}
+-long long lcm(long long a, long long b){return a*b/gcd(a,b);}
++ll gcd(ll a,ll b){return (b == 0 ? a : gcd(b, a%b));}
++ll lcm(ll a,ll b){return a*b/gcd(a,b);}
++constexpr ll INF=1000000011;
++constexpr ll MOD2=998244353;
++constexpr ll LINF = 1001002003004005006ll;
++template<class T>bool chmax(T &a, const T &b) { if (a<b) { a=b; return 1; } return 0; }
++template<class T>bool chmin(T &a, const T &b) { if (b<a) { a=b; return 1; } return 0; }
+-ll C=0;
+-string S[207];
+-queue<int> Q;
+-int N;
+-int chek[207];
+-vector<int> DIS(207);
+-int dismax=0;
+-void bfs(int t){
+-    if(Q.empty()==1){
+-        return;
++struct  UndirectedGraph{
++    vector<vector<int>> g;   //グラフの各点が持つ枝の情報
++    vector<int> clr;         //グラフの持つ枝の情報
++    vector<int> dis;         //距離の情報
++    int V;
++    UndirectedGraph(int V) : V(V),
++    g(vector<vector<int>>(V)),
++    clr(vector<int>(V,0))
++    {}
++    //don't add (v,u) after adding (u,v)
++    void add_edge(int u,int v){
++        g[u].push_back(v);
++        g[v].push_back(u);
+-    int h=0;
+-    rep(i,t){
+-        rep(j,N){
+-            if(S[Q.front()][j]=='1'){
+-                if(chek[j]==1 && (DIS[Q.front()]+1)%2!=DIS[j]%2){
+-                    cout << -1 << endl;
+-                    C=-1;
+-                    return;
+-                }
+-                if(chek[j]==0){
+-                    DIS[j]=DIS[Q.front()]+1;
+-                    chek[j]=1;
+-                    h++;
+-                    Q.push(j);
+-                }
++    //二部グラフ判定
++    bool dfs_nib(int v,int c){
++        clr[v]=c;
++        for(auto x:g[v]){
++            if(clr[x]==c) return false;
++            if(clr[x]==0 && !dfs_nib(x,-c) ) return false;
++        }
++        return true;
++    }
++    bool isNib(){
++        bool ret=true;
++        for(int i=0;i<V;i++)if(clr[i]==0){
++            if(!dfs_nib(i,1)){
++                ret=false;break;
+-        Q.pop();
++        return ret;
+-    bfs(h);
+-}
+-void bfs2(int t,int u){
+-    if(Q.empty()==1){
+-        return;
+-    }
+-    int h=0;
+-    if(u>dismax){
+-        dismax=u;
+-    }
+-    rep(i,t){
+-        rep(j,N){
+-            if(S[Q.front()][j]=='1' && chek[j]==0){
+-                Q.push(j);
+-                chek[j]=1;
+-                h++;
++    //distance
++    void bfs(int st){
++        dis=vector<int>(V,INF);
++        vector<bool> checked(V,false);
++        dis[st]=0;
++        queue<int> q;
++        q.push(st);
++        while(!q.empty()){
++            auto now=q.front();q.pop();
++            //ここでもcontinueしないとダブる
++            if(checked[now]) continue;
++            checked[now]=true;
++            for(auto x:g[now]){
++                if(checked[x]) continue;
++                dis[x]=dis[now]+1;
++                q.push(x);
+-        Q.pop();
+-    bfs2(h,u+1);
+-}
+-int main(){
+-    cin >> N;
+-    rep(i,N){
+-        cin >> S[i];
++};
++signed main(){
++    int n;
++    cin>>n;
++    UndirectedGraph g(n);
++    char s[n][n];
++    rep(i,n){
++        rep(j,n){
++            char t;cin>>t;
++            s[i][j]=t;
++            if(t=='1'&&i>j){
++                g.add_edge(i,j);
++            }
++        }
+-    chek[0]=1;
+-    DIS[0]=0;
+-    Q.push(0);
+-    bfs(1);
+-    if(C==-1){
++    if(!g.isNib()){
++        cout<<-1<<endl;
+-    rep(i,N){
+-        rep(j,N){
+-            chek[j]=0;
+-        }
+-        chek[i]=1;
+-        Q.push(i);
+-        bfs2(1,0);
+-    }
+-    cout << dismax+1 << endl;
++    int ans=0;
++    rep(i,n){
++        g.bfs(i);
++        int x=*max_element(ALL(g.dis));
++        ans=max(x,ans);
++    }
++    cout<<ans+1<<endl;
++    return 0;

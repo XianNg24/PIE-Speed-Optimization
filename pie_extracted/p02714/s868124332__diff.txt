@@ -1,0 +1,33 @@
+-    vector<vector<int>> r(3);
+-    ll ans=0;
++    vector<int> r,g,b;
+-        if (s[i]=='R') r[0].push_back(i);
+-        else if (s[i]=='G') r[1].push_back(i);
+-        else r[2].push_back(i);
++        if (s[i]=='R') r.push_back(i);
++        else if (s[i]=='G') g.push_back(i);
++        else b.push_back(i);
+-    string t="RGB";
+-    vector<int> a= {0,1,2};
+-    sort(a.begin(), a.end());
+-    do
+-    {
+-        rep(i,n-2) {
+-            if (s[i]==t[a[0]]) {
+-                repr(j,i+1,n-1) {
+-                    if (s[j]==t[a[1]]) {
+-                        ans+=r[a[2]].end()-lower_bound(r[a[2]].begin(),r[a[2]].end(),j);
+-                        int k=lower_bound(r[a[2]].begin(),r[a[2]].end(),j+(j-i))-r[a[2]].begin();
+-                        if (k>=r[a[2]].size()) continue;
+-                        if (r[a[2]][k]==j+(j-i)) --ans;
+-                    }
+-                }
+-            }
++    ll ans=r.size()*g.size()*b.size();
++    rep(i,n) {
++        repr(j,i+1,n-1) {
++            int k=j+(j-i);
++            if (k>=n) continue;
++            if (s[i]!=s[j] && s[j]!=s[k] && s[k]!=s[i]) --ans;
+-    } while (next_permutation(a.begin(), a.end()));
++    }

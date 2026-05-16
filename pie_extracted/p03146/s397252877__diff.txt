@@ -1,0 +1,68 @@
+-/*
+- * VJUDGE B - Collatz Problem
+- * author: roy4801
+- * (C++)
+- */
+-#define PROB "B"
+-#define TESTC ""
+-typedef long long int LL;
+-typedef unsigned long long ULL;
+-typedef pair<int, int> P;
+-#define F first
+-#define S second
+-#define INF 0x3f3f3f3f
+-#define MP make_pair
+-#define MT make_tuple
+-#define PB push_back
+-#define N 1000000
+-bool arr[N+5];
+-int n, cnt; // s, times
+-int main()
+-{
+-	#ifdef DBG
+-	freopen("./testdata/" PROB TESTC ".in", "r", stdin);
+-	freopen("./testdata/" PROB ".out", "w", stdout);
+-	#endif
+-	while(cin >> n)
+-	{
+-		memset(arr, 0, sizeof(arr));
+-		cnt = 1;
+-		//
+-		while(true)
+-		{
+-			arr[n] = true;
+-			if(n & 1) // odd
+-			{
+-				n *= 3;
+-				n += 1;
++int main(int argc, char const *argv[]){
++	map<int, int> m;
++	int input, ans, sta;
++	while(cin >> input){
++		sta = 0;
++		ans = 1;
++		m[input] = 1;
++		while(1){
++			if (input % 2 == 0){
++				ans++;
++				input /= 2;
++				m[input] += 1;
+-			else
+-			{
+-				n /= 2;
++			else{
++				ans++;
++				input = (3*input + 1);
++				m[input] +=1;
+-			cnt++;
+-			if(arr[n])
+-				break;
++			for (map<int,int>::iterator it=m.begin(); it != m.end(); ++it){
++				if (it->second == 2){
++					cout << ans << endl;
++					sta = 1;
++					break;
++				}
++			}
++			if(sta == 1)	break;
+-		printf("%d\n", cnt);

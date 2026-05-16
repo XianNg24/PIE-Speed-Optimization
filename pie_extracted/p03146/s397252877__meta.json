@@ -1,0 +1,21 @@
+{
+  "user_id": "u018679195",
+  "problem_id": "p03146",
+  "language": "cpp",
+  "submission_id_v0": "s397252877",
+  "submission_id_v1": "s812375266",
+  "cpu_time_v0": 2.0,
+  "cpu_time_v1": 1.0,
+  "memory_v0": 1280.0,
+  "memory_v1": 256.0,
+  "status_v0": "Accepted",
+  "status_v1": "Accepted",
+  "improvement_frac": 50.0,
+  "code_v0_loc": 59.0,
+  "code_v1_loc": 38.0,
+  "code_v0_num_chars": 933,
+  "code_v1_num_chars": 644,
+  "code_same": false,
+  "relative_loc_diff_percent": 35.593220339,
+  "diff_only_import_comment": false
+}

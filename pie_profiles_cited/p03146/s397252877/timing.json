@@ -1,0 +1,52 @@
+{
+  "compiled": true,
+  "passed": true,
+  "mean_ms": 9.728,
+  "median_ms": 9.654,
+  "per_test": [
+    {
+      "idx": 0,
+      "passed": true,
+      "stdout": "5\n",
+      "expected": "5\n",
+      "mean_ms": 10.393,
+      "std_ms": 0.204,
+      "timed_out": false,
+      "returncode": 0,
+      "failure_mode": null
+    },
+    {
+      "idx": 1,
+      "passed": true,
+      "stdout": "114\n",
+      "expected": "114\n",
+      "mean_ms": 9.702,
+      "std_ms": 0.431,
+      "timed_out": false,
+      "returncode": 0,
+      "failure_mode": null
+    },
+    {
+      "idx": 2,
+      "passed": true,
+      "stdout": "5\n",
+      "expected": "5\n",
+      "mean_ms": 9.498,
+      "std_ms": 0.1,
+      "timed_out": false,
+      "returncode": 0,
+      "failure_mode": null
+    },
+    {
+      "idx": 3,
+      "passed": true,
+      "stdout": "18\n",
+      "expected": "18\n",
+      "mean_ms": 9.318,
+      "std_ms": 0.264,
+      "timed_out": false,
+      "returncode": 0,
+      "failure_mode": null
+    }
+  ]
+}

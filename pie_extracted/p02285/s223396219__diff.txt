@@ -1,0 +1,107 @@
+-#include<cstdio>
++#include<cmath>
++#include<queue>
++#include<vector>
++#include<cstdio>
++#include<cstring>
++#include<iostream>
++#include<algorithm>
++#define INF 1000005
++int read()
++{
++    int f=1,x=0;char s=getchar();
++    while(s<'0'||s>'9'){if(s=='-')f=-1;s=getchar();}
++    while(s>='0'&&s<='9'){x=x*10+s-'0';s=getchar();}
++    return x*f;
++}
+-bool first=true;
+-void Init(){
++void Init()
++{
++	return ;
+-inline node * NewNode(int val){
++inline node *NewNode(int val)
++{//插入新的?点
+-void Insert(node *&rt,node *fa,int val){
+-	if(rt==NIL){
++void Insert(node *&rt,node *fa,int val)
++{//插入(?造二叉排序?)
++	if(rt==NIL)
++	{
++	return ;
+-void InOrder(node *rt){
+-	if(rt==NIL)return ;
++void InOrder(node *rt)
++{//?出
++	if(rt==NIL) return ;
++	return ;
+-void PreOrder(node *rt){
+-	if(rt==NIL)return ;
++void PreOrder(node *rt)
++{//?出
++	if(rt==NIL) return ;
++	return ;
+-node *Find(node *rt,int val){
+-	if(rt==NIL)return NIL;
+-	if(rt->key==val)return rt;
++node *Find(node *rt,int val)
++{//找一?在??中
++	if(rt==NIL) return NIL;
++	if(rt->key==val) return rt;
+-node *FindNext(node *rt){
+-	if(rt==NIL)return NIL;
++node *FindNext(node *rt)
++{
++	if(rt==NIL) return NIL;
+-void Delete(node *rt,int val){
++void Delete(node *rt,int val)
++{
+-	if(z==NIL)return;
++	if(z==NIL) return ;
+-	else{
+-		int d=(y==y->fa->ch[1]);
++	else
++	{
++		int d=(y==y->fa->ch[1]);
++	return ;
+-int main(){
+-	int n,x;
+-	char op[100];
++int main()
++{
++    int n=read(),x;
++	char op[20];
+-	scanf("%d",&n);
+-	for(int i=0;i<n;i++)
++	for(int i=1;i<=n;i++)
+-		if(op[0]=='p')
+-		{
+-			InOrder(Root);puts("");
+-			PreOrder(Root);puts("");
+-		}
+-			scanf("%d",&x);
++			x=read();
+-		if(op[0]=='f')
++		else if(op[0]=='f')
+-			scanf("%d",&x);
+-			node *p=Find(Root,x);
+-			if(p==NIL)puts("no");
+-			else puts("yes");
++			x=read();
++			if(Find(Root,x)==NIL)
++				printf("no\n");
++			else
++				printf("yes\n");
+-		if(op[0]=='d')
++		else if(op[0]=='d')
+-			scanf("%d",&x);
++			x=read();
++		else
++		{
++			InOrder(Root);
++			puts("");
++			PreOrder(Root);
++			puts("");
++		}
+-	return 0;
++	return 0;

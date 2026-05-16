@@ -1,0 +1,7 @@
+results/
+pie-perf/
+__pycache__/
+*.pyc
+defects4c/
+defects4c_local/
+workspace/

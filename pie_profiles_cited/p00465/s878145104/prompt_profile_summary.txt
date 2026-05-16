@@ -1,0 +1,33 @@
+=== Dynamic Execution Profile ===
+
+The current program is correct but slow.
+Average runtime: 26.18 ms across 2 test cases.
+
+[Per-test-case timings]
+  test #0: 25.88 ms  (passed=True)
+  test #1: 26.48 ms  (passed=True)
+
+[gprof Flat Profile]
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  ms/call  ms/call  name    
+100.00      0.01     0.01   250054     0.00     0.00  std::__detail::_List_node_header::_M_init()
+  0.00      0.01     0.00   250054     0.00     0.00  std::__cxx11::_List_base<std::pair<int, int>, std::allocator<std::pair<int, int> > >::_M_clear()
+  0.00      0.01     0.00   250000     0.00     0.00  __gnu_cxx::new_allocator<std::_List_node<std::pair<int, int> > >::new_allocator()
+  0.00      0.01     0.00   250000     0.00     0.00  __gnu_cxx::new_allocator<std::_List_node<std::pair<int, int> > >::~new_allocator()
+  0.00      0.01     0.00   250000     0.00     0.00  std::allocator<std::_List_node<std::pair<int, int> > >::allocator()
+  0.00      0.01     0.00   250000     0.00     0.00  std::allocator<std::_List_node<std::pair<int, int> > >::~allocator()
+  0.00      0.01     0.00   250000     0.00     0.00  std::__cxx11::_List_base<std::pair<int, int>, std::allocator<std::pair<int, int> > >::_List_impl::_List_impl()
+  0.00      0.01     0.00   250000     0.00     0.00  std::__cxx11::_List_base<std::pair<in
+
+[perf stat]
+ Performance counter stats for '/cs/student/project_msc/2025/dsml/nmxian/defects4c_project/workspace/profile_extract_p00465_s878145104/profile_extract_p00465_s878145104.bin':
+        18,387,876      cpu_atom/cycles:u/                                                      (0.33%)
+       118,140,168      cpu_core/cycles:u/                                                      (99.67%)
+        15,450,043      cpu_atom/instructions:u/         #    0.84  insn per cycle              (0.33%)
+       206,267,952      cpu_core/instructions:u/         #    1.75  insn per cycle              (99.67%)
+       
+
+Use the timing breakdown and the profile data above to identify the performance hotspots, and produce a faster version that preserves correctness on every test case.

@@ -1,0 +1,8 @@
+-		double all = 0;
+-		int qq = 0;
+-		for(int k = 0 ; k < 1000000 ; k++)
+-			if(k%3==0&&k*(k+1)%2==0)qq++,qq%=k,all = area(a,b,c);
+-		int bb = 2*qq;
+-		if(bb){qq^=1;}
+-		all = area(a,b,c);
++		double all = area(a,b,c);

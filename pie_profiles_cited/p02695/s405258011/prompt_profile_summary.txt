@@ -1,0 +1,38 @@
+=== Dynamic Execution Profile ===
+
+The current program is correct but slow.
+Average runtime: 123.14 ms across 4 test cases.
+
+[Per-test-case timings]
+  test #0: 10.97 ms  (passed=True)
+  test #1: 10.64 ms  (passed=True)
+  test #2: 466.67 ms  (passed=True)
+  test #3: 4.27 ms  (passed=True)
+
+[gprof Flat Profile]
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+ no time accumulated
+
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  Ts/call  Ts/call  name    
+  0.00      0.00     0.00      685     0.00     0.00  std::vector<long long, std::allocator<long long> >::size() const
+  0.00      0.00     0.00      485     0.00     0.00  std::_Vector_base<long long, std::allocator<long long> >::_M_get_Tp_allocator()
+  0.00      0.00     0.00      419     0.00     0.00  __gnu_cxx::new_allocator<long long>::~new_allocator()
+  0.00      0.00     0.00      419     0.00     0.00  std::allocator<long long>::~allocator()
+  0.00      0.00     0.00      412     0.00     0.00  __gnu_cxx::new_allocator<long long>::new_allocator(__gnu_cxx::new_allocator<long long> const&)
+  0.00      0.00     0.00      412     0.00     0.00  std::allocator<long long>::allocator(std::allocator<long long> const&)
+  0.00      0.00     0.00      374     0.00     0.00  std::vector<long long, std::allocator<long long> >::_M_range_check(unsigned long) const
+  0.00      0.00     0.00      374     0.00     0.00  std::vector<long long, std::allocator<long long> >::at(unsigned long)
+  0.00
+
+[perf stat]
+ Performance counter stats for '/cs/student/project_msc/2025/dsml/nmxian/defects4c_project/workspace/profile_extract_p02695_s405258011/profile_extract_p02695_s405258011.bin':
+       440,907,532      cpu_atom/cycles:u/                                                      (0.29%)
+     2,407,802,646      cpu_core/cycles:u/                                                      (99.71%)
+       763,760,553      cpu_atom/instructions:u/         #    1.73  insn per cycle              (0.29%)
+     4,496,065,837      cpu_core/instructions:u/         #    1.87  insn per cycle              (99.71%)
+       
+
+Use the timing breakdown and the profile data above to identify the performance hotspots, and produce a faster version that preserves correctness on every test case.

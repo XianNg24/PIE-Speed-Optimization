@@ -1,0 +1,36 @@
+=== Dynamic Execution Profile ===
+
+The current program is correct but slow.
+Average runtime: 9.01 ms across 3 test cases.
+
+[Per-test-case timings]
+  test #0: 4.69 ms  (passed=True)
+  test #1: 10.95 ms  (passed=True)
+  test #2: 11.40 ms  (passed=True)
+
+[gprof Flat Profile]
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+ no time accumulated
+
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  Ts/call  Ts/call  name    
+  0.00      0.00     0.00      110     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::base() const
+  0.00      0.00     0.00       60     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator*() const
+  0.00      0.00     0.00       35     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::__normal_iterator(int* const&)
+  0.00      0.00     0.00       34     0.00     0.00  std::vector<int, std::allocator<int> >::operator[](unsigned long)
+  0.00      0.00     0.00       32     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::operator--()
+  0.00      0.00     0.00       28     0.00     0.00  std::remove_reference<int&>::type&& std::move<int&>(int&)
+  0.00      0.00     0.00       25     0.00     0.00  int* std::__niter_base<int*>(int*)
+  0.00      0.00     0.00       23     0.00     0.00  bool __gnu_cxx::operator==<
+
+[perf stat]
+ Performance counter stats for '/cs/student/project_msc/2025/dsml/nmxian/defects4c_project/workspace/profile_extract_p02714_s868124332/profile_extract_p02714_s868124332.bin':
+         2,884,588      cpu_atom/cycles:u/                                                      (33.97%)
+         3,889,201      cpu_core/cycles:u/                                                      (66.03%)
+         4,827,791      cpu_atom/instructions:u/         #    1.67  insn per cycle              (33.97%)
+         7,185,309      cpu_core/instructions:u/         #    1.85  insn per cycle              (66.03%)
+     
+
+Use the timing breakdown and the profile data above to identify the performance hotspots, and produce a faster version that preserves correctness on every test case.

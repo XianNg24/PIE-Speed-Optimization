@@ -1,0 +1,12 @@
+=== Dynamic Execution Feedback ===
+
+The current program is correct on all test cases but slow.
+Average runtime: 9.73 ms across 4 test cases.
+
+[Per-test-case timings]
+  test #0: 10.39 ms  (passed=True)
+  test #1: 9.70 ms  (passed=True)
+  test #2: 9.50 ms  (passed=True)
+  test #3: 9.32 ms  (passed=True)
+
+Produce a faster version that preserves identical output for every test case. Focus on algorithmic complexity and I/O efficiency.
