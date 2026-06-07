@@ -32,6 +32,41 @@ class RunResult:
         self.passed = False           # set externally after output comparison
 
 
+GCOV_FLAGS = ["-O0", "-g", "-fprofile-arcs", "-ftest-coverage", "-std=c++17"]
+
+
+def compile_with_gcov(source: str, name: str) -> CompileResult:
+    """
+    Compile a separate binary instrumented for gcov line-level profiling.
+
+    This is independent of the `-pg` (gprof) compile used for timing; gcov adds
+    overhead, so we never use this binary for benchmarking. Used solely to
+    collect per-line execution counts and feed them into the profile-mode
+    prompt.
+
+    Output dir: WORKSPACE_DIR/<name>_gcov/. The .gcno (created at compile time)
+    and .gcda (created after a run) files land alongside the binary.
+    """
+    work_dir = os.path.join(WORKSPACE_DIR, f"{name}_gcov")
+    os.makedirs(work_dir, exist_ok=True)
+    src_path = os.path.join(work_dir, f"{name}.cpp")
+    bin_path = os.path.join(work_dir, f"{name}.bin")
+    with open(src_path, "w") as f:
+        f.write(source)
+    cmd = [CXX] + GCOV_FLAGS + [src_path, "-o", bin_path]
+    try:
+        proc = subprocess.run(
+            cmd, capture_output=True, text=True, timeout=COMPILE_TIMEOUT,
+        )
+        success = proc.returncode == 0
+        return CompileResult(success, bin_path if success else None,
+                             proc.stderr, src_path)
+    except subprocess.TimeoutExpired:
+        return CompileResult(False, None, "Compilation timed out", src_path)
+    except Exception as e:
+        return CompileResult(False, None, str(e), src_path)
+
+
 def compile_code(source: str, name: str, use_bench_flags=False) -> CompileResult:
     """Write source to a temp dir, compile, return CompileResult."""
     work_dir = os.path.join(WORKSPACE_DIR, name)

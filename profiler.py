@@ -92,6 +92,122 @@ def run_perf_stat(binary_path: str, stdin_data: str = "") -> str:
         return f"perf: exception: {e}"
 
 
+def run_gcov(binary_path: str, source_path: str,
+             stdin_data: str = "") -> str:
+    """
+    Run a gcov-instrumented binary then `gcov` on its source. Returns the
+    `.gcov` file content for the user's source as a string, or a `gcov: ...`
+    error message.
+
+    Implementation note: when compiled as `g++ src.cpp -o bin`, the runtime
+    emits the .gcno/.gcda with names of the form `<bin_basename>-<src_stem>.gc{no,da}`
+    (not `<src_stem>.gc*`). So `gcov src.cpp` fails to find them; we instead
+    invoke `gcov <gcno_file>` directly. gcov then dumps one `.gcov` file per
+    source/header touched (including all STL); we keep only the user-source one.
+    """
+    if not binary_path or not os.path.exists(binary_path):
+        return "gcov: binary not available"
+    work_dir = os.path.dirname(binary_path)
+    stdin_bytes = (stdin_data.encode("utf-8", errors="replace")
+                   if isinstance(stdin_data, str) else (stdin_data or b""))
+    # 1. Run the binary so it emits a .gcda
+    try:
+        subprocess.run(
+            [binary_path], input=stdin_bytes, capture_output=True,
+            text=False, timeout=RUN_TIMEOUT, cwd=work_dir,
+        )
+    except subprocess.TimeoutExpired:
+        return "gcov: binary timed out during instrumented run"
+    # 2. Find the .gcno file (named "<binary_basename>-<src_stem>.gcno")
+    gcno_files = [f for f in os.listdir(work_dir) if f.endswith(".gcno")]
+    if not gcno_files:
+        return "gcov: no .gcno file produced (compile flags wrong?)"
+    gcno_path = gcno_files[0]
+    # 3. Invoke gcov directly on the .gcno
+    try:
+        proc = subprocess.run(
+            ["gcov", "-b", gcno_path],
+            capture_output=True, text=True, timeout=15, cwd=work_dir,
+        )
+        if proc.returncode != 0:
+            return f"gcov: gcov failed: {proc.stderr[:300]}"
+    except subprocess.TimeoutExpired:
+        return "gcov: gcov timed out"
+    except FileNotFoundError:
+        return "gcov: not found on PATH"
+    # 4. Read the user's source-specific .gcov (ignore STL .gcov noise)
+    src_basename = os.path.basename(source_path)
+    user_gcov = os.path.join(work_dir, f"{src_basename}.gcov")
+    if not os.path.exists(user_gcov):
+        return f"gcov: no .gcov for user source (looked for {user_gcov})"
+    try:
+        text = open(user_gcov).read()
+    except Exception as e:
+        return f"gcov: read error: {e}"
+    # 5. Clean up the STL .gcov files so they don't pile up across runs
+    for f in os.listdir(work_dir):
+        if f.endswith(".gcov") and f != f"{src_basename}.gcov":
+            try: os.remove(os.path.join(work_dir, f))
+            except OSError: pass
+    return text
+
+
+def parse_gcov_hot_lines(gcov_text: str, top_n: int = 10,
+                         min_count: int = 100) -> list:
+    """
+    Parse a `.gcov` file's text and return the hottest lines.
+
+    Returns a list of dicts: {line_no, count, source}. Excludes lines below
+    min_count, non-executable lines (`-`), and never-executed lines (`#####`).
+    Filters out trivial lines (braces, blank, single tokens) so the hot-list
+    points at meaningful work.
+    """
+    if not gcov_text or gcov_text.startswith("gcov:"):
+        return []
+    hot = []
+    for raw in gcov_text.splitlines():
+        # Format: "       count: lineno: source code..."
+        m = re.match(r"\s*([\d#-]+):\s*(\d+):\s?(.*)$", raw)
+        if not m:
+            continue
+        count_str, lineno_str, src = m.group(1), m.group(2), m.group(3)
+        # Skip non-executable, never-executed, and the gcov file header
+        # ("- :   0:Source:..." etc.)
+        if count_str in ("-", "#####") or lineno_str == "0":
+            continue
+        try:
+            count = int(count_str)
+        except ValueError:
+            continue
+        if count < min_count:
+            continue
+        # Skip trivial lines (just a brace, blank, single keyword)
+        stripped = src.strip()
+        if not stripped or stripped in {"{", "}", "};", "return;",
+                                         "break;", "continue;"}:
+            continue
+        hot.append({"line_no": int(lineno_str), "count": count,
+                    "source": stripped[:120]})
+    # Highest count first
+    return sorted(hot, key=lambda h: -h["count"])[:top_n]
+
+
+def format_gcov_block(hot_lines: list, source_name: str = "v0_slow.cpp") -> str:
+    """Format the gcov hot-lines list into a prompt-friendly block."""
+    if not hot_lines:
+        return ""
+    lines = [f"[gcov line-level execution counts — top {len(hot_lines)} hot lines]"]
+    for h in hot_lines:
+        lines.append(
+            f"  line {h['line_no']:>4}:  {h['count']:>12,} executions  | "
+            f"{h['source']}"
+        )
+    lines.append("Lines executed many times are the hottest constant-factor "
+                 "candidates. Consider whether the work on those lines can be "
+                 "reduced, hoisted, or replaced with a cheaper operation.")
+    return "\n".join(lines)
+
+
 def profile(binary_path: str, stdin_data: str = "") -> dict:
     """
     Run all profiling tools and return a dict with raw outputs.
@@ -342,6 +458,169 @@ def format_iterate_speedup_feedback(prev_code: str, prev_run: dict,
     lines.append("Return ONLY the complete C++ source inside a single ```cpp ... ``` "
                  "fenced block. Do not include explanation.")
     return "\n".join(lines)
+
+
+# Tag-conditional optimization checklists (option C from suggestion.md / §7.9).
+# Designed to be CONSERVATIVE: each line is a safe, well-known transformation
+# that a 7B model is known to be able to land. The goal is to constrain the
+# model toward its existing optimisation vocabulary rather than tempt it into
+# wholesale algorithmic rewrites.
+TAG_OPTIMIZATION_CHECKLISTS = {
+    "dp": [
+        "Do NOT change the recurrence itself — the slow code's recurrence is the source of truth.",
+        "Only tighten things that are clearly wasteful: oversized tables relative to the constraints, unused dimensions, unnecessary `long long` for small values.",
+        "Add `ios_base::sync_with_stdio(false); cin.tie(nullptr);` if I/O is in a hot loop.",
+    ],
+    "graph": [
+        "Do NOT change the traversal algorithm — preserve BFS as BFS, DFS as DFS, Dijkstra as Dijkstra.",
+        "Only swap data structures when clearly wasteful (e.g. `std::map<int,...>` keyed on dense vertex IDs can be a `std::vector`).",
+        "Add I/O sync if edges are read in a hot loop.",
+    ],
+    "tree": [
+        "Do NOT change the tree-walk semantics — preserve the visit order.",
+        "If the slow code allocates per-node containers inside the walk, hoist them out — but only if the per-node lifetime is purely local.",
+    ],
+    "string": [
+        "Do NOT change string semantics — preserve comparison operators, substring boundaries, character ordering.",
+        "If the slow code constructs new substrings in a loop, indexing into the original string is usually a safe drop-in.",
+        "Add I/O sync if cin/cout is dominant.",
+    ],
+    "math": [
+        "Do NOT change the mathematical formula — preserve the computation.",
+        "If int overflow is plausible (products of values up to ~10^9), promote intermediates to `long long`.",
+        "Do NOT introduce new tricks (sieves, modular inverse, FFT) unless the slow code already has one to refine.",
+    ],
+    "geometry": [
+        "Do NOT change geometric predicates or precision assumptions.",
+        "Replace `sqrt(d2)` with `d2` only when the comparison is `sqrt(d2) op c` with `c >= 0` — verify before doing.",
+    ],
+    "greedy": [
+        "The slow code is usually already optimal up to constants — focus on I/O sync and container choice.",
+        "Do NOT replace the greedy logic itself unless a clear bug is present.",
+        "Add `ios_base::sync_with_stdio(false); cin.tie(nullptr);` if cin/cout is in a hot loop.",
+    ],
+    "simulation": [
+        "Do NOT change the simulation semantics — preserve step order and state transitions.",
+        "If the slow code stores a full history of states but only the latest is read, that's safe to drop.",
+        "Add I/O sync if cin/cout is dominant in the simulation loop.",
+    ],
+    "data_structure": [
+        "Do NOT change the data-structure semantics (e.g. don't swap ordered map for unordered map if iteration order is observed).",
+        "Dense-int-keyed `std::map<int,...>` is a safe drop-in for `std::vector<...>` if you can prove keys stay in bounds.",
+    ],
+    "search": [
+        "Do NOT change the search semantics — `lower_bound` vs `upper_bound` matter.",
+        "Only replace hand-rolled binary search with `std::lower_bound` if the comparator and boundary handling are clearly equivalent.",
+    ],
+    "combinatorial": [
+        "The slow code's enumeration is the source of truth — do NOT add bound-skipping tricks unless you can prove correctness.",
+        "If the slow code materialises every combination in memory, scoring on the fly in the recursion is usually equivalent — but trace one example through to confirm.",
+    ],
+    "other": [
+        "Apply I/O sync only — `ios_base::sync_with_stdio(false); cin.tie(nullptr);`.",
+        "Do NOT change algorithmic shape; prefer constant-factor improvements (container choice, allocation patterns).",
+    ],
+    "unknown": [
+        "Apply I/O sync only — `ios_base::sync_with_stdio(false); cin.tie(nullptr);`.",
+        "Do NOT change algorithmic shape; the slow code is the source of truth for semantics.",
+    ],
+}
+
+
+def format_tag_advice(tag: str) -> str:
+    """
+    Return a tag-conditional optimization checklist block for the prompt,
+    or an empty string if the tag has no checklist registered.
+    """
+    if not tag:
+        return ""
+    items = TAG_OPTIMIZATION_CHECKLISTS.get(tag.lower())
+    if not items:
+        return ""
+    lines = [f"Optimization Hints (this problem is classified as '{tag}'):"]
+    for item in items:
+        lines.append(f"  - {item}")
+    lines.append(
+        "These are cautionary suggestions, not a checklist to apply exhaustively. "
+        "If a hint does not clearly fit the code in front of you, ignore it. "
+        "Preserving the slow code's behaviour is more important than applying any hint."
+    )
+    return "\n".join(lines)
+
+
+_COMPLEXITY_SUGGESTIONS = {
+    "O(1)":          "Already constant-time. Focus on constant-factor only.",
+    "O(log n)":      "Already near-optimal. Focus on constant-factor only.",
+    "O(n)":          "Already linear. Constant-factor improvements only "
+                     "(I/O sync, cache-friendly containers).",
+    "O(n log n)":    "O(n log n) is usually near-optimal for sort/search "
+                     "problems. Consider whether a true O(n) approach exists "
+                     "(bucket sort, counting sort, hash table) — but only if "
+                     "you can prove correctness.",
+    "O(n^2)":        "Consider whether an O(n log n) or O(n) approach exists "
+                     "(sort + sweep, two-pointer, hash table for lookups, "
+                     "prefix sums, or replacing nested loop with a single "
+                     "pass that maintains the needed state).",
+    "O(n^2 log n)":  "Likely a nested loop with sort/search inside. Consider "
+                     "moving the sort outside the loop, or replacing the inner "
+                     "search with an O(1) hash lookup.",
+    "O(n^3)":        "Consider whether an O(n^2) approach exists "
+                     "(precomputed lookups, dropping a redundant loop). Then "
+                     "consider whether O(n log n) is reachable.",
+    "O(2^n)":        "Exponential — almost certainly a brute-force enumeration "
+                     "or naive recursion. Memoise the recursion (top-down DP) "
+                     "or rewrite as bottom-up DP; consider bitmask DP if the "
+                     "state space is small. Plain recursion will not scale.",
+}
+
+
+def format_complexity_block(analysis: dict) -> str:
+    """
+    Build the Complexity Analysis prompt block.
+
+    Expects an LLM-predictor dict: {"complexity": "O(n^2)",
+                                     "predictor_id": "...", "raw": "..."}.
+    Returns an empty string if `analysis` is falsy.
+    """
+    if not analysis:
+        return ""
+    complexity = analysis["complexity"]
+    if complexity == "unknown":
+        return ("Complexity Analysis (LLM-estimated from source):\n"
+                "  Estimated complexity: unknown\n"
+                "  The model could not classify the source into a standard "
+                "Big-O class. Treat the source as the source of truth.")
+    suggestion = _COMPLEXITY_SUGGESTIONS.get(
+        complexity,
+        "Slow code complexity is high. Consider whether a fundamentally "
+        "faster algorithm exists (sorting, DP, hashing, divide-and-conquer)."
+    )
+    return ("Complexity Analysis (LLM-estimated from source):\n"
+            f"  Estimated complexity: {complexity}\n"
+            f"  Suggestion: {suggestion}\n"
+            f"  (Static estimate by a code-LM. Use as a hint, not a guarantee.)")
+
+
+def format_test_case_block(test_cases: list, max_chars: int = 600,
+                           label: str = "Test Case") -> str:
+    """
+    Format the first test case as a concrete (Input, Expected Output) block.
+    Mirrors EffiLearner's prompt structure: one anchoring example that grounds
+    the rewrite without requiring the model to infer I/O contract from code.
+    """
+    if not test_cases:
+        return ""
+    tc = test_cases[0]
+    stdin = (tc.get("input") or "").rstrip()
+    expected = (tc.get("expected_output") or "").rstrip()
+    if len(stdin) > max_chars:
+        stdin = stdin[:max_chars].rstrip() + "\n[... truncated]"
+    if len(expected) > max_chars:
+        expected = expected[:max_chars].rstrip() + "\n[... truncated]"
+    suffix = f" (one example of {len(test_cases)} total)" if len(test_cases) > 1 else ""
+    return (f"{label}{suffix}:\n"
+            f"[Input]\n{stdin}\n\n"
+            f"[Expected Output]\n{expected}")
 
 
 def format_self_repair_feedback(prev_code: str, prev_run: dict,

@@ -21,7 +21,7 @@ HF_CACHE = "/cs/student/project_msc/2025/dsml/nmxian/huggingface_cache"
 os.environ["HF_HOME"] = HF_CACHE
 os.environ["TRANSFORMERS_CACHE"] = os.path.join(HF_CACHE, "hub")
 
-DEFAULT_MODEL = "Qwen/Qwen2.5-Coder-7B-Instruct"
+DEFAULT_MODEL = "codellama/CodeLlama-7b-Instruct-hf"
 
 # Module-level cache so the model is only loaded once per process
 _model = None
@@ -122,16 +122,60 @@ _USER_PREAMBLES = {
 }
 
 
+_OPTIMIZE_RULES_FOOTER = (
+    "Optimization Rules:\n"
+    "- Encapsulate the optimized code within a C++ code block "
+    "(i.e., ```cpp\\n[Your Code Here]\\n```).\n"
+    "- Preserve identical stdout for EVERY test case (not only the one shown).\n"
+    "- Do NOT change the I/O format. cin/cout/scanf/printf calls must produce "
+    "the same bytes in the same order.\n"
+    "- Focus solely on performance optimization; correctness is non-negotiable.\n"
+    "- Do not include test driver code, comments explaining your changes, or "
+    "any preamble outside the fenced block."
+)
+
+_REPAIR_RULES_FOOTER = (
+    "Rules:\n"
+    "- Encapsulate the fixed code within a C++ code block "
+    "(i.e., ```cpp\\n[Your Code Here]\\n```).\n"
+    "- Return the complete corrected source — not just a diff.\n"
+    "- Do not include explanation outside the fenced block."
+)
+
+
 def _build_messages(buggy_code: str, feedback: str = None,
-                    task_type: str = "repair") -> list:
+                    task_type: str = "repair",
+                    problem_statement: str = None,
+                    test_case_block: str = None,
+                    tag_advice: str = None,
+                    complexity_hint: str = None) -> list:
+    """
+    Build the chat-template messages following EffiLearner's section layout
+    (Task Description → Test Case → Original Code → Overhead Analysis →
+    Optimization Hints (tag-conditional) → Rules), generalised to either
+    bug-repair or optimisation prompts.
+    """
     sys_prompt = SYSTEM_PROMPTS.get(task_type, SYSTEM_PROMPTS["repair"])
     preamble = _USER_PREAMBLES.get(task_type, _USER_PREAMBLES["repair"])
-    user_content = f"{preamble}\n\n```cpp\n{buggy_code.strip()}\n```"
+
+    parts = [preamble]
+    if problem_statement:
+        parts.append(f"Task Description:\n{problem_statement.strip()}")
+    if test_case_block:
+        parts.append(test_case_block.strip())
+    parts.append(f"Original Code:\n```cpp\n{buggy_code.strip()}\n```")
     if feedback:
-        user_content += f"\n\n{feedback}"
+        parts.append(feedback.strip())
+    if complexity_hint:
+        parts.append(complexity_hint.strip())
+    if tag_advice:
+        parts.append(tag_advice.strip())
+    parts.append(_OPTIMIZE_RULES_FOOTER if task_type == "optimize"
+                 else _REPAIR_RULES_FOOTER)
+
     return [
         {"role": "system", "content": sys_prompt},
-        {"role": "user",   "content": user_content},
+        {"role": "user",   "content": "\n\n".join(parts)},
     ]
 
 
@@ -146,7 +190,11 @@ def _extract_code(text: str) -> str:
 def repair(buggy_code: str, feedback: str = None,
            mode: str = "static", model_name: str = DEFAULT_MODEL,
            k: int = 1, temperature: float = 0.6, top_p: float = 0.95,
-           seed: int = 0, task_type: str = "repair") -> dict:
+           seed: int = 0, task_type: str = "repair",
+           problem_statement: str = None,
+           test_case_block: str = None,
+           tag_advice: str = None,
+           complexity_hint: str = None) -> dict:
     """
     Repair buggy C++ code with a local model.
 
@@ -159,7 +207,11 @@ def repair(buggy_code: str, feedback: str = None,
     load_model(model_name)
 
     import torch
-    messages = _build_messages(buggy_code, feedback, task_type=task_type)
+    messages = _build_messages(buggy_code, feedback, task_type=task_type,
+                               problem_statement=problem_statement,
+                               test_case_block=test_case_block,
+                               tag_advice=tag_advice,
+                               complexity_hint=complexity_hint)
 
     text = _tokenizer.apply_chat_template(
         messages, tokenize=False, add_generation_prompt=True
@@ -217,8 +269,36 @@ def repair(buggy_code: str, feedback: str = None,
         "completion_tokens": candidates[0]["completion_tokens"],
         "candidates": candidates,
         "prompt_tokens": prompt_tokens,
+        "prompt_messages": messages,                        # for offline inspection
         "elapsed_s": round(elapsed, 2),
     }
+
+
+def quick_inference(prompt: str, model_name: str = DEFAULT_MODEL,
+                    max_new_tokens: int = 16) -> str:
+    """
+    Minimal one-shot inference for classification-style tasks. Loads the
+    model on first call (same lazy mechanism as repair()), then runs a
+    greedy generation with a short max_new_tokens budget.
+    """
+    load_model(model_name)
+    import torch
+    text = _tokenizer.apply_chat_template(
+        [{"role": "user", "content": prompt}],
+        tokenize=False, add_generation_prompt=True,
+    )
+    inputs = _tokenizer([text], return_tensors="pt").to(_model.device)
+    prompt_len = inputs["input_ids"].shape[1]
+    with torch.no_grad():
+        output_ids = _model.generate(
+            **inputs,
+            max_new_tokens=max_new_tokens,
+            do_sample=False,
+            temperature=None, top_p=None, top_k=None,
+            pad_token_id=_tokenizer.eos_token_id,
+        )
+    new_ids = output_ids[0][prompt_len:]
+    return _tokenizer.decode(new_ids, skip_special_tokens=True)
 
 
 def repair_static(buggy_code: str, model_name: str = DEFAULT_MODEL, **kw) -> dict:

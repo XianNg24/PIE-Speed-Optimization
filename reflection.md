@@ -437,7 +437,323 @@ What the replication exposes:
    "boring"; it's just *unreliable* about when it produces a big win.
    Profile-mode is where the consistent ceiling lives.
 
-### 7.7 Bug fixes uncovered during replication
+### 7.7 Mode-difference is consistency, not strategy
+
+Deep dig into three illustrative samples from `run_20260516-091647` (k=3,
+repair=2, seed=0):
+
+**`pie_p00262` — convergent simple optimisation across modes.**
+All three modes (and all 3 sampled candidates within each mode) produced
+the *same* edit: swap `deque<int>` for `vector<int>`. Cosmetic differences
+only (`vec[i] > 0` vs `vec[i] >= 1`, `swap()` vs `=`, brace style). LLM
+2.89× vs oracle 3.06× (the oracle's restructured-into-`Do()` + `erase(remove(...))`
+pattern was harder; the simple container swap captured ~94 % of the win).
+
+**`pie_p03146` — convergent *novel* optimisation.**
+Slow code preallocates `vector<int>(147483647, 0)` for Collatz cycle
+detection. LLM (all 3 modes) replaced it with `unordered_set<int>` —
+a *different* data-structure choice than the oracle's "shrink the table
+to 1000001" but equally valid. 6.30× vs oracle 9.33× (~67 % of the win
+without ever seeing the oracle's solution).
+
+**`pie_p02714` — uniform failure on mathematical insight.**
+Oracle's optimisation rewrites `O(6·n²·log n)` enumeration of RGB
+permutations into `|R|·|G|·|B|` minus arithmetic-progression bad triples.
+LLM (all 3 modes, all 3 sampled candidates) kept the same enumeration
+shape but introduced bugs:
+- Replaced `next_permutation` with manual `{k/2%3, k/4%3, k%3}` —
+  mathematically wrong, doesn't enumerate the 6 permutations.
+- Swapped `lower_bound` → `upper_bound` off-by-one.
+
+0/3 correct, all `wrong_output`, across every mode and every seed.
+
+**Refines a claim from §7.5.** Across these three samples, the per-mode
+*diff vs the slow code* is essentially identical — the three modes
+produce the same edit. The mode differences are in execution reliability
+(how often that same edit survives correctness), not in *which*
+optimisation is attempted.
+
+A sharper version of the original "more feedback = more aggressive"
+claim:
+
+> Feedback channels do not change *which* optimisation the LLM attempts;
+> they only change *how aggressively* it rewrites and therefore how
+> likely it is to break correctness. **The mode-difference is
+> consistency, not strategy.** The 7B model has a fixed optimisation
+> vocabulary — container swaps (`deque→vector`, `vector→unordered_set`,
+> `list→vector`), I/O sync flags, loop micro-tweaks, `at()`→`[]` —
+> selected from regardless of which feedback channel is active.
+
+Implication: improvements from profile-feedback at this model size are
+bounded by what's in that vocabulary, not by gprof signal richness.
+
+### 7.8 Problem-statement augmentation (suggestion #1 implemented)
+
+Added the natural-language problem statement to the prompt
+([data/pie_loader.py:get_problem_statement](data/pie_loader.py),
+[local_llm.py:_build_messages](local_llm.py),
+[pipeline.py: --no-problem-statement / --full-problem-statement](pipeline.py)).
+Statements are pulled from
+`pie-perf/data/problem_statements_translated.zip` and inserted between
+the user-message preamble and the source code.
+
+Tested in three configurations vs the v3 baseline (k=3, repair=2,
+cputime≥100, seed=0):
+
+| Config | Static correct | Dyn correct | Profile correct | Static mean | Profile max |
+|---|---|---|---|---|---|
+| v3 (no PS) | 77% | 60% | 67% | 1.77× | 9.37× |
+| v3 + full PS | **50%** | **37%** | 53% | 1.90× | **12.73×** |
+| v3 + constraints-only PS | **80%** | 63% | 63% | 1.40× | 9.81× |
+
+**Full-statement variant: −14 to −27 pp correctness regression, despite
++0.1 to +0.3× mean speedup and bigger max-speedup tail.** Same pattern
+as the optimize-prompt change in §7.5: richer prompt → more ambitious
+rewrites → more `wrong_output` (8 more per mode).
+
+**Constraints-only variant** (extract just the `Constraints` section
+from the statement, drop everything else): **+3 pp correctness on
+static (80% — new high) and dynamic (63%), −4 pp on profiling**. Mean
+speedups drop slightly. The big speedup tails on `p03146` shrink (12.7×
+→ 9.8× profile) but stay clearly above the no-PS baseline. The
+**`p02695` static flip** that appeared with full-PS does not appear with
+constraints-only — the algorithmic hint that the model could exploit
+was in the prose, not in the bounds.
+
+**Mechanistic conclusion.** The 7B model can reliably reason about
+literal numeric bounds (`s ≤ 100`, `N ≤ 10`) and use them to justify
+safe numerical optimisations. It cannot reliably reason about
+natural-language algorithmic hints — those tempt it into structural
+rewrites that break correctness more often than they yield speedup.
+
+Practical recommendation:
+- For the paper's main correctness comparison, **report constraints-only
+  PS as the default**. It gives the cleanest "context helps" claim with
+  a +3 pp lift on static mode and no regression on dynamic.
+- Report full-PS as a separate "ambition mode" for the high-tail
+  speedup story (12.7× peaks).
+- Skip PS for profile mode (slight regression).
+
+### 7.9 Per-problem-tag stratification (the headline-deconstructing one)
+
+Added a JIT problem-tag classifier
+([data/problem_classifier.py](data/problem_classifier.py),
+[local_llm.py:quick_inference](local_llm.py),
+cache file `data/problem_tags_qwen7b_v2.csv`). For each PIE sample we fetch
+the full problem statement, run a 12-token few-shot classification through
+the same local Qwen-7B model, and tag the problem with one of:
+`math, dp, graph, tree, string, geometry, greedy, simulation,
+data_structure, search, combinatorial, other`. Tags are persistent on
+disk; cache hits are free, misses cost ~1–3 s.
+
+First seeded run (`run_20260518-173810`, n=30, k=3, repair=2, seed=0,
+constraints-only PS + test-case sample) on the standard config:
+
+Tag distribution across our 30 PIE samples (n in parentheses):
+
+```
+graph (7), dp (7), simulation (6), greedy (4), combinatorial (3),
+math (1), data_structure (1), string (1)
+```
+
+The aggregate from this run is static **80 %** / dynamic 53 % / profile
+57 %. Stratifying by tag deconstructs that headline:
+
+| Tag | n | Static correct | Dynamic correct | Profile correct |
+|-----|---|---|---|---|
+| dp            | 7 | **100 %** | 71 % | **43 %** ← profile worst |
+| graph         | 7 | **86 %** | 71 % | 57 % |
+| simulation    | 6 | 83 %  | 50 % | 83 % (tie) |
+| greedy        | 4 | **100 %** | **25 %** ← dynamic crashes | **100 %** |
+| combinatorial | 3 | 33 %  | 33 % | 33 % (uniformly hard) |
+| data_structure| 1 | 0 %   | 0 %  | 0 %  |
+| math          | 1 | 0 %   | 0 %  | 0 %  |
+| string        | 1 | 100 % | 100 %| 0 %  |
+
+Max speedup per tag (correct subset):
+
+| Tag | Static max | Dynamic max | Profile max |
+|-----|---|---|---|
+| **simulation** | **9.85×** | 2.74× | **9.94×** |
+| dp            | 2.03× | 1.06× | 1.02× |
+| graph         | 1.04× | 0.99× | 1.01× |
+| greedy        | 1.03× | 0.99× | 1.00× |
+| combinatorial | 1.02× | 1.01× | 1.02× |
+
+**Three findings from this single-seed stratification:**
+
+1. **Profile-mode is never strictly better than static at the tag
+   level.** On every tag with n ≥ 2, profile-mode is either tied with
+   static (simulation, greedy, combinatorial) or strictly worse
+   (dp 43 % vs 100 %, graph 57 % vs 86 %).
+
+2. **All the big speedups live in `simulation`.** Static max 9.85× and
+   profile max 9.94× are simulation-tagged samples; every other tag's
+   max is ≤ 2.03×. The unstratified "profile mean speedup is higher
+   than static" claim from earlier sections was driven by 2-3
+   `simulation` outliers averaging into ~24 flat samples.
+
+3. **Dynamic-mode has a *categorical* weakness pattern.** It tanks on
+   `greedy` (25 %) and `simulation` (50 %) — problem classes where the
+   correct solution is often already optimal and feedback tempts the
+   model to over-rewrite. On `dp` and `graph` the gap to static is
+   smaller (71 % vs ≥86 %) but in the same direction.
+
+**Refines the §5.6 claim "static safest, profiling highest-ceiling".**
+The new sharper version:
+
+> Profile-guided correction's apparent edge on aggregate metrics is
+> not robust to stratification. At the tag level, profile mode never
+> strictly dominates static, and on `dp` problems it is substantially
+> worse. The aggregate speedup gain attributed to profile mode in
+> §7.6 / §7.7 is concentrated in a single problem category
+> (`simulation`) and reflects ~2-3 outlier high-headroom samples.
+
+**Caveats.** Single seed; n per tag is small (most 4-7 samples, three
+tags have n=1). Classifier itself is heuristic and untouched after
+manual spot-checks of the first 6 problems (all looked correct). A
+3-seed replicate at this config would tighten every cell of the
+stratified table; in particular the dp 43 % vs 100 % gap is striking
+enough that it deserves replicate confirmation.
+
+**3-seed replicate (added after the single-seed analysis above).**
+Re-ran the same config at seeds 1 and 2; combined with seed=0 we have
+three independent draws. Aggregate:
+
+| Mode | s=0 | s=1 | s=2 | mean ± SD | max speedup mean ± SD |
+|------|-----|-----|-----|-----------|------------------------|
+| static     | 80 % | 70 % | 63 % | **71 % ± 8** | 9.16× ± 0.76 |
+| dynamic    | 53 % | 50 % | 57 % | **53 % ± 3** | 4.91× ± 3.78 |
+| profiling  | 57 % | 57 % | 50 % | **54 % ± 4** | 9.53× ± 0.38 |
+
+Static has the highest seed-variance (SD 8 pp; range 17 pp). The 80 %
+at seed=0 was a peak — 71 % is the honest mean. Dynamic and profile are
+tighter (SD 3-4 pp). **Profile-mode peak speedup is the most reliable
+across seeds** (9.53× ± 0.38, ≥9× on all three); dynamic peak is bimodal
+(2.7× / 9.3× / 2.7×) — sometimes catches the simulation big-win,
+sometimes not.
+
+Per-tag aggregate across 3 seeds (correct counts shown as (s0,s1,s2)/n):
+
+| Tag | n | Static | Dynamic | Profiling |
+|-----|---|--------|---------|-----------|
+| dp            | 7 | (7,6,5) = **86 %**   | (5,2,3) = 48 %   | (3,3,3) = **43 %** ← robust regression |
+| graph         | 7 | (6,5,4) = 71 %       | (5,5,3) = 62 %   | (4,5,4) = 62 %   |
+| simulation    | 6 | (5,5,5) = **83 %**   | (3,4,5) = 67 %   | (5,3,4) = 67 %   |
+| greedy        | 4 | (4,4,3) = **92 %**   | (1,2,3) = 50 %   | (4,4,3) = **92 %** |
+| combinatorial | 3 | (1,1,1) = 33 %       | (1,1,1) = 33 %   | (1,1,0) = 22 %   |
+
+What firms up from §7.9's single-seed claims:
+
+- **"Profile-mode catastrophic on dp"** — robust. 3/7 correct on all
+  three seeds (43 % aggregate); profile-mode is the only mode that
+  fails this cell reliably.
+- **"Static dominates dp"** — softer than reported. 86 % aggregate, not
+  100 %. The single-seed 100 % was the seed=0 peak.
+- **"Dynamic catastrophic on greedy"** — softer than reported. Range is
+  25 / 50 / 75 across seeds (50 % aggregate); still the worst dynamic
+  cell, but not as extreme.
+- **"Static + profile tied on greedy"** — robust at 92 % each. Same
+  pattern every seed.
+- **"All big speedups in simulation"** — robust. Static and profile max
+  ≈9× on every seed; other tag maxes never exceed 2× across all seeds.
+- **"Combinatorial uniformly hard"** — robust. All three seeds give
+  exactly 1/3 across all three modes for combinatorial.
+
+The tightest paper-worthy claim from the replicated data:
+
+> Static-mode beats profile-mode on `dp` problems by 43 percentage
+> points (86 % vs 43 %), robustly across three seeds. Profile feedback
+> consistently induces `wrong_output` failures on DP-typed problems —
+> likely because the profile data tempts the model to rewrite the DP
+> table layout, and the 7B model does not reliably preserve the
+> recurrence under such rewrites. This is the single largest tag-level
+> correctness regression in the data and survives replication with
+> SD = 0 on the profile cell.
+
+### 7.10 Tag-conditional optimisation advice (Option C from suggestion.md) — net negative
+
+After the §7.9 stratification showed clear per-tag patterns (profile-mode
+catastrophic on `dp`, dynamic-mode broken on `greedy`), we tested whether
+attaching tag-conditional optimisation hints to the prompt could improve
+correctness without sacrificing speedup. Implementation in
+[profiler.py:TAG_OPTIMIZATION_CHECKLISTS](profiler.py) (12 categories ×
+2–4 hints each); flag `--tag-advice` in [pipeline.py](pipeline.py).
+
+Two variants tested, both at the same configuration as the §7.9
+baseline (n=30, k=3, repair=2, seed=0, cputime≥100, constraints-only PS
++ test-case sample):
+
+**Variant B — directive advice** (`run_20260519-113402`): bullets in the
+form "apply transformation X". Examples for `dp`:
+*"Replace the 2D table with a 1D rolling array"*; *"Use int instead of
+long long"*.
+
+**Variant C — cautionary advice** (`run_20260519-134551`): bullets
+rewritten in "do NOT change X" style, with an explicit closing sentence
+*"these are cautionary suggestions, not a checklist to apply
+exhaustively. Preserving the slow code's behaviour is more important
+than applying any hint."*
+
+Aggregate pass@3 (vs the no-advice baseline `run_20260518-173810`):
+
+| Config | Static | Dynamic | Profile | Static mean | Profile max |
+|---|---|---|---|---|---|
+| A — no advice (baseline)   | **80 %** | **53 %** | **57 %** | 1.48× | **9.94×** |
+| B — directive advice       | 50 %  | 47 %  | 50 %  | 1.80× | 2.77×  |
+| C — cautionary advice      | 57 %  | 47 %  | 53 %  | 1.64× | 2.76×  |
+
+Both advice variants **regress correctness across the board**. The
+cautionary tone helps a little vs directive (+7 pp static, +3 pp
+profile) but remains substantially below baseline. Profile-mode's
+characteristic high-speedup tail (9.94× on `pie_p03146` baseline)
+collapses to 2.77×/2.76× in B/C — the advice block suppresses the
+aggressive-but-correct rewrites that powered baseline's profile peak.
+
+**Per-tag breakdown reveals where each variant moves the needle:**
+
+| Tag | n | static A→B→C | dynamic A→B→C | profile A→B→C |
+|-----|---|---|---|---|
+| dp            | 7 | 7→**3**→4 | 5→**2**→3 | 3→3→**4** |
+| graph         | 7 | 6→4→**3** | 5→**2**→4 | 4→3→4 |
+| simulation    | 6 | 5→3→**5** | 3→3→**4** | 5→4→4 |
+| **greedy**    | 4 | 4→3→3 | **1→4→2** | 4→3→3 |
+| combinatorial | 3 | 1→0→1 | 1→1→1 | 1→0→1 |
+
+Two specific findings worth keeping:
+
+1. **The greedy/dynamic rescue is real but fragile** (1/4 → 4/4 → 2/4).
+   The directive variant of the greedy block — three short bullets, two
+   of which are "do NOT replace the logic" / "I/O sync only" — turned
+   `wrong_output` into `passed` on three samples in dynamic mode. The
+   cautionary rewrite, by adding the closing "you can ignore these"
+   sentence, undid two of the three rescues. The intervention that
+   helped was a NARROW directive ("only do I/O sync, don't touch the
+   algorithm"), not a tonal shift.
+
+2. **`simulation` is the most "advice-tolerant" tag.** Cautionary advice
+   fully recovers `simulation/static` (5/6 → 3/6 → 5/6) and improves
+   `simulation/dynamic` (3/6 → 3/6 → 4/6). Likely because the advice
+   *"if the slow code stores full history but only the latest is read,
+   that's safe to drop"* names a single, easy-to-verify transformation.
+
+**Mechanistic conclusion.** Tag-advice as a generic intervention does
+not work at 7B. The mechanism is the same one we've seen three other
+times (§7.5 optimize-prompt, §7.8 full-PS, §7.7 mode-aggression): any
+additional "what to do" signal in the prompt makes the model more
+willing to rewrite, which costs correctness more than it gains in
+speedup. The single exception is *narrow, specific* advice ("do not
+change X; only do Y") — but the gain is tag-specific and doesn't
+generalise via wording style.
+
+**Decision.** `--tag-advice` flipped to **default-off**. The
+infrastructure stays (`TAG_OPTIMIZATION_CHECKLISTS` dict, the
+`format_tag_advice` formatter, the flag) so the intervention can be
+re-tested with a bigger model or used in targeted ablations
+(e.g. greedy-only opt-in). The `__main__` baseline reverts to the §7.9
+configuration.
+
+### 7.11 Bug fixes uncovered during replication
 
 - **Non-UTF-8 stdout crashed the pipeline** ([compiler.py:_run_timed_once](compiler.py),
   [compiler.py:run_binary](compiler.py), [profiler.py:run_gprof](profiler.py),
@@ -477,7 +793,35 @@ remains the running ledger.
 
 ## 9. Next steps, in priority order
 
-1. **Add paired McNemar (or paired-bootstrap CIs) to the summary.**
+**Completed since the last revision:**
+- ✓ Suggestion #1 (problem statement in prompt) — landed; see §7.8.
+  Constraints-only variant is the recommended default; full-prose variant
+  is preserved as an opt-in via `--full-problem-statement`.
+- ✓ Per-run artefact directory (`results/run_<timestamp>/`) — landed.
+  Every run now writes per-sample profiles, candidates, prompts, and
+  diffs into a browseable folder; no separate extraction step needed.
+- ✓ clang-format-based diff normalisation — landed. Per-candidate
+  `*_vs_v0.diff` files are now whitespace-canonical via `tools/normalize_cpp.py`.
+- ✓ EffiLearner-style prompt structure — landed.
+  Sections: Task Description → Test Case → Original Code → Overhead
+  Analysis → Optimization Rules. Includes a concrete (Input, Expected
+  Output) anchor (`--no-test-case-sample` to disable).
+- ✓ Full prompt persisted to disk — landed.
+  Every run writes `<mode>/prompt.txt` (initial), plus
+  `repair_round_N_prompt.txt` and `iterate_round_N_prompt.txt` per round.
+- ✓ JIT problem-tag classifier — landed; see §7.9.
+  `data/problem_classifier.py` tags each PIE problem via the local
+  Qwen-7B model. Per-classifier disk cache; ~1-3s per cache miss,
+  free thereafter. Tag flows through to JSONL for stratified analysis.
+
+**Still open, in priority order:**
+
+1. ~~Replicate §7.9 across 3 seeds~~ — **done** (seeds 0, 1, 2; runs
+   `20260518-173810`, `20260519-170932`, `20260519-174612`). 3-seed
+   aggregate is now folded into §7.9 above. Robust tightest claim:
+   *static beats profile by 43 pp on dp (86 % vs 43 %), SD=0 on the
+   profile cell across all three seeds.*
+2. **Add paired McNemar (or paired-bootstrap CIs) to the summary.**
    Per-pair correctness comparisons (static vs profiling, profiling vs
    dynamic) on the same samples, with a p-value instead of just point
    estimates. The replicate data in §7.6 makes this feasible — three

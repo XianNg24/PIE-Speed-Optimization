@@ -40,7 +40,11 @@ SAMPLE_CACHE = os.path.join(DATA_DIR, "samples_cache.jsonl")
 PIE_BASE          = os.path.join(BASE_DIR, "pie-perf", "data")
 PIE_SPLIT_TEST    = os.path.join(PIE_BASE, "cpp_splits", "test.jsonl")
 PIE_SPLIT_VAL     = os.path.join(PIE_BASE, "cpp_splits", "val.jsonl")
-PIE_TESTCASES_DIR = os.path.join(PIE_BASE, "public_test_cases")
+PIE_TESTCASES_DIR        = os.path.join(PIE_BASE, "public_test_cases")
+# Larger merged_test_cases.tar.gz set from the PIE website. If present we
+# prefer it (much denser per-problem coverage; ~100 tests vs ~2 for some
+# problems) and fall back to public_test_cases per-problem when missing.
+PIE_MERGED_TESTCASES_DIR = os.path.join(PIE_BASE, "merged_test_cases")
 
 # ── Timing (used for PIE speedup measurement) ─────────────────────────────────
 PIE_NUM_TRIALS   = 3      # runs per test case after warmup

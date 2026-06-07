@@ -49,13 +49,46 @@ _USER_PREAMBLES = {
 }
 
 
+_OPTIMIZE_RULES_FOOTER = (
+    "Optimization Rules:\n"
+    "- Encapsulate the optimized code within a C++ code block "
+    "(i.e., ```cpp\\n[Your Code Here]\\n```).\n"
+    "- Preserve identical stdout for EVERY test case (not only the one shown).\n"
+    "- Do NOT change the I/O format.\n"
+    "- Focus solely on performance optimization; correctness is non-negotiable.\n"
+    "- Do not include test driver code or explanatory preamble."
+)
+_REPAIR_RULES_FOOTER = (
+    "Rules:\n"
+    "- Encapsulate the fixed code within a C++ code block.\n"
+    "- Return the complete corrected source — not a diff.\n"
+    "- No explanation outside the fenced block."
+)
+
+
 def _build_user_message(buggy_code: str, feedback: str = None,
-                        task_type: str = "repair") -> str:
+                        task_type: str = "repair",
+                        problem_statement: str = None,
+                        test_case_block: str = None,
+                        tag_advice: str = None,
+                        complexity_hint: str = None) -> str:
+    """EffiLearner-style section layout for the user message."""
     preamble = _USER_PREAMBLES.get(task_type, _USER_PREAMBLES["repair"])
-    msg = f"{preamble}\n\n```cpp\n{buggy_code.strip()}\n```"
+    parts = [preamble]
+    if problem_statement:
+        parts.append(f"Task Description:\n{problem_statement.strip()}")
+    if test_case_block:
+        parts.append(test_case_block.strip())
+    parts.append(f"Original Code:\n```cpp\n{buggy_code.strip()}\n```")
     if feedback:
-        msg += f"\n\n{feedback}"
-    return msg
+        parts.append(feedback.strip())
+    if complexity_hint:
+        parts.append(complexity_hint.strip())
+    if tag_advice:
+        parts.append(tag_advice.strip())
+    parts.append(_OPTIMIZE_RULES_FOOTER if task_type == "optimize"
+                 else _REPAIR_RULES_FOOTER)
+    return "\n\n".join(parts)
 
 
 def _extract_code(response_text: str) -> str:
@@ -71,7 +104,11 @@ def _extract_code(response_text: str) -> str:
 
 def repair(buggy_code: str, feedback: str = None, mode: str = "static",
            k: int = 1, temperature: float = 0.6, top_p: float = 0.95,
-           seed: int = 0, task_type: str = "repair") -> dict:
+           seed: int = 0, task_type: str = "repair",
+           problem_statement: str = None,
+           test_case_block: str = None,
+           tag_advice: str = None,
+           complexity_hint: str = None) -> dict:
     """
     Call the LLM to repair the buggy code.
 
@@ -79,7 +116,11 @@ def repair(buggy_code: str, feedback: str = None, mode: str = "static",
     k>1  -> k sampled calls, returns k candidates in `candidates`.
     """
     client = _get_client()
-    user_msg = _build_user_message(buggy_code, feedback, task_type=task_type)
+    user_msg = _build_user_message(buggy_code, feedback, task_type=task_type,
+                                    problem_statement=problem_statement,
+                                    test_case_block=test_case_block,
+                                    tag_advice=tag_advice,
+                                    complexity_hint=complexity_hint)
     sys_prompt = SYSTEM_PROMPTS.get(task_type, SYSTEM_PROMPTS["repair"])
 
     candidates = []
@@ -111,6 +152,10 @@ def repair(buggy_code: str, feedback: str = None, mode: str = "static",
         "completion_tokens": candidates[0]["completion_tokens"],
         "candidates": candidates,
         "prompt_tokens": in_tokens,
+        "prompt_messages": [
+            {"role": "system", "content": sys_prompt},
+            {"role": "user",   "content": user_msg},
+        ],
     }
 
 
