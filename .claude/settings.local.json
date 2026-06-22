@@ -5,7 +5,6 @@
       "Bash(echo ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY:0:10...)",
       "Bash(pip3 list:*)",
       "Bash(python3 -c \"import anthropic; print\\(''''anthropic SDK version:'''', anthropic.__version__\\)\")",
-      "Bash(python3 -c *",
       "Bash(pip3 show:*)",
       "Bash(pip3 install:*)",
       "Bash(python3 -c \"import anthropic; print\\(''OK'', anthropic.__version__\\)\")",
@@ -23,7 +22,12 @@
       "Bash(grep *)",
       "Bash(find *)",
       "Bash(cat *)",
-      "Bash(ls *)"
+      "Bash(ls *)",
+      "Bash(/usr/bin/python3 -c ' *)",
+      "Bash(/usr/bin/python3)",
+      "Bash(/usr/bin/python3 pipeline.py --help)",
+      "Bash(/usr/bin/python3 -c \"import ast; ast.parse\\(open\\('local_llm.py'\\).read\\(\\)\\); ast.parse\\(open\\('pipeline.py'\\).read\\(\\)\\); print\\('OK'\\)\")",
+      "Bash(/usr/bin/python3 -c \"from local_llm import load_model, clear_cuda_cache; import inspect; print\\('load_model sig:', inspect.signature\\(load_model\\)\\); print\\('clear_cuda_cache callable:', callable\\(clear_cuda_cache\\)\\)\")"
     ],
     "ask": [
       "Bash(rm *)",

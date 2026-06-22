@@ -21,7 +21,7 @@ HF_CACHE = "/cs/student/project_msc/2025/dsml/nmxian/huggingface_cache"
 os.environ["HF_HOME"] = HF_CACHE
 os.environ["TRANSFORMERS_CACHE"] = os.path.join(HF_CACHE, "hub")
 
-DEFAULT_MODEL = "codellama/CodeLlama-7b-Instruct-hf"
+DEFAULT_MODEL = "Qwen/Qwen2.5-Coder-7B-Instruct"
 
 # Module-level cache so the model is only loaded once per process
 _model = None
@@ -29,8 +29,14 @@ _tokenizer = None
 _loaded_model_name = None
 
 
-def load_model(model_name: str = DEFAULT_MODEL):
-    """Load model + tokenizer into GPU. Called lazily on first inference."""
+def load_model(model_name: str = DEFAULT_MODEL, force_4bit: bool = False):
+    """
+    Load model + tokenizer into GPU. Called lazily on first inference.
+
+    force_4bit=True overrides the free-VRAM heuristic and quantises to NF4
+    regardless. Useful when sharing the GPU or running a configuration
+    (larger k, longer prompts) that the heuristic underestimates.
+    """
     global _model, _tokenizer, _loaded_model_name
     if _loaded_model_name == model_name:
         return
@@ -61,10 +67,11 @@ def load_model(model_name: str = DEFAULT_MODEL):
         free_bytes, _ = torch.cuda.mem_get_info(0)
         free_vram_gb = free_bytes / 1024 ** 3
 
-    use_4bit = free_vram_gb < 15  # < 15 GB free → quantise to 4-bit NF4
+    use_4bit = force_4bit or free_vram_gb < 15
 
     if use_4bit:
-        print(f"[local_llm] Free VRAM {free_vram_gb:.1f} GB → using 4-bit NF4 quantisation")
+        reason = "forced" if force_4bit else f"free VRAM {free_vram_gb:.1f} GB < 15 GB"
+        print(f"[local_llm] using 4-bit NF4 quantisation ({reason})")
         bnb_cfg = BitsAndBytesConfig(
             load_in_4bit=True,
             bnb_4bit_compute_dtype=torch.float16,
@@ -93,6 +100,21 @@ def load_model(model_name: str = DEFAULT_MODEL):
     _model = model
     _tokenizer = tokenizer
     _loaded_model_name = model_name
+
+
+def clear_cuda_cache():
+    """
+    Release cached CUDA memory between modes / samples. Reclaims the
+    'reserved but unallocated' fragment pool PyTorch keeps for reuse,
+    which can otherwise pin several GB on a crowded GPU.
+    """
+    try:
+        import torch
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+            torch.cuda.ipc_collect()
+    except Exception:
+        pass
 
 
 SYSTEM_PROMPTS = {
@@ -148,12 +170,13 @@ def _build_messages(buggy_code: str, feedback: str = None,
                     problem_statement: str = None,
                     test_case_block: str = None,
                     tag_advice: str = None,
-                    complexity_hint: str = None) -> list:
+                    complexity_hint: str = None,
+                    reasoning_hint: str = None) -> list:
     """
     Build the chat-template messages following EffiLearner's section layout
     (Task Description → Test Case → Original Code → Overhead Analysis →
-    Optimization Hints (tag-conditional) → Rules), generalised to either
-    bug-repair or optimisation prompts.
+    Reasoning Plan → Optimization Hints (tag-conditional) → Rules),
+    generalised to either bug-repair or optimisation prompts.
     """
     sys_prompt = SYSTEM_PROMPTS.get(task_type, SYSTEM_PROMPTS["repair"])
     preamble = _USER_PREAMBLES.get(task_type, _USER_PREAMBLES["repair"])
@@ -168,6 +191,8 @@ def _build_messages(buggy_code: str, feedback: str = None,
         parts.append(feedback.strip())
     if complexity_hint:
         parts.append(complexity_hint.strip())
+    if reasoning_hint:
+        parts.append(reasoning_hint.strip())
     if tag_advice:
         parts.append(tag_advice.strip())
     parts.append(_OPTIMIZE_RULES_FOOTER if task_type == "optimize"
@@ -194,7 +219,8 @@ def repair(buggy_code: str, feedback: str = None,
            problem_statement: str = None,
            test_case_block: str = None,
            tag_advice: str = None,
-           complexity_hint: str = None) -> dict:
+           complexity_hint: str = None,
+           reasoning_hint: str = None) -> dict:
     """
     Repair buggy C++ code with a local model.
 
@@ -211,7 +237,8 @@ def repair(buggy_code: str, feedback: str = None,
                                problem_statement=problem_statement,
                                test_case_block=test_case_block,
                                tag_advice=tag_advice,
-                               complexity_hint=complexity_hint)
+                               complexity_hint=complexity_hint,
+                               reasoning_hint=reasoning_hint)
 
     text = _tokenizer.apply_chat_template(
         messages, tokenize=False, add_generation_prompt=True

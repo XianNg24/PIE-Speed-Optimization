@@ -37,7 +37,7 @@ from profiler import (
 )
 from data.bugs import SAMPLES as SYNTHETIC_SAMPLES
 
-LOCAL_DEFAULT_MODEL = "codellama/CodeLlama-7b-Instruct-hf"
+LOCAL_DEFAULT_MODEL = "Qwen/Qwen2.5-Coder-7B-Instruct"
 ALL_MODES = ("static", "dynamic", "profiling")
 
 
@@ -479,6 +479,7 @@ def run_pie_sample(sample: dict, modes=ALL_MODES, verbose: bool = True,
                    include_tag_advice: bool = False,
                    include_gcov: bool = True,
                    include_complexity_hint: bool = True,
+                   include_reasoning: bool = False,
                    run_dir: str = None) -> dict:
     """
     PIE pipeline: each sample is a (slow, fast) pair plus public test cases.
@@ -676,6 +677,64 @@ def run_pie_sample(sample: dict, modes=ALL_MODES, verbose: bool = True,
             _write_text(os.path.join(sample_dir, "prompt_profile_summary.txt"),
                         profile_summary)
 
+    # ── 1.5 Reasoning-agent pass (per-mode, optional) ───────────────────────
+    # The reasoner is "reason-before-generating": Qwen reads the available
+    # evidence and produces a written Optimization Plan that is then injected
+    # into the optimiser's prompt as an extra section. Mode-aware so each
+    # mode only reasons over signals it is allowed to see.
+    reasoning_block_static    = None
+    reasoning_block_dynamic   = None
+    reasoning_block_profiling = None
+    if include_reasoning:
+        try:
+            from reasoner import reason, format_reasoning_block
+            complexity_label = (complexity or {}).get("complexity")
+            common = dict(
+                source=sample["buggy_code"],
+                problem_statement=ps,
+                problem_tag=problem_tag if problem_tag != "unknown" else None,
+                complexity_label=complexity_label,
+            )
+            # static: no runtime/profile signals
+            if "static" in modes:
+                info = reason(sid, mode="static", **common)
+                reasoning_block_static = format_reasoning_block(info["plan"])
+                if verbose:
+                    print(f"[reason:static] {sid} "
+                          f"({'cached' if info['cached'] else 'fresh'}, "
+                          f"{len(info['plan'])} chars)")
+                if sample_dir and info["plan"]:
+                    _write_text(os.path.join(sample_dir, "reasoning_static.txt"),
+                                info["plan"])
+            # dynamic: adds runtime diff
+            if "dynamic" in modes and runtime_feedback:
+                info = reason(sid, mode="dynamic",
+                              runtime_feedback=runtime_feedback, **common)
+                reasoning_block_dynamic = format_reasoning_block(info["plan"])
+                if verbose:
+                    print(f"[reason:dynamic] {sid} "
+                          f"({'cached' if info['cached'] else 'fresh'}, "
+                          f"{len(info['plan'])} chars)")
+                if sample_dir and info["plan"]:
+                    _write_text(os.path.join(sample_dir, "reasoning_dynamic.txt"),
+                                info["plan"])
+            # profiling: adds full profile summary
+            if "profiling" in modes and profile_summary:
+                info = reason(sid, mode="profiling",
+                              profile_summary=profile_summary,
+                              runtime_feedback=runtime_feedback, **common)
+                reasoning_block_profiling = format_reasoning_block(info["plan"])
+                if verbose:
+                    print(f"[reason:profiling] {sid} "
+                          f"({'cached' if info['cached'] else 'fresh'}, "
+                          f"{len(info['plan'])} chars)")
+                if sample_dir and info["plan"]:
+                    _write_text(os.path.join(sample_dir, "reasoning_profiling.txt"),
+                                info["plan"])
+        except Exception as e:
+            if verbose:
+                print(f"[reason] error: {e}")
+
     # ── 2. Resolve repair functions ──────────────────────────────────────────
     if backend == "anthropic":
         try:
@@ -683,18 +742,18 @@ def run_pie_sample(sample: dict, modes=ALL_MODES, verbose: bool = True,
         except RuntimeError as e:
             print(f"  [LLM SKIP] {e}")
             return result
-        _static_fn    = lambda code: repair_static(code, k=k, temperature=temperature, seed=seed, task_type="optimize", problem_statement=ps, test_case_block=tc_block, tag_advice=tag_advice, complexity_hint=complexity_block)
-        _dynamic_fn   = lambda code, fb: repair_dynamic(code, fb, k=k, temperature=temperature, seed=seed, task_type="optimize", problem_statement=ps, test_case_block=tc_block, tag_advice=tag_advice, complexity_hint=complexity_block)
-        _profiling_fn = lambda code, fb: repair_profiling(code, fb, k=k, temperature=temperature, seed=seed, task_type="optimize", problem_statement=ps, test_case_block=tc_block, tag_advice=tag_advice, complexity_hint=complexity_block)
+        _static_fn    = lambda code: repair_static(code, k=k, temperature=temperature, seed=seed, task_type="optimize", problem_statement=ps, test_case_block=tc_block, tag_advice=tag_advice, complexity_hint=complexity_block, reasoning_hint=reasoning_block_static)
+        _dynamic_fn   = lambda code, fb: repair_dynamic(code, fb, k=k, temperature=temperature, seed=seed, task_type="optimize", problem_statement=ps, test_case_block=tc_block, tag_advice=tag_advice, complexity_hint=complexity_block, reasoning_hint=reasoning_block_dynamic)
+        _profiling_fn = lambda code, fb: repair_profiling(code, fb, k=k, temperature=temperature, seed=seed, task_type="optimize", problem_statement=ps, test_case_block=tc_block, tag_advice=tag_advice, complexity_hint=complexity_block, reasoning_hint=reasoning_block_profiling)
     else:
         from local_llm import (
             repair_static as _local_static,
             repair_dynamic as _local_dynamic,
             repair_profiling as _local_profiling,
         )
-        _static_fn    = lambda code: _local_static(code, model_name=model_name, k=k, temperature=temperature, seed=seed, task_type="optimize", problem_statement=ps, test_case_block=tc_block, tag_advice=tag_advice, complexity_hint=complexity_block)
-        _dynamic_fn   = lambda code, fb: _local_dynamic(code, fb, model_name=model_name, k=k, temperature=temperature, seed=seed, task_type="optimize", problem_statement=ps, test_case_block=tc_block, tag_advice=tag_advice, complexity_hint=complexity_block)
-        _profiling_fn = lambda code, fb: _local_profiling(code, fb, model_name=model_name, k=k, temperature=temperature, seed=seed, task_type="optimize", problem_statement=ps, test_case_block=tc_block, tag_advice=tag_advice, complexity_hint=complexity_block)
+        _static_fn    = lambda code: _local_static(code, model_name=model_name, k=k, temperature=temperature, seed=seed, task_type="optimize", problem_statement=ps, test_case_block=tc_block, tag_advice=tag_advice, complexity_hint=complexity_block, reasoning_hint=reasoning_block_static)
+        _dynamic_fn   = lambda code, fb: _local_dynamic(code, fb, model_name=model_name, k=k, temperature=temperature, seed=seed, task_type="optimize", problem_statement=ps, test_case_block=tc_block, tag_advice=tag_advice, complexity_hint=complexity_block, reasoning_hint=reasoning_block_dynamic)
+        _profiling_fn = lambda code, fb: _local_profiling(code, fb, model_name=model_name, k=k, temperature=temperature, seed=seed, task_type="optimize", problem_statement=ps, test_case_block=tc_block, tag_advice=tag_advice, complexity_hint=complexity_block, reasoning_hint=reasoning_block_profiling)
 
     baseline_ms = slow["mean_ms"]
 
@@ -722,19 +781,28 @@ def run_pie_sample(sample: dict, modes=ALL_MODES, verbose: bool = True,
     else:
         from local_llm import repair as _repair_call
 
+    _reasoning_by_mode = {
+        "static":    reasoning_block_static,
+        "dynamic":   reasoning_block_dynamic,
+        "profiling": reasoning_block_profiling,
+    }
+
     def _self_repair_round(mode_name, base_feedback, prev_winner, round_idx):
         """Single self-repair round. Returns the new candidate's run dict."""
         repair_fb = format_self_repair_feedback(
             prev_winner["fixed_code"], prev_winner["run"], base_feedback,
         )
+        rh = _reasoning_by_mode.get(mode_name)
         kw = dict(mode=f"{mode_name}", model_name=model_name, k=1,
                   task_type="optimize", problem_statement=ps,
                   test_case_block=tc_block, tag_advice=tag_advice,
-                  complexity_hint=complexity_block) \
+                  complexity_hint=complexity_block,
+                  reasoning_hint=rh) \
              if backend == "local" else dict(mode=f"{mode_name}", k=1,
                   task_type="optimize", problem_statement=ps,
                   test_case_block=tc_block, tag_advice=tag_advice,
-                  complexity_hint=complexity_block)
+                  complexity_hint=complexity_block,
+                  reasoning_hint=rh)
         new_out = _repair_call(
             buggy_code=sample["buggy_code"],
             feedback=repair_fb,
@@ -761,14 +829,17 @@ def run_pie_sample(sample: dict, modes=ALL_MODES, verbose: bool = True,
                              if prev_winner["run"].get("mean_ms") else 1.0),
             base_feedback=base_feedback,
         )
+        rh = _reasoning_by_mode.get(mode_name)
         kw = dict(mode=f"{mode_name}", model_name=model_name, k=1,
                   task_type="optimize", problem_statement=ps,
                   test_case_block=tc_block, tag_advice=tag_advice,
-                  complexity_hint=complexity_block) \
+                  complexity_hint=complexity_block,
+                  reasoning_hint=rh) \
              if backend == "local" else dict(mode=f"{mode_name}", k=1,
                   task_type="optimize", problem_statement=ps,
                   test_case_block=tc_block, tag_advice=tag_advice,
-                  complexity_hint=complexity_block)
+                  complexity_hint=complexity_block,
+                  reasoning_hint=rh)
         new_out = _repair_call(
             buggy_code=sample["buggy_code"],
             feedback=speedup_fb,
@@ -937,6 +1008,16 @@ def run_pie_sample(sample: dict, modes=ALL_MODES, verbose: bool = True,
         _run_mode._last_candidate_runs = candidate_runs
         return repair_out
 
+    # Reclaim KV-cache / reserved-but-unallocated VRAM between mode passes
+    # to reduce fragmentation that has caused OOM mid-sample on shared GPUs.
+    def _maybe_release_vram():
+        if backend == "local":
+            try:
+                from local_llm import clear_cuda_cache
+                clear_cuda_cache()
+            except Exception:
+                pass
+
     if "static" in modes:
         result["static"] = _run_mode("static", _static_fn,
                                      sample["buggy_code"],
@@ -947,6 +1028,7 @@ def run_pie_sample(sample: dict, modes=ALL_MODES, verbose: bool = True,
                                    result["static"],
                                    original_code=sample["buggy_code"],
                                    original_name="v0_slow.cpp")
+        _maybe_release_vram()
     if "dynamic" in modes and runtime_feedback:
         result["dynamic"] = _run_mode("dynamic", _dynamic_fn,
                                       sample["buggy_code"], runtime_feedback,
@@ -957,6 +1039,7 @@ def run_pie_sample(sample: dict, modes=ALL_MODES, verbose: bool = True,
                                    result["dynamic"],
                                    original_code=sample["buggy_code"],
                                    original_name="v0_slow.cpp")
+        _maybe_release_vram()
     if "profiling" in modes and profile_summary:
         result["profiling"] = _run_mode("profiling", _profiling_fn,
                                         profile_buggy_code, profile_summary,
@@ -970,6 +1053,7 @@ def run_pie_sample(sample: dict, modes=ALL_MODES, verbose: bool = True,
                                    result["profiling"],
                                    original_code=sample["buggy_code"],
                                    original_name="v0_slow.cpp")
+        _maybe_release_vram()
 
     # Per-sample summary (mirror of the JSONL row)
     if sample_dir:
@@ -1071,6 +1155,24 @@ def main():
                              "aggregate correctness in our ablation (§7.10 "
                              "of reflection.md); kept available for opt-in "
                              "experiments and bigger-model retests.")
+    parser.add_argument("--force-4bit", action="store_true",
+                        help="(local backend) Force 4-bit NF4 quantisation "
+                             "of the model, overriding the free-VRAM "
+                             "heuristic. Use when sharing the GPU or when "
+                             "k+reasoning blow the KV-cache budget in fp16 "
+                             "(e.g. 7B fp16 + k=8 + long profiling prompts).")
+    parser.add_argument("--reason", action="store_true",
+                        help="(PIE only) Run a reasoning-agent pass per "
+                             "(sample, mode) BEFORE optimisation: Qwen reads "
+                             "the available evidence (problem statement, "
+                             "classifier tag, predicted complexity, runtime "
+                             "diff, profile summary) and emits a structured "
+                             "Optimization Plan that is injected into the "
+                             "optimiser's prompt. Mode-aware so each mode "
+                             "only sees signals it is allowed to. Cached per "
+                             "(sample, mode) in data/reasoning_<mode>_<id>.csv. "
+                             "DEFAULT OFF — opt-in like --tag-advice; flip "
+                             "after validating on a small run.")
     parser.add_argument("--quiet", action="store_true")
     args = parser.parse_args()
 
@@ -1130,6 +1232,8 @@ def main():
         "include_gcov": (args.dataset == "pie" and not args.no_gcov),
         "include_complexity_hint": (args.dataset == "pie" and
                                       not args.no_complexity_hint),
+        "include_reasoning": (args.dataset == "pie" and args.reason),
+        "force_4bit": args.force_4bit,
         "seed": args.seed,
         "pie_min_improvement": args.pie_min_improvement,
         "pie_max_lines": args.pie_max_lines,
@@ -1142,6 +1246,13 @@ def main():
     _write_json(os.path.join(run_dir, "meta.json"), run_meta)
     run_results_jsonl = os.path.join(run_dir, "results.jsonl")
     print(f"[Run dir] {run_dir}")
+
+    # Pre-load the local model up-front when 4-bit is forced, so the
+    # quantisation decision is honoured before any inference path
+    # implicitly triggers load_model() with default settings.
+    if args.backend == "local" and args.force_4bit:
+        from local_llm import load_model
+        load_model(args.model, force_4bit=True)
 
     all_results = []
     runner_kw = dict(modes=modes, verbose=not args.quiet,
@@ -1156,6 +1267,7 @@ def main():
         runner_kw["include_tag_advice"] = args.tag_advice
         runner_kw["include_gcov"] = not args.no_gcov
         runner_kw["include_complexity_hint"] = not args.no_complexity_hint
+        runner_kw["include_reasoning"] = args.reason
     for sample in samples:
         r = runner(sample, **runner_kw)
         r["run_id"] = run_id

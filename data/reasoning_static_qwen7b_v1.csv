@@ -1,0 +1,501 @@
+sample_id,plan
+pie_p03146_s047505757,"Bottleneck: The nested loops and conditional checks within the `while` loop result in redundant calculations and memory accesses, leading to high computational overhead.
+Strategy: Implement memoization using a hash map to store previously computed values and avoid recalculating them.
+Steps:
+  1) Replace the `vector<int>` with an unordered_map<int, int> named `memo`.
+  2) Initialize `memo[s] = 1` before entering the loop.
+  3) Inside the loop, check if `a_now` already exists in `memo`. If it does, calculate `m` as `i - memo[a_now]` and break out of the loop.
+  4) Store `a_now` in `memo` with its corresponding index `i` if it doesn't exist.
+Traps: Ensure that the initial value of `s` is correctly handled and that the loop terminates when a cycle is detected."
+pie_p00465_s878145104,"Bottleneck: The nested loops and queue operations within the `solve` function are causing the high time complexity.
+Strategy: Replace the queue-based approach with a priority queue to efficiently manage the rooms based on their confidential levels.
+Steps:
+  1) Change the `queue<P>Q;` to `priority_queue<pair<int, P>> pq;`.
+  2) Modify the logic inside the `while (!Q.empty())` loop to use the priority queue instead of pushing and popping elements manually.
+  3) Adjust the `if (l[k][nx][ny] <= Max)` condition to compare with the top element of the priority queue.
+Traps: Ensure that the priority queue is properly initialized and updated throughout the algorithm to maintain correct behavior."
+pie_p01429_s020020909,"Bottleneck: The nested loops in the dynamic programming table update process result in an overall time complexity of O(N^2), which is too high for large inputs.
+Strategy: Implement a more efficient way to calculate the repulsive forces using prefix sums and binary search to reduce the time complexity.
+Steps:
+  1) Calculate the prefix sums of the musical beauty array S[].
+  2) For each possible starting point of a segment, use binary search to find the end point that minimizes the repulsive force.
+  3) Update the DP table based on the minimum repulsive force found.
+Traps: Ensure that the binary search correctly handles edge cases where the segment length is zero or one."
+pie_p00729_s376268675,"Bottleneck: The nested loops in the calculation of the total time a student used a PC within a given time period result in O(n^2) complexity.
+Strategy: Implement a sweep line algorithm to efficiently calculate the total time a student used a PC within a given time period.
+Steps:
+  1) Create a vector of events representing logins and logouts.
+  2) Sort the events by timestamp.
+  3) Iterate through the sorted events, maintaining a running count of active logins for each student.
+  4) For each event, update the total time used by the student if they are currently logged in.
+Traps: Ensure that the sweep line algorithm correctly handles overlapping intervals and maintains accurate counts of active logins."
+pie_p02630_s465280605,"Bottleneck: The nested loops in the main function are causing the program to run in O(n^2) time, which is too slow for the given constraints.
+Strategy: To optimize the program, we can use a hash map to keep track of the frequency of each number in the array and update the sum accordingly during each operation.
+Steps:
+  1) Create a hash map to store the frequency of each number in the array.
+  2) Initialize the sum with the sum of all numbers in the array.
+  3) For each operation, update the frequency of the numbers being replaced and updated in the hash map, and update the sum accordingly.
+Traps: None"
+pie_p02892_s126371943,"Bottleneck: The nested loops and BFS inside the outer loop result in high time complexity due to repeated calculations and redundant checks.
+Strategy: Implement a more efficient approach using dynamic programming to avoid recalculating results for the same states.
+Steps:
+  1) Define a DP table `dp[mask]` where `mask` represents a subset of vertices, and `dp[mask]` stores the minimum number of sets required to partition the vertices in the subset.
+  2) Initialize the DP table with infinity (`INF`) except for `dp[0]`, which should be 0 since no sets are needed for an empty subset.
+  3) Iterate over all subsets of vertices using bit manipulation. For each subset, check all possible partitions and update the DP table accordingly.
+Traps: Ensure that the bitmask operations are handled correctly and efficiently, as they can become expensive for large values of N."
+pie_p03914_s893506098,"Bottleneck: The nested loops in the dynamic programming approach result in a time complexity of O(N^3), which is too slow for the given constraints.
+Strategy: Implement a more efficient algorithm using topological sorting and depth-first search (DFS) to count valid sequences.
+Steps:
+  1) Create an adjacency list representation of the graph where each node represents a town and edges represent potential new roads.
+  2) Perform a topological sort on the graph to ensure that we process nodes in a valid order.
+  3) Use DFS to explore all valid sequences starting from town 1 and ending at town c_M, ensuring that the graph remains connected after each move.
+Traps: Ensure that the DFS implementation correctly handles the connectivity constraint and avoids revisiting nodes unnecessarily."
+pie_p03161_s054675932,"Bottleneck: The recursive function `solve` with memoization has a time complexity of O(N * K), which is still quadratic due to the nested loops over `idx` and `i`.
+Strategy: Convert the recursive approach into an iterative dynamic programming solution using a single-dimensional DP array to store the minimum cost to reach each stone.
+Steps:
+  1) Initialize a DP array `dp` of size `N` with all elements set to infinity except `dp[0]` which should be 0 since no cost is incurred to start at the first stone.
+  2) Iterate over each stone index `i` from 0 to `N-1`.
+  3) For each stone `i`, iterate over each possible jump length `j` from 1 to `min(K, N-i)` and update `dp[i+j]` as the minimum of its current value and `dp[i] + abs(arr[i+j] - arr[i])`.
+Traps: Ensure that the jump length does not exceed the remaining stones (`min(K, N-i)`), and handle the base case correctly where the starting stone has zero cost."
+pie_p03169_s960308819,"Bottleneck: The recursive function `w` with three nested loops over `i`, `j`, and `k` results in a time complexity of O(N^3), which is too slow for the given constraints.
+Strategy: Convert the recursive approach into an iterative dynamic programming solution using memoization to avoid redundant calculations.
+Steps:
+  1) Initialize a 3D array `dp` to store the expected number of operations for different states of sushi counts.
+  2) Iterate through all possible states of sushi counts `(i, j, k)` where `i + j + k <= N`.
+  3) For each state, calculate the expected number of operations based on the transitions to other states.
+Traps: Ensure that the base case is correctly handled, and that the transitions between states are accurately implemented."
+pie_p03766_s208657807,"Bottleneck: The nested loops in the `main` function, specifically the inner loop that iterates over `i` and updates the segment tree, contribute significantly to the runtime due to their quadratic nature.
+Strategy: Transform the problem into a more efficient form using dynamic programming with memoization to avoid redundant calculations.
+Steps:
+  1) Define a DP array `dp[i][j]` where `dp[i][j]` represents the number of valid sequences ending at position `i` with length `j`.
+  2) Initialize the base cases for sequences of length 1.
+  3) Iterate through possible lengths and update the DP table based on the previous states.
+  4) Sum up the results for all positions and lengths to get the final answer.
+Traps: Ensure that the modulo operation is applied correctly during each state transition to prevent overflow and maintain correctness."
+pie_p01324_s953390691,"Bottleneck: The DFS traversal within the main loop has a time complexity of O(N^2) due to repeated traversals of the same nodes.
+Strategy: Implement memoization to store results of previously computed node traversals and avoid redundant work.
+Steps:
+  1) Add a memoization map to store the result of each node traversal.
+  2) Modify the DFS function to check if the result for the current node is already computed and return it if so.
+  3) Ensure that the memoization map is cleared between test cases.
+Traps: None"
+pie_p03730_s590400302,"Bottleneck: The loop runs up to 100,000,000 iterations, which is inefficient for finding a solution within the given constraints.
+Strategy: Use modular arithmetic properties to determine if a solution exists without iterating through all possible values.
+Steps:
+  1) Calculate the remainder when `c` is divided by `b`.
+  2) Check if `(a * i) % b` equals the remainder for any non-negative integer `i`.
+  3) Since `a` is a multiple of itself, we only need to check if `c` is a multiple of `b` after adjusting for the initial value of `a`.
+Traps: Ensure that the calculation does not overflow for large values of `a`, `b`, and `c`."
+pie_p02714_s868124332,"Bottleneck: The nested loops and use of `lower_bound` inside the `do-while` loop result in a time complexity of O(N^3), which is too slow for the given constraints.
+Strategy: Precompute the valid indices for each color and use a more efficient approach to count the valid triples.
+Steps:
+  1) Create three arrays `valid_indices_R`, `valid_indices_G`, and `valid_indices_B` to store the indices where each color appears.
+  2) Iterate through the string and populate these arrays.
+  3) For each pair of indices `(i, j)` where `S[i] != S[j]`, check all possible indices `k` such that `j < k` and `j - i != k - j`. This can be done using a two-pointer technique to efficiently find valid `k`.
+Traps: Ensure that the two-pointer technique correctly handles the condition `j - i != k - j` without missing any valid triples."
+pie_p04034_s126189583,"Bottleneck: The nested loops in the main logic where the state of the boxes is updated, resulting in a time complexity of O(M * N).
+Strategy: Use a union-find (disjoint-set) data structure to efficiently manage the groups of boxes containing the red ball.
+Steps:
+  1) Initialize a union-find data structure with N elements, where each element represents a box.
+  2) For each operation, find the root of the set containing the source box (x_i) and update the root of the destination box (y_i) accordingly.
+  3) After processing all operations, count the number of unique roots, which represents the number of boxes that may contain the red ball.
+Traps: Ensure that the union-find operations (find and union) are implemented efficiently using path compression and union by rank to maintain nearly constant-time complexity."
+pie_p01767_s551796497,"Bottleneck: The `upper_bound` function inside the inner loop is called multiple times, leading to repeated logarithmic searches over the sorted array `A`.
+Strategy: Precompute the cumulative sums of the array `A` and use binary search to find the largest index where the value is less than or equal to `b_j`. This avoids repeatedly calling `upper_bound`.
+Steps:
+  1) Compute the prefix sum array `prefix_sum` where `prefix_sum[i]` is the sum of the first `i` elements of `A`.
+  2) For each participant `j`, perform a binary search on `prefix_sum` to find the largest index `u` such that `prefix_sum[u] <= b_j`.
+  3) Check if `c_j` is less than or equal to `prefix_sum[u]` and output ""Yes"" or ""No"" accordingly.
+Traps: Ensure that the binary search correctly handles edge cases, such as when `b_j` is smaller than the smallest element in `A`."
+pie_p03275_s623136798,"Bottleneck: The `sort` operation inside the `check` function has a time complexity of \(O(N \log N)\), which dominates the overall complexity of the program.
+Strategy: Replace the sort operation with a more efficient method to find the median of a subarray without sorting the entire array.
+Steps:
+  1) Implement a Fenwick Tree (Binary Indexed Tree) to efficiently count elements less than or equal to a given value.
+  2) Use two Fenwick Trees to keep track of the number of elements greater than and less than a given value within the current subarray.
+  3) Iterate through the array and use the Fenwick Trees to calculate the median for each subarray in linear time.
+Traps: Ensure that the Fenwick Trees are updated correctly when adding or removing elements from the subarray."
+pie_p01680_s588278972,"Bottleneck: The nested loops in the `sol` function, specifically the inner loop where `merge` is called, contribute significantly to the runtime due to repeated calls to `find`.
+Strategy: Implement path compression and union by rank to optimize the `find` and `merge` operations.
+Steps:
+  1) Modify the `find` function to include path compression, which flattens the structure of the tree during each query.
+  2) Modify the `merge` function to use union by rank, which ensures that the smaller tree always attaches under the root of the larger tree, minimizing the depth of the trees.
+  3) Ensure that the `parent` array is initialized correctly before each test case.
+Traps: None"
+pie_p00774_s295712597,"Bottleneck: The nested loops in `main` function repeatedly scanning the entire board for deletions and drops, leading to quadratic time complexity.
+Strategy: Implement a more efficient approach using a union-find data structure to manage connected components of stones and their deletions, followed by a single pass to handle gravity.
+Steps:
+  1) Initialize a union-find data structure to keep track of connected components of stones.
+  2) Traverse the board once to identify and mark all groups of horizontally adjacent stones with the same digit as connected components.
+  3) Calculate the total score by summing up the values of the stones in the marked components.
+  4) Perform a single pass over the board to apply gravity, moving stones downward until they reach the bottom or another stone.
+Traps: Ensure that the union-find operations are optimized for quick union and find, and that the gravity pass does not introduce unnecessary overhead."
+pie_p03091_s244576105,"Bottleneck: The recursive function `rec` is called multiple times with overlapping subproblems, leading to exponential time complexity.
+Strategy: Convert the recursive solution into an iterative one using dynamic programming to avoid redundant calculations.
+Steps:
+  1) Replace the recursive function `rec` with an iterative approach using a stack to manage the DFS traversal.
+  2) Use a memoization table to store results of subproblems to avoid recalculating them.
+  3) Ensure that the iterative approach correctly handles all base cases and transitions.
+Traps: None"
+pie_p00742_s548955629,"Bottleneck: The recursive function `func` is called recursively up to `O(n^2)` times, leading to high overhead due to repeated calculations and function calls.
+Strategy: Implement memoization to store results of subproblems and avoid redundant calculations.
+Steps:
+  1) Add a memoization table `memo` to store the results of subproblems based on the current state of the `d` array.
+  2) Modify the `func` function to check if the result for the current state is already computed and stored in `memo`. If so, return the stored result instead of recomputing it.
+  3) Initialize the `memo` table with appropriate dimensions and default values before calling the `func` function.
+Traps: Ensure that the memoization key uniquely identifies each subproblem state and that the memoization table is properly initialized to avoid accessing uninitialized memory."
+pie_p02695_s405258011,"Bottleneck: The nested loops iterating through all possible sequences of length N within the range [1, M], which results in a time complexity of O(M^N * Q).
+Strategy: Use dynamic programming to avoid redundant calculations by storing intermediate results.
+Steps:
+  1) Define a DP table `dp[i][j]` where `i` represents the current position in the sequence and `j` represents the value at that position.
+  2) Initialize the DP table with zeros.
+  3) Iterate through each possible value `k` from 1 to M and update the DP table based on the previous state.
+  4) For each query `(a, b, c, d)`, update the DP table to reflect the contribution of sequences that satisfy the condition `A[b] - A[a] == c`.
+  5) Finally, compute the maximum score by considering all possible ending positions and values.
+Traps: Ensure that the DP table is updated correctly to account for all valid sequences and queries without overwriting intermediate results."
+pie_p03704_s809949068,"Bottleneck: The nested loops in the `dfs` function and the repeated calculations within the `solve` function lead to high computational overhead.
+Strategy: Optimize the recursive approach by using dynamic programming to store intermediate results and avoid redundant calculations.
+Steps:
+  1) Create a DP table where `dp[i][j]` represents the number of valid numbers with length `i` and remainder `j` when divided by `D`.
+  2) Initialize the base cases for single-digit numbers.
+  3) Fill the DP table iteratively by considering each possible digit addition and updating the count based on the previous states.
+Traps: Ensure that the DP table is properly initialized and updated to handle all edge cases without overwriting or missing values."
+pie_p03649_s268115538,"Bottleneck: The nested loops iterating over `arr` and `cur` up to 625000 times are causing the high runtime.
+Strategy: Reduce the number of iterations by calculating the required number of operations directly using mathematical reasoning.
+Steps:
+  1) Calculate the maximum element in the array.
+  2) For each element, determine how many operations are needed to reduce it to less than or equal to `N-1`.
+  3) Sum up all the operations required for each element.
+Traps: Ensure that the calculations do not overflow for large input values."
+pie_p01908_s106303000,"Bottleneck: The nested loops iterating over possible substrings and checking against the set `a` result in a time complexity of O(n^3), which is too slow given the constraints.
+Strategy: Use a Trie data structure to efficiently store and search for substrings of the dangerous passwords, reducing the lookup time.
+Steps:
+  1) Define a Trie node class with pointers to child nodes and a boolean flag to indicate if a word ends at this node.
+  2) Insert each substring of the dangerous passwords into the Trie.
+  3) Iterate through all possible single-character strings ('a' to 'z') and check if they exist in the Trie. If not, output that character as the password.
+Traps: Ensure that the Trie implementation is efficient and does not introduce additional overhead. Be cautious when handling edge cases such as empty strings or strings with repeated characters."
+pie_p02274_s021946467,"Bottleneck: The nested loops in the original code result in a time complexity of O(n^2), which is too slow for the given constraints.
+Strategy: Implement a more efficient sorting algorithm with a time complexity of O(n log n) to count inversions.
+Steps:
+  1) Replace the bubble sort with a merge sort algorithm.
+  2) Modify the merge sort to count inversions during the merging process.
+  3) Ensure that the modified merge sort maintains the stability of the sort.
+Traps: None"
+pie_p00992_s307173529,"Bottleneck: The nested loops and cumulative sum operations within the `FOR` loop are causing significant overhead due to their high time complexity.
+Strategy: Replace the cumulative sum operation with a prefix sum array to reduce the time complexity of each query.
+Steps:
+  1) Initialize a prefix sum array `prefix_sum` of size `N`.
+  2) Update the prefix sum array using the `add` function similarly to the original code.
+  3) Calculate the result using the prefix sum array instead of the cumulative sum operation.
+Traps: Ensure that the prefix sum array is updated correctly and that the final result is calculated accurately using the prefix sums."
+pie_p00262_s107277873,"Bottleneck: The nested loops and repeated checks within the `main` function are causing the program to run slowly, particularly due to the inner loop that processes each block and updates the deque.
+Strategy: Implement a more efficient algorithm to determine the minimum number of operations required to form a triangular stack without using nested loops for each operation.
+Steps:
+  1) Calculate the total number of blocks and check if it is already a triangular number. If so, output 0.
+  2) Iterate through the blocks to count the number of blocks in each position and store this information in an array.
+  3) Use a greedy approach to simulate the operations by moving blocks to the right and filling gaps until the configuration forms a triangle.
+Traps: Ensure that the greedy approach correctly handles all possible configurations and does not miss any necessary operations. Also, verify that the final configuration meets the criteria for a triangular stack."
+pie_p02540_s227565517,"Bottleneck: The nested loops and use of `lower_bound` within the sorting operations result in a time complexity of \(O(N^2 \log N)\).
+Strategy: Implement a more efficient approach using a monotonic stack to avoid redundant comparisons and reduce the overall complexity.
+Steps:
+  1) Replace the nested loops with a single pass through the sorted array using a monotonic stack to keep track of reachable cities.
+  2) Use two stacks, one for increasing x-coordinates and one for decreasing x-coordinates, to efficiently determine reachable cities.
+  3) For each city, update the size of the connected component using the DSU data structure.
+Traps: Ensure that the DSU operations remain efficient even after merging multiple components. Carefully handle edge cases where no reachable cities exist."
+pie_p03611_s671688229,"Bottleneck: The nested loops and map operations within the main function result in a time complexity of O(n^2), which is too slow for large inputs.
+Strategy: Use a single pass through the array to calculate the frequency of each element and its neighbors, then determine the maximum frequency.
+Steps:
+  1) Initialize a vector `freq` of size 100001 with all elements set to 0.
+  2) Iterate through the array `a` and increment the frequencies of `a[i]`, `a[i]-1`, and `a[i]+1` in the `freq` vector.
+  3) Find the maximum value in the `freq` vector, which represents the maximum possible count.
+Traps: Ensure that the indices used to access the `freq` vector are within bounds to avoid out-of-bounds errors."
+pie_p00620_s095695388,"Bottleneck: The recursive backtracking approach has exponential time complexity due to exploring all possible paths, leading to high runtime for larger grids.
+Strategy: Implement a heuristic-based pruning technique to reduce the search space and improve efficiency.
+Steps:
+  1) Introduce a heuristic function to estimate the cost of reaching the target sum from a given cell.
+  2) Modify the backtracking algorithm to prioritize cells based on the heuristic value, exploring the most promising paths first.
+  3) Add early termination conditions to stop exploring paths that are guaranteed to fail.
+Traps: Ensure that the heuristic does not introduce biases that lead to incorrect solutions. Carefully manage memory usage during the pruning process."
+pie_p02318_s259001950,"Bottleneck: The recursive implementation with memoization has high overhead due to function calls and repeated calculations.
+Strategy: Convert the recursive approach to an iterative dynamic programming solution using a 2D array to store intermediate results.
+Steps:
+  1) Replace the `ld` function with an iterative function `iterative_ld`.
+  2) Initialize a 2D vector `dp` of size `(s.size()+1) x (t.size()+1)` to store the edit distances.
+  3) Fill the `dp` table iteratively based on the recurrence relation used in the recursive function.
+Traps: Ensure that the base cases are correctly handled and that the dimensions of the `dp` array are properly initialized."
+pie_p02243_s539032604,"Bottleneck: The use of `priority_queue` for Dijkstra's algorithm has a time complexity of \(O(\log n)\) per extraction and insertion, leading to an overall complexity of \(O((n + |E|) \log n)\).
+Strategy: Replace the `priority_queue` with a Fibonacci heap to achieve \(O((n + |E|) \log n)\) complexity.
+Steps:
+  1) Include the Fibonacci heap implementation header file.
+  2) Modify the `dijkstra` function to use a Fibonacci heap instead of a `priority_queue`.
+  3) Adjust the code to handle the operations specific to Fibonacci heaps, such as decrease key and extract minimum.
+Traps: Ensure that the Fibonacci heap implementation correctly handles all necessary operations without introducing bugs or changing the observable behavior of the program."
+pie_p01868_s176032560,"Bottleneck: The nested loops iterating over all possible states of the three scanners' remaining capacities are computationally expensive due to their high time complexity of O(N * 2500 * 2500).
+Strategy: Implement a more efficient approach using a priority queue to manage the tasks assigned to each scanner, ensuring that the scanner always works on the task that will finish the soonest.
+Steps:
+  1) Replace the dynamic programming table with a priority queue for each scanner.
+  2) Initialize the priority queues with the initial tasks and their respective times.
+  3) Continuously assign the next task to the scanner with the earliest completion time until all tasks are completed.
+Traps: Ensure that the priority queues are updated correctly when tasks are completed and new tasks are added."
+pie_p02792_s854842511,"Bottleneck: The nested loops iterating over all pairs (i, j) up to N, resulting in O(N^2) complexity.
+Strategy: Precompute the counts of numbers with specific first and last digits and use these counts to directly calculate the result.
+Steps:
+  1) Create a 2D array `count` where `count[d1][d2]` represents the number of numbers between 1 and N whose first digit is `d1` and last digit is `d2`.
+  2) Iterate through all numbers from 1 to N, extract their first and last digits, and increment the corresponding count in the `count` array.
+  3) Calculate the total number of valid pairs by summing up `count[d1][d2] * count[d2][d1]` for all possible pairs of digits `(d1, d2)`.
+Traps: Ensure that the counts are correctly initialized and updated, and handle edge cases such as when `N` is less than 10."
+pie_p00831_s730074781,"Bottleneck: The nested loops iterating over all pairs of strings and calling `check` recursively result in an exponential time complexity due to repeated calculations for the same string pairs.
+Strategy: Implement memoization to store the results of previously computed distances between string pairs to avoid redundant calculations.
+Steps:
+  1) Create a 2D vector `memo` to store the minimum edit distances between all pairs of strings.
+  2) Modify the `check` function to use the `memo` table instead of recalculating distances for already computed pairs.
+  3) Initialize the `memo` table with -1 to indicate uncomputed distances.
+Traps: Ensure that the memoization approach does not introduce any side effects or changes in the observable behavior of the program."
+pie_p03613_s690599050,"Bottleneck: The nested loops iterating through the map entries are causing the high time complexity.
+Strategy: Use a single pass through the array to calculate the frequency of each element and then determine the maximum possible count by considering the adjacent elements.
+Steps:
+  1) Initialize an array `freq` of size 100010 to store the frequency of each element in the input array.
+  2) Iterate through the input array and increment the corresponding index in the `freq` array.
+  3) Iterate through the `freq` array and calculate the maximum possible count by considering the current element and its adjacent elements.
+Traps: None"
+pie_p03796_s529484435,"Bottleneck: The inner loop where `p` is updated and checked against `b + 7` is inefficient due to repeated multiplications and modulus operations.
+Strategy: Use modular exponentiation to efficiently compute the product of numbers up to `N` modulo \(10^9 + 7\).
+Steps:
+  1) Replace the loop with a function that performs modular exponentiation.
+  2) Initialize `p` to 1 and use a loop to multiply `p` by `i` modulo \(10^9 + 7\) for each `i` from 1 to `N`.
+  3) Print the final value of `p`.
+Traps: Ensure that the modular exponentiation function correctly handles large intermediate results without overflow."
+pie_p00427_s031858281,"Bottleneck: The nested loops in the `add` function result in quadratic complexity due to the repeated addition and modulo operations.
+Strategy: Replace the nested loops with a single pass through the array using a prefix sum approach to avoid redundant calculations.
+Steps:
+  1) Introduce a new array `prefix_sum` of size `k+1`.
+  2) Initialize `prefix_sum[0] = 0` and compute `prefix_sum[i] = prefix_sum[i-1] + array[i] % 10` for `i` from 1 to `k`.
+  3) Modify the `add` function to use `prefix_sum` for updating the `array` elements.
+Traps: Ensure that the `prefix_sum` array is updated correctly and that the modulo operation is applied only once per element."
+pie_p01338_s543979202,"Bottleneck: The nested loops iterating over `prev` map within the innermost loop, resulting in O(n^2) complexity due to repeated access and updates.
+Strategy: Replace the nested loop with a more efficient data structure that allows faster lookups and updates, such as a hash set or unordered_set.
+Steps:
+  1) Change the type of `next` from `map<NODE, int>` to `unordered_map<NODE, int>`.
+  2) Update the logic to insert and update elements in `next` using the `[]` operator, which automatically inserts the key if it doesn't exist.
+  3) Ensure that all references to `next` are updated accordingly.
+Traps: None"
+pie_p00056_s840835529,"Bottleneck: The nested loops iterating over `i` and `j` inside the innermost loop are causing the high time complexity.
+Strategy: Use a more efficient approach to count the number of ways to express `n` as the sum of two primes without using nested loops.
+Steps:
+  1) Create a function `isPrime` to check if a number is prime.
+  2) Iterate through all possible pairs of prime numbers `(p1, p2)` such that `p1 + p2 = n`.
+  3) Count the number of valid pairs.
+Traps: Ensure that the `isPrime` function is optimized to handle large numbers efficiently."
+pie_p00514_s930952621,"Bottleneck: The nested loops for calculating factorials and combinations are inefficient due to repeated calculations and large intermediate values.
+Strategy: Implement memoization to store previously calculated factorial values and use dynamic programming to efficiently compute combinations.
+Steps:
+  1) Create a memoized array to store factorial values up to the maximum possible value.
+  2) Use dynamic programming to calculate combinations using the memoized factorial values.
+  3) Adjust the main logic to utilize the precomputed combinations.
+Traps: Ensure that the memoized array size is sufficient to handle the maximum possible values without overflow."
+pie_p00030_s870509314,"Bottleneck: The recursive function `sp` has exponential time complexity due to exploring all possible combinations of numbers, which is O(2^n).
+Strategy: Use dynamic programming to store intermediate results and avoid redundant calculations.
+Steps:
+  1) Define a 2D DP array `dp[n+1][s+1]` where `dp[i][j]` represents the number of ways to get sum `j` using `i` numbers.
+  2) Initialize `dp[0][0] = 1` because there is exactly one way to get sum 0 with 0 numbers.
+  3) Iterate through each number from 0 to 9 and update the DP table accordingly.
+Traps: Ensure that the DP table is properly initialized and updated to handle all edge cases correctly."
+pie_p02094_s521795241,"Bottleneck: The nested loops over the vertices and their neighbors in the `main` function are causing the high time complexity.
+Strategy: Use dynamic programming to precompute the number of connected components for each subtree in both trees.
+Steps:
+  1) Create a recursive function to calculate the number of connected components for each subtree in tree T and store the results in a memoization table.
+  2) Similarly, create another recursive function to calculate the number of connected components for each subtree in tree U and store the results in another memoization table.
+  3) Use these precomputed results to efficiently calculate the expected value of X * Y without needing to perform nested loops.
+Traps: Ensure that the memoization tables are correctly initialized and updated to avoid incorrect results. Also, be mindful of the modulo arithmetic to prevent overflow and ensure correctness."
+pie_p03506_s329900608,"Bottleneck: The nested loops in the main function are causing the program to run in O(N^2) time, which is too slow for the given constraints.
+Strategy: To optimize the program, we can use a binary search approach to find the lowest common ancestor (LCA) of two nodes in the infinite N-ary tree.
+Steps:
+  1) Calculate the depth of the two nodes using their indices.
+  2) If the depths are different, bring them to the same level by moving the deeper node up the tree.
+  3) Move both nodes up the tree simultaneously until they meet at the LCA.
+Traps: None"
+pie_p00277_s980115561,"Bottleneck: The use of a priority queue inside a loop results in O(R * log N) complexity due to repeated insertions and deletions.
+Strategy: Replace the priority queue with a sorted array to achieve O(R * log N) complexity but reduce the overhead of heap operations.
+Steps:
+  1) Declare a vector of pairs to store team IDs and their scores.
+  2) Sort the vector initially based on team ID and score.
+  3) Iterate through the records and update the scores in the vector.
+  4) After updating, sort the vector again based on score and team ID.
+  5) Track the maximum time a team is shown on TV.
+Traps: Ensure that the sorting steps do not affect the overall complexity and that the team ID remains the primary key for tie-breaking."
+pie_p03536_s850920816,"Bottleneck: The nested loops in the dynamic programming solution result in a time complexity of O(n^2), which is too slow for the given constraints.
+Strategy: Implement a more efficient algorithm using a priority queue to keep track of the participants based on their ability to add zabuton to the stack.
+Steps:
+  1) Create a priority queue to store participants sorted by their current height plus power.
+  2) Initialize a variable to keep track of the current height of the stack.
+  3) Iterate through the participants in the order determined by the priority queue.
+  4) For each participant, check if adding their zabuton to the stack would exceed the current height limit.
+  5) If it does not exceed the limit, add their zabuton to the stack and increment the count of participants who can add zabuton.
+  6) Continue until all participants have been processed.
+Traps: Ensure that the priority queue is updated correctly after each participant has been processed to maintain the correct order of participants."
+pie_p00773_s683900927,"Bottleneck: The nested loops iterating over all possible combinations of before-tax prices (i, j) up to 1000 each, resulting in O(1000^2) iterations.
+Strategy: Use dynamic programming to precompute the possible after-tax prices for each before-tax price and store them in a lookup table.
+Steps:
+  1) Create a 2D array `dp` where `dp[i][j]` stores the set of possible after-tax prices for items with before-tax prices summing to `i + j`.
+  2) Iterate over all possible before-tax prices `i` and `j`, compute the after-tax prices using the given formula, and add them to `dp[i][j]`.
+  3) For each dataset, use the precomputed `dp` table to find the maximum possible after-tax price for the given total after-tax price `s`.
+Traps: Ensure that the precision issues with floating-point arithmetic do not affect the correctness of the results."
+pie_p03313_s683246169,"Bottleneck: The nested loops iterating over all pairs (i, j) and sorting them contribute significantly to the runtime complexity.
+Strategy: Precompute the maximum sums for each bit position and use these precomputed values to avoid redundant calculations.
+Steps:
+  1) Create a 2D array `max_sum` where `max_sum[k][bit]` stores the maximum sum for the current bit position `bit` when considering elements up to index `k`.
+  2) Iterate through each element and update the `max_sum` array accordingly.
+  3) For each query, calculate the result using the precomputed `max_sum` array without needing to sort or iterate over all pairs.
+Traps: Ensure that the precomputation correctly handles all bit positions and indices within the constraints."
+pie_p00651_s130143309,"Bottleneck: The nested loops in the `main` function, specifically the inner loop where `rot_seta` is called for each possible next point, result in an overall time complexity of O(n^2).
+Strategy: Replace the nested loop with a more efficient data structure to find the next point with the smallest angle increment.
+Steps:
+  1) Create a priority queue to store pairs of points and their corresponding angle increments.
+  2) For each point, calculate its angle increment with respect to the current point and push the pair into the priority queue.
+  3) Pop the top element from the priority queue to get the next point with the smallest angle increment.
+Traps: Ensure that the priority queue is implemented efficiently to maintain logarithmic time complexity for insertions and deletions. Also, verify that the angle calculation remains accurate even when using floating-point arithmetic."
+pie_p00596_s990427234,"Bottleneck: The nested loops and recursive DFS calls result in high time complexity due to repeated checks and redundant calculations.
+Strategy: Implement memoization to store results of subproblems and avoid redundant calculations.
+Steps:
+  1) Create a memoization table to store the results of subproblems.
+  2) Modify the DFS function to use the memoization table to check if a solution exists for a given state.
+  3) Update the main logic to initialize the memoization table and call the modified DFS function.
+Traps: Ensure that the memoization table is properly initialized and updated to handle all possible states."
+pie_p02865_s978972603,"Bottleneck: The nested loops in the original code result in a time complexity of O(N^2), which is too slow for the given constraint (1 ≤ N ≤ 10^6).
+Strategy: We can use a mathematical approach to directly calculate the number of ways to choose two distinct positive integers that sum up to N without using nested loops.
+Steps:
+  1) Calculate the maximum value of the smaller integer, which is floor((N-1)/2).
+  2) Iterate from 1 to the maximum value calculated in step 1.
+  3) For each iteration, increment the result by 1 since each valid pair (i, N-i) where i < N-i is counted once.
+Traps: None"
+pie_p03037_s370690865,"Bottleneck: The nested loops and conditional checks within the while loop are causing the program to run slowly, especially with large inputs.
+Strategy: Use a more efficient approach to determine the range of valid ID cards that can pass all gates alone by leveraging set operations.
+Steps:
+  1) Read the input values for N and M.
+  2) Initialize a set to store the valid ID cards that can pass each gate.
+  3) For each gate, update the set to keep only the ID cards that fall within the current gate's range [L_i, R_i].
+  4) After processing all gates, the size of the set will give the number of ID cards that can pass all gates alone.
+Traps: Ensure that the set operations are performed efficiently, and handle edge cases where no ID cards can pass all gates."
+pie_p00556_s032657800,"Bottleneck: The nested loops in the dynamic programming section are causing the high time complexity. Specifically, the innermost loop iterates over all possible combinations of plush toy types, leading to a quadratic time complexity within the outer loop.
+
+Strategy: To reduce the time complexity, we can use a more efficient approach to calculate the minimum number of plush toys to remove. Instead of iterating over all possible combinations, we can use a prefix sum array to quickly determine the number of plush toys of each type in any given range.
+
+Steps:
+  1) Initialize a prefix sum array `prefix_sum` where `prefix_sum[i][j]` represents the number of plush toys of type `i+1` up to the `j-th` compartment.
+  2) Iterate through the compartments and update the prefix sum array accordingly.
+  3) For each state in the dynamic programming table, instead of iterating over all possible combinations of plush toy types, iterate only over the types that are currently included in the state.
+  4) Calculate the minimum number of plush toys to remove by considering the difference between the current state and the previous states.
+
+Traps: Ensure that the prefix sum array is updated correctly and that the dynamic programming table is filled efficiently without redundant calculations."
+pie_p03180_s740247295,"Bottleneck: The recursive function `solve` is called multiple times with the same parameters, leading to redundant computations.
+Strategy: Memoize the results of the recursive function to avoid repeated calculations.
+Steps:
+  1) Add a memoization table to store the results of the recursive calls.
+  2) Modify the `solve` function to check if the result for the current state is already computed before performing further calculations.
+  3) Update the base case and recursive calls accordingly to utilize the memoization table.
+Traps: Ensure that the memoization table is properly initialized and that the base case correctly reflects the initial conditions without relying on previously computed values."
+pie_p00431_s229448779,"Bottleneck: The recursive function `solve` has exponential time complexity due to repeated calculations and redundant work.
+Strategy: Convert the recursive solution into an iterative one using dynamic programming to avoid redundant calculations.
+Steps:
+  1) Create a DP array `dp` where `dp[i]` represents the maximum length of the chain starting from node `i`.
+  2) Initialize the `dp` array with -1 to indicate unvisited nodes.
+  3) Iterate through each node and use a stack to perform DFS iteratively, updating the `dp` array with the maximum chain length found.
+Traps: Ensure that the graph is fully explored without revisiting nodes unnecessarily."
+pie_p03601_s584146760,"Bottleneck: The nested loops iterating over all possible combinations of A, B, C, and D result in a time complexity of O(n^4), which is too high given the constraints.
+Strategy: Implement a dynamic programming approach to reduce the time complexity to O(n^2).
+Steps:
+  1) Create a 2D DP array `dp` where `dp[i][j]` represents the maximum amount of sugar that can be dissolved in `i` grams of water using up to `j` units of sugar.
+  2) Iterate over all possible amounts of water `w` and sugar `s`, updating the DP table based on whether adding more water or sugar increases the amount of dissolved sugar.
+  3) For each combination of water and sugar, calculate the density and update the answer if the current density is higher.
+Traps: Ensure that the DP table is initialized correctly and that the constraints on the total mass of substances are respected."
+pie_p03115_s101106284,"Bottleneck: The binary search loop is slow because it performs a costly `xor` operation inside the loop, which is computationally expensive.
+Strategy: Replace the binary search with a direct calculation based on the properties of the problem.
+Steps:
+  1) Calculate the sum of all `y[i] - b` values.
+  2) Calculate the sum of all `c - x[i]` values.
+  3) Determine the value of `b` using these sums.
+Traps: None"
+pie_p00209_s840831229,"Bottleneck: The nested loops iterating over the entire `in` matrix multiple times to check for matches with the `pic` matrix, resulting in a time complexity of O(n^2 * m^2).
+Strategy: Implement a sliding window approach to efficiently find the match without redundant checks.
+Steps:
+  1) Create a hash map to store the positions of non-negative values in the `in` matrix.
+  2) Iterate through the `pic` matrix and use the hash map to quickly locate potential matches in the `in` matrix.
+  3) Check if the submatrix in the `in` matrix matches the `pic` matrix starting from the located positions.
+Traps: Ensure that the hash map is updated correctly and that the matching logic accounts for the rotation of the `pic` matrix."
+pie_p00723_s145274604,"Bottleneck: The nested loops iterating over all possible split positions and generating permutations are causing the high time complexity.
+Strategy: Use dynamic programming to avoid redundant calculations and reduce the number of permutations generated.
+Steps:
+  1) Create a DP table where dp[i][j] represents the set of unique configurations that can be formed by splitting the substring st[i:j].
+  2) Initialize the base cases where dp[i][i] contains only the single character substring st[i:i].
+  3) Fill the DP table by considering all possible split positions between i and j, and generate the new configurations by combining the results from the left and right substrings.
+Traps: Ensure that the DP table is properly initialized and updated to avoid incorrect results. Also, be mindful of memory usage as the size of the DP table grows with the input size."
+pie_p00746_s632441558,"Bottleneck: The nested loops iterating over the entire 801x801 grid multiple times to update and check positions are causing the high time complexity.
+Strategy: Use a more efficient data structure to keep track of the boundaries of the artwork without needing to iterate over the entire grid repeatedly.
+Steps:
+  1) Replace the 2D array `p` with a single vector to store the position of each square.
+  2) Maintain variables to track the current minimum and maximum x and y coordinates of the artwork.
+  3) Update these variables as each square is added to the artwork.
+Traps: Ensure that the updated boundary variables correctly reflect the placement of each square and handle edge cases where squares are placed at the edges of the initial position."
+pie_p02321_s961360389,"Bottleneck: The nested loops and use of `map` for storing intermediate results lead to high time complexity due to repeated calculations and logarithmic insertions/deletions.
+Strategy: Implement a dynamic programming approach using a 2D array to store the maximum value achievable with a given weight limit.
+Steps:
+  1) Declare a 2D vector `dp` where `dp[i][j]` represents the maximum value achievable with the first `i` items and a weight limit of `j`.
+  2) Initialize the `dp` array with zeros.
+  3) Iterate through each item and update the `dp` array based on whether including the current item increases the total value without exceeding the weight limit.
+Traps: Ensure that the weight and value arrays are indexed correctly when updating the `dp` array to avoid out-of-bounds errors."
+pie_p03670_s983612477,"Bottleneck: The nested loops iterating over all possible states (1 << n - 1) and transitions are computationally expensive.
+Strategy: Implement memoization with a more efficient data structure to store intermediate results and avoid redundant calculations.
+Steps:
+  1) Replace the array `F` with a hash map to store the number of ways to reach each state.
+  2) Modify the transition logic to use the hash map for lookups instead of recalculating values.
+  3) Ensure that the hash map keys are unique and efficiently represent the state.
+Traps: None"
+pie_p01341_s430604725,"Bottleneck: The nested loops in the `prim` function, which have a time complexity of O(V^2), where V is the number of vertices (piles).
+Strategy: Replace the nested loops with a priority queue to achieve a time complexity of O(E log V), where E is the number of edges (fences).
+Steps:
+  1) Change the `mincost` array to a priority queue.
+  2) Remove the `used` array and replace it with a set to keep track of visited nodes.
+  3) Modify the `prim` function to use the priority queue for selecting the next node with the minimum cost.
+Traps: Ensure that the priority queue implementation correctly handles floating-point comparisons to avoid precision issues."
+pie_p01401_s673178272,"Bottleneck: The BFS implementation uses a 3D array `used` which results in high memory usage and slow access times due to its large size.
+Strategy: Implement a more efficient data structure for tracking visited states using a hash map.
+Steps:
+  1) Replace the 3D array `used` with a hash map where the key is a tuple representing the current state `(current_layer, x, y)` and the value is a boolean indicating whether the state has been visited.
+  2) Modify the BFS logic to use the new hash map for checking and marking visited states.
+  3) Ensure that the hash map operations (insertion and lookup) are optimized for performance.
+Traps: None"
+pie_p02802_s842242043,"Bottleneck: The nested loops in the code result in a time complexity of O(N * M), which is too high given the constraints.
+Strategy: Use a single pass through the submissions to keep track of the number of WAs and ACs for each problem.
+Steps:
+  1) Create two arrays, `wa` and `ac`, both of size N+1, initialized to 0. These arrays will store the number of WAs and ACs for each problem.
+  2) Iterate through the submissions. For each submission, if the verdict is ""WA"", increment the corresponding entry in the `wa` array. If the verdict is ""AC"" and the problem hasn't been solved before (i.e., `ac[p_i] == 0`), add the value in the `wa` array for that problem to the total penalty and set the corresponding entry in the `ac` array to 1.
+  3) After processing all submissions, the number of correct answers is the sum of the entries in the `ac` array, and the total penalty is stored in the variable `tp`.
+Traps: None."
+pie_p03475_s745363388,"Bottleneck: The nested loops in the `main` function result in a time complexity of O(n^2), which is too slow for the given constraints.
+Strategy: Optimize the nested loops by using dynamic programming to store intermediate results and avoid redundant calculations.
+Steps:
+  1) Create a DP array `dp` where `dp[i]` represents the minimum time required to reach Station N starting from Station i.
+  2) Initialize the last station's time as `dp[N-1] = 0`.
+  3) Iterate from the second-to-last station to the first station, updating `dp[i]` based on the minimum time to reach the next station considering the departure times and travel times.
+Traps: Ensure that the DP array is properly initialized and updated to handle all edge cases correctly."
+pie_p03771_s758894826,"Bottleneck: The nested loops and use of `upper_bound` and `lower_bound` inside the dynamic programming transitions are causing the high time complexity.
+Strategy: Optimize the DP transitions by using prefix sums and binary search more efficiently.
+Steps:
+  1) Replace the `upper_bound` and `lower_bound` calls with precomputed prefix sums and binary search on those sums.
+  2) Maintain two arrays, one for the maximum reachable position (`max_pos`) and another for the minimum steps required (`min_steps`), and update them during the DP transitions.
+  3) Use binary search to quickly find the appropriate positions and values during the DP updates.
+Traps: Ensure that the binary search indices are correctly adjusted to account for zero-based indexing and the inclusive/exclusive nature of the bounds."
+pie_p03465_s528533862,"Bottleneck: The nested loops and bit manipulation in the current approach result in a time complexity of O(N * 2^N), which is too slow for the given constraints.
+Strategy: To optimize the solution, we can use a more efficient method to calculate the sums of all non-empty subsequences and sort them directly without generating all subsequences explicitly.
+Steps:
+  1) Calculate the total number of subsequences, which is 2^N - 1.
+  2) Use a priority queue to store the sums of subsequences in sorted order.
+  3) Iterate through each element and update the sums in the priority queue.
+Traps: Ensure that the priority queue operations are efficient and do not exceed the time limit."
+pie_p02023_s458022091,"Bottleneck: The nested loops and sorting operations are causing the program to run slowly.
+Strategy: Use a more efficient approach to count overlapping intervals without sorting.
+Steps:
+  1) Create two arrays to store the start and end times of the intervals.
+  2) Iterate through the input to populate these arrays.
+  3) Sort both arrays separately.
+  4) Use two pointers to traverse the sorted arrays and count the maximum overlap.
+Traps: Ensure that the logic correctly handles the transition points between intervals."

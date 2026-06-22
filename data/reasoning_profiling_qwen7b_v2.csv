@@ -1,0 +1,332 @@
+sample_id,plan
+pie_p03146_s047505757,"Bottleneck: The use of `std::vector` with a large fixed size (`p = 147483647`) leads to significant memory allocation and initialization overhead, which dominates the runtime.
+Tier 1:     `ios_base::sync_with_stdio(false); cin.tie(nullptr);`
+Tier 2:     n/a
+Tier 3:     n/a
+Traps:      none"
+pie_p00465_s878145104,"Bottleneck: The use of `std::list` for storing nodes leads to high overhead due to frequent insertions and deletions, resulting in O(n^2 log n) complexity.
+Tier 1: n/a
+Tier 2: Replace `std::list` with `std::vector` for storing nodes.
+Tier 3: n/a
+Traps: None"
+pie_p01429_s020020909,"Bottleneck: The nested loops in the DP table update process result in quadratic complexity, leading to high execution time.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     n/a
+Tier 3:     n/a
+Traps:      none"
+pie_p02630_s465280605,"Bottleneck: The nested loops in the replacement logic result in quadratic time complexity due to the repeated summation and modification of the array.
+Tier 1:     ios::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     n/a
+Tier 3:     Use a hash map to keep track of the frequency of each element and its contribution to the sum, allowing for constant-time updates during replacements.
+Traps:      The hash map must accurately reflect the frequency and contribution of each element before and after replacements."
+pie_p02892_s126371943,"Bottleneck: The nested loops and BFS inside the outer loop result in high time complexity due to redundant computations.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     Use a more efficient data structure for tracking visited nodes and distances.
+Tier 3:     n/a
+Traps:      None"
+pie_p03914_s893506098,"Bottleneck: The nested loops in the dynamic programming solution result in a time complexity of O(n^3), which is too high for the given constraints.
+Tier 1:     n/a
+Tier 2:     Change the 3D DP table to a 2D DP table by using a single index to represent the state.
+Tier 3:     n/a
+Traps:      The rewrite must preserve the fact that each state represents the number of ways to reach a certain town with a certain number of remaining steps."
+pie_p03161_s054675932,"Bottleneck: The current solution uses a recursive approach with memoization, leading to redundant calculations and high memory usage due to the large DP table.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     Change the 2D DP table to a flat array to reduce memory usage.
+Tier 3:     n/a
+Traps:      none"
+pie_p03169_s960308819,"Bottleneck: The dynamic programming approach with three dimensions (i, j, k) results in high memory usage and redundant calculations due to overlapping subproblems.
+Tier 1: n/a
+Tier 2: Change the 3D DP table to a 2D DP table by using a single index to represent the state of the system.
+Tier 3: n/a
+Traps: The rewrite must preserve the fact that the DP table represents the expected number of operations needed to eat all sushi on the dishes."
+pie_p03766_s208657807,"Bottleneck: The nested loops in the `main` function result in quadratic complexity due to the repeated calls to `query`, `rw`, and `modify`.
+Tier 1:     n/a
+Tier 2:     Replace the nested loops with a more efficient data structure or algorithm to reduce the number of operations.
+Tier 3:     n/a
+Traps:      none"
+pie_p01324_s953390691,"Bottleneck: The DFS approach has high overhead due to recursion and repeated map lookups.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     Use an iterative BFS approach instead of DFS.
+Tier 3:     n/a
+Traps:      The solution must correctly identify contradictions in unit relationships while preserving the same output for every test case."
+pie_p03730_s590400302,"Bottleneck: The program uses a brute-force approach with a loop that iterates up to 100 million times, which is inefficient for the given constraints.
+Tier 1: n/a
+Tier 2: n/a
+Tier 3: Use the mathematical property that if \( c \equiv kA \pmod{B} \), then selecting \( kA \) will satisfy the condition. This reduces the search space significantly.
+Traps: none"
+pie_p02714_s868124332,"Bottleneck: The nested loops and permutations result in O(n^3) complexity, which is too slow for the given constraints.
+Tier 1:     n/a
+Tier 2:     Use prefix sums to avoid redundant calculations of valid indices.
+Tier 3:     n/a
+Traps:      The solution must still correctly count all valid triples (i, j, k) that meet the given conditions."
+pie_p04034_s126189583,"Bottleneck: The nested loops iterating over the operations result in quadratic time complexity due to the use of `vector<bool>` for tracking which boxes might contain the red ball.
+Tier 1: n/a
+Tier 2: Use a single boolean variable to track whether the red ball could be in any box, rather than using a vector. This reduces space complexity and potentially improves cache locality.
+Tier 3: n/a
+Traps: None"
+pie_p01767_s551796497,"Bottleneck: The use of `upper_bound` inside the loop results in \(O(M \log N)\) complexity due to the logarithmic search for each participant.
+Tier 1:     `ios_base::sync_with_stdio(false); cin.tie(nullptr);`
+Tier 2:     n/a
+Tier 3:     n/a
+Traps:      none"
+pie_p03275_s623136798,"Bottleneck: The use of `sort` inside the `check` function results in \(O(N \log N)\) complexity per call, and this operation is performed multiple times, leading to overall high complexity.
+Tier 1: n/a
+Tier 2: Replace the `sort` call with a more efficient data structure like a balanced binary search tree (e.g., `std::set`) to maintain elements in sorted order and allow for efficient insertion and access.
+Tier 3: n/a
+Traps: None"
+pie_p01680_s588278972,"Bottleneck: The `sol` function iterates over each edge multiple times, leading to quadratic complexity.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     Use a union-find data structure more efficiently by using path compression and union by rank.
+Tier 3:     n/a
+Traps:      none"
+pie_p00774_s295712597,"Bottleneck: The nested loops in `deleteLine` and `downStone` functions are causing redundant checks and unnecessary operations.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     Use a flat array instead of a 2D vector for the board.
+Tier 3:     n/a
+Traps:      none"
+pie_p03091_s244576105,"Bottleneck: The recursive function `rec` has exponential complexity due to redundant calculations and lack of memoization.
+Tier 1: n/a
+Tier 2: Replace the recursive function with an iterative approach using a stack to avoid deep recursion.
+Tier 3: n/a
+Traps: None"
+pie_p00742_s548955629,"Bottleneck: The recursive function `func` is called exponentially many times due to the lack of memoization, leading to redundant calculations.
+Tier 1:     n/a
+Tier 2:     Replace the recursive call with an iterative loop using dynamic programming.
+Tier 3:     n/a
+Traps:      The assignment of digits to characters must remain consistent with the original algorithm, ensuring no invalid solutions are missed."
+pie_p02695_s405258011,"Bottleneck: The nested loops iterating through all possible sequences and checking each condition result in a high computational cost due to the exponential growth of possibilities.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     n/a
+Tier 3:     n/a
+Traps:      none"
+pie_p03704_s809949068,"Bottleneck: The nested DFS calls result in exponential time complexity due to the large search space.
+Tier 1: n/a
+Tier 2: Replace the recursive DFS calls with an iterative approach using a stack to manage the state.
+Tier 3: n/a
+Traps: The algorithm must correctly handle all possible values of D and ensure that the reversed number equals the original number plus D."
+pie_p03649_s268115538,"Bottleneck: The nested loops iterate over the array multiple times unnecessarily, leading to quadratic complexity.
+Tier 1:     cin.sync_with_stdio(0); cin.tie(0); cout.tie(0);
+Tier 2:     n/a
+Tier 3:     n/a
+Traps:      none"
+pie_p01908_s106303000,"Bottleneck: The nested loops iterating over possible substrings and generating candidate passwords result in quadratic complexity.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     Use a more efficient data structure for storing and checking substrings, such as a Trie.
+Tier 3:     n/a
+Traps:      none"
+pie_p02274_s021946467,"Bottleneck: The nested loops in the bubble sort-like logic result in quadratic time complexity, which is too slow for large inputs.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     n/a
+Tier 3:     Use merge sort to achieve O(n log n) complexity.
+Traps:      none"
+pie_p00992_s307173529,"Bottleneck: The `sum` function using a Fenwick Tree (binary indexed tree) is called frequently, resulting in a high number of operations due to the large range of indices up to \(N\).
+Tier 1:     `ios_base::sync_with_stdio(false); cin.tie(nullptr);`
+Tier 2:     n/a
+Tier 3:     n/a
+Traps:      none"
+pie_p00262_s107277873,"Bottleneck: The nested loops and repeated checks are causing high computational overhead.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     n/a
+Tier 3:     n/a
+Traps:      none"
+pie_p03611_s671688229,"Bottleneck: The nested loops and map operations result in a time complexity of O(n^2), which is too high for the given constraints.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     n/a
+Tier 3:     n/a
+Traps:      none"
+pie_p00620_s095695388,"Bottleneck: The backtracking algorithm has exponential complexity due to exploring all possible paths, leading to high runtime for larger inputs.
+Tier 1:     n/a
+Tier 2:     Use memoization to store results of subproblems and avoid redundant calculations.
+Tier 3:     n/a
+Traps:      The solution must preserve the integrity of the backtracking process, ensuring that each path is explored correctly and that the constraints are respected."
+pie_p02318_s259001950,"Bottleneck: The recursive implementation with memoization has high overhead due to function calls and redundant calculations.
+Tier 1:     ios::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     n/a
+Tier 3:     n/a
+Traps:      none"
+pie_p02243_s539032604,"Bottleneck: The use of `std::priority_queue` for Dijkstra's algorithm results in a logarithmic factor overhead due to heap operations.
+Tier 1:     `ios_base::sync_with_stdio(false); cin.tie(nullptr);`
+Tier 2:     n/a
+Tier 3:     n/a
+Traps:      none"
+pie_p01868_s176032560,"Bottleneck: The nested loops in the dynamic programming solution result in a high time complexity due to the large number of state transitions.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     n/a
+Tier 3:     n/a
+Traps:      none"
+pie_p02792_s854842511,"Bottleneck: The nested loops iterate over all possible pairs (A, B), resulting in O(N^2) complexity.
+Tier 1:     n/a
+Tier 2:     Use a single loop to count valid pairs by iterating through each number once and checking the conditions directly.
+Tier 3:     n/a
+Traps:      none"
+pie_p00831_s730074781,"Bottleneck: The recursive `check` function has exponential complexity due to overlapping subproblems.
+Tier 1:     n/a
+Tier 2:     Use dynamic programming to memoize results of the `check` function.
+Tier 3:     n/a
+Traps:      The memoized results must correctly reflect the minimum edit distance for any pair of strings up to the allowed distance `d`."
+pie_p03613_s690599050,"Bottleneck: The nested loops and map operations result in a time complexity of O(n^2), which is too high for the given constraints.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     Use a frequency array instead of a map to store the occurrences of each number.
+Tier 3:     n/a
+Traps:      none"
+pie_p03796_s529484435,"Bottleneck: The program uses a nested loop structure that results in quadratic time complexity due to the multiplication operation inside the loop.
+Tier 1: n/a
+Tier 2: Change the nested loop to a single loop that calculates the product directly without unnecessary checks.
+Tier 3: n/a
+Traps: None"
+pie_p01338_s543979202,"Bottleneck: The nested loops and map operations result in quadratic complexity due to the repeated insertion and lookup of elements.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     Use unordered_map instead of map for faster average-time complexity of insertions and lookups.
+Tier 3:     n/a
+Traps:      none"
+pie_p00056_s840835529,"Bottleneck: The nested loops for generating prime numbers and updating the DP table have a quadratic time complexity, leading to inefficiency.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     Use a flat array for the DP table instead of a 2D vector.
+Tier 3:     n/a
+Traps:      none"
+pie_p00514_s930952621,"Bottleneck: The nested loops for calculating factorials and combinations are inefficient due to their high computational complexity.
+Tier 1:     n/a
+Tier 2:     Use memoization to store intermediate results of factorial calculations to avoid redundant computations.
+Tier 3:     n/a
+Traps:      The algorithm must correctly handle large numbers using modular arithmetic to prevent overflow and ensure accuracy."
+pie_p00030_s870509314,"Bottleneck: The recursive function `sp` has exponential complexity due to exploring all possible combinations without memoization.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     n/a
+Tier 3:     Use dynamic programming with memoization to store intermediate results.
+Traps:      The solution must correctly handle all edge cases and maintain the same output format."
+pie_p02094_s521795241,"Bottleneck: The nested loops iterating over the sets `a` and `b` contribute significantly to the overall complexity, leading to O(N^2) behavior.
+Tier 1:     n/a
+Tier 2:     Replace `std::set` with `std::vector` and use adjacency lists for both trees `T` and `U`.
+Tier 3:     n/a
+Traps:      None"
+pie_p03506_s329900608,"Bottleneck: The nested loops and repeated calculations for finding the LCA are inefficient.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     n/a
+Tier 3:     n/a
+Traps:      none"
+pie_p00277_s980115561,"Bottleneck: The use of a priority queue inside a loop results in O(R * log N) complexity due to frequent insertions and deletions.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     Use a sorted map to keep track of the top scoring team efficiently.
+Tier 3:     n/a
+Traps:      The sorted map must maintain the team IDs in ascending order when scores are equal."
+pie_p03536_s850920816,"Bottleneck: The nested loops in the DP table update process result in quadratic time complexity, leading to inefficiency.
+Tier 1: n/a
+Tier 2: Change the 2D DP table to a flat array to reduce memory access overhead.
+Tier 3: n/a
+Traps: None"
+pie_p00773_s683900927,"Bottleneck: The nested loops iterate over a large range (1 to 1000) for each input, leading to quadratic complexity.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     n/a
+Tier 3:     n/a
+Traps:      none"
+pie_p03313_s683246169,"Bottleneck: The nested loops iterating over all pairs (i, j) and sorting them contribute significantly to the overall time complexity.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     n/a
+Tier 3:     n/a
+Traps:      none"
+pie_p00651_s130143309,"Bottleneck: The program spends significant time recalculating the same values repeatedly, particularly in the `rot_seta` function.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     n/a
+Tier 3:     n/a
+Traps:      none"
+pie_p00596_s990427234,"Bottleneck: The DFS approach has high overhead due to function calls and repeated checks.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     Use memoization to store results of subproblems.
+Tier 3:     n/a
+Traps:      The solution must still correctly handle all possible subsets and their arrangements."
+pie_p02865_s978972603,"Bottleneck: The nested loops in the solution have a quadratic time complexity, leading to inefficiency for large values of \( N \).
+Tier 1: n/a
+Tier 2: Use a single loop to count pairs directly without storing them in a map.
+Tier 3: n/a
+Traps: None"
+pie_p03037_s370690865,"Bottleneck: The program reads each gate range and updates the minimum and maximum valid ID card indices sequentially, leading to a linear scan of the input data. This approach has a time complexity of O(M), where M is the number of gates, which is efficient given the constraints. However, the program could benefit from reducing the number of read operations and minimizing the overhead of conditional checks during the update process.
+
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     n/a
+Tier 3:     n/a
+Traps:      none"
+pie_p00556_s032657800,"Bottleneck: The nested loops in the dynamic programming solution result in a time complexity of O(N * 2^M), which is too high for the given constraints.
+Tier 1: n/a
+Tier 2: Change the DP table to use a more efficient data structure, such as a bitset, to reduce memory usage and potentially improve cache locality.
+Tier 3: n/a
+Traps: None"
+pie_p03180_s740247295,"Bottleneck: The recursive approach with memoization has exponential time complexity due to overlapping subproblems, leading to high memory usage and slow execution times.
+Tier 1: n/a
+Tier 2: Use an iterative approach to avoid recursion and reduce overhead.
+Tier 3: n/a
+Traps: None"
+pie_p00431_s229448779,"Bottleneck: The recursive depth-first search (DFS) approach has exponential complexity due to repeated calculations and redundant state exploration.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     Use memoization to store results of previously solved states.
+Tier 3:     n/a
+Traps:      The memoization table must preserve the state of visited nodes and their corresponding depths."
+pie_p03601_s584146760,"Bottleneck: The nested loops iterate over a large range (up to 3000 iterations each), leading to a high computational cost.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     n/a
+Tier 3:     n/a
+Traps:      none"
+pie_p03115_s101106284,"Bottleneck: The binary search over the range [-3E17, 3E17] is taking too long due to the large number of iterations required.
+Tier 1: n/a
+Tier 2: Change the binary search to use a more efficient method, such as a ternary search or a golden-section search.
+Tier 3: n/a
+Traps: None"
+pie_p00209_s840831229,"Bottleneck: Accessing elements of nested vectors using operator[] is costly due to bounds checking and potential reallocation.
+Tier 1:     Use `reserve()` and `resize()` on vectors to preallocate memory.
+Tier 2:     n/a
+Tier 3:     n/a
+Traps:      none"
+pie_p00723_s145274604,"Bottleneck: The nested loops iterate over all possible splits and reversals, leading to quadratic complexity.
+Tier 1: n/a
+Tier 2: Use a hash map to store unique configurations instead of a set.
+Tier 3: n/a
+Traps: None"
+pie_p00746_s632441558,"Bottleneck: The nested loops in the search for the bounding box coordinates result in quadratic complexity.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     n/a
+Tier 3:     n/a
+Traps:      none"
+pie_p02321_s961360389,"Bottleneck: The nested loops and use of `map` for dynamic programming lead to high overhead due to frequent insertions and lookups.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     Change `map` to `unordered_map`.
+Tier 3:     n/a
+Traps:      none"
+pie_p03670_s983612477,"Bottleneck: The nested loops and bitwise operations in the DP table update are computationally expensive.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     Change the 2D DP table to a flat array to reduce memory access overhead.
+Tier 3:     n/a
+Traps:      None"
+pie_p01341_s430604725,"Bottleneck: The use of Prim's algorithm inside a loop over all vertices results in a high computational cost due to repeated calculations and memory allocations.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     n/a
+Tier 3:     n/a
+Traps:      none"
+pie_p01401_s673178272,"Bottleneck: The BFS implementation has a time complexity of O(n^2) due to nested loops and repeated checks.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     n/a
+Tier 3:     n/a
+Traps:      none"
+pie_p02802_s842242043,"Bottleneck: The use of `std::map` for storing problem IDs and their corresponding penalty counts results in logarithmic time complexity for insertions and lookups, leading to overall quadratic complexity due to the nested loops.
+Tier 1: n/a
+Tier 2: Replace `std::map` with `std::vector` since the problem ID range is known and small (up to \(N = 10^5\)).
+Tier 3: n/a
+Traps: None"
+pie_p03475_s745363388,"Bottleneck: The nested loops result in a quadratic time complexity due to the need to calculate the minimum time to reach each station from every previous station.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     n/a
+Tier 3:     n/a
+Traps:      none"
+pie_p03771_s758894826,"Bottleneck: The nested loops and binary search operations result in a time complexity of O(n^2 log n).
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(nullptr);
+Tier 2:     Use a more efficient data structure for storing and accessing the ranges.
+Tier 3:     n/a
+Traps:      none"
+pie_p03465_s528533862,"Bottleneck: The nested loops and bit manipulation operations are computationally expensive, leading to high time complexity.
+Tier 1:     ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+Tier 2:     n/a
+Tier 3:     n/a
+Traps:      none"
+pie_p02023_s458022091,"Bottleneck: The use of `std::map` for mapping voltage values to indices results in logarithmic time complexity for insertions and lookups, contributing significantly to the overall slowdown.
+Tier 1:     `ios_base::sync_with_stdio(false); cin.tie(nullptr);`
+Tier 2:     `std::unordered_map<int, int> M;`
+Tier 3:     `n/a`
+Traps:      None"

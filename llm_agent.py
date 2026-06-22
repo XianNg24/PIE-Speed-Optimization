@@ -71,7 +71,8 @@ def _build_user_message(buggy_code: str, feedback: str = None,
                         problem_statement: str = None,
                         test_case_block: str = None,
                         tag_advice: str = None,
-                        complexity_hint: str = None) -> str:
+                        complexity_hint: str = None,
+                        reasoning_hint: str = None) -> str:
     """EffiLearner-style section layout for the user message."""
     preamble = _USER_PREAMBLES.get(task_type, _USER_PREAMBLES["repair"])
     parts = [preamble]
@@ -84,6 +85,8 @@ def _build_user_message(buggy_code: str, feedback: str = None,
         parts.append(feedback.strip())
     if complexity_hint:
         parts.append(complexity_hint.strip())
+    if reasoning_hint:
+        parts.append(reasoning_hint.strip())
     if tag_advice:
         parts.append(tag_advice.strip())
     parts.append(_OPTIMIZE_RULES_FOOTER if task_type == "optimize"
@@ -108,7 +111,8 @@ def repair(buggy_code: str, feedback: str = None, mode: str = "static",
            problem_statement: str = None,
            test_case_block: str = None,
            tag_advice: str = None,
-           complexity_hint: str = None) -> dict:
+           complexity_hint: str = None,
+           reasoning_hint: str = None) -> dict:
     """
     Call the LLM to repair the buggy code.
 
@@ -120,7 +124,8 @@ def repair(buggy_code: str, feedback: str = None, mode: str = "static",
                                     problem_statement=problem_statement,
                                     test_case_block=test_case_block,
                                     tag_advice=tag_advice,
-                                    complexity_hint=complexity_hint)
+                                    complexity_hint=complexity_hint,
+                                    reasoning_hint=reasoning_hint)
     sys_prompt = SYSTEM_PROMPTS.get(task_type, SYSTEM_PROMPTS["repair"])
 
     candidates = []

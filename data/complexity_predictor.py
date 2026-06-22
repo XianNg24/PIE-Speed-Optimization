@@ -13,7 +13,7 @@ model) writes to a new cache file; old caches are preserved as audit trail.
 Usage:
     from data.complexity_predictor import predict_complexity
     info = predict_complexity("pie_p02695_s405258011", slow_cpp_source)
-    # -> {"complexity": "O(n^2)", "raw": "O(n^2)", "predictor_id": "qwen7b_v1"}
+    # -> {"complexity": "O(n^2)", "raw": "<label>O(n^2)</label>", "predictor_id": "qwen7b_v2"}
 """
 import csv
 import os
@@ -60,6 +60,34 @@ loops. Output the SINGLE WORST-CASE complexity label, nothing else.
 Answer:"""
 
 
+# Prompt v2 — same few-shot core, but forces the answer into <label>...</label>
+# tags so the chat-tuned model can preface freely without breaking extraction.
+_COMPLEXITY_PROMPT_V2 = """You will estimate the worst-case time complexity of a C++ program.
+
+```cpp
+{code}
+```
+
+Allowed labels (pick EXACTLY ONE):
+O(1), O(log n), O(n), O(n log n), O(n^2), O(n^2 log n), O(n^3), O(2^n), unknown.
+
+Quick reference:
+- single pass over n elements                          -> O(n)
+- two nested loops each up to n                        -> O(n^2)
+- three nested loops each up to n                      -> O(n^3)
+- halving / doubling in a single loop                  -> O(log n)
+- sort(...) call or merge/quick/heap sort              -> O(n log n)
+- sort inside a single loop                            -> O(n^2 log n)
+- naive recursion with branching factor > 1, no memo   -> O(2^n)
+- only a fixed number of operations regardless of n    -> O(1)
+
+Consider the DOMINANT loop, recursion depth, and any STL sort/search inside
+loops. Output ONLY the label, wrapped in tags, like this:
+<label>O(n^2)</label>
+
+<label>"""
+
+
 def _cache_path(predictor_id: str) -> str:
     return os.path.join(_HERE, f"code_complexity_{predictor_id}.csv")
 
@@ -87,27 +115,86 @@ def _append_cache(path: str, sample_id: str, complexity: str):
         w.writerow([sample_id, complexity])
 
 
+_UNICODE_FIXES = {
+    "²": "^2", "³": "^3", "⁴": "^4", "ⁿ": "^n",
+    "×": "*", "·": "*", "≤": "<=", "≥": ">=",
+    "—": " ", "–": " ",
+}
+
+# Natural-language synonyms, scanned only after literal-label matching fails.
+# Ordered by specificity — "linearithmic" must beat "linear".
+_NL_SYNONYMS = [
+    ("linearithmic",  "O(n log n)"),
+    ("quasi-linear",  "O(n log n)"),
+    ("n log n",       "O(n log n)"),
+    ("n*log",         "O(n log n)"),
+    ("logarithmic",   "O(log n)"),
+    ("log n",         "O(log n)"),
+    ("quadratic",     "O(n^2)"),
+    ("cubic",         "O(n^3)"),
+    ("exponential",   "O(2^n)"),
+    ("linear",        "O(n)"),
+    ("constant",      "O(1)"),
+]
+
+
+def _normalise(raw: str) -> str:
+    """Strip markdown/unicode noise so substring matching catches more forms."""
+    s = raw
+    for k, v in _UNICODE_FIXES.items():
+        s = s.replace(k, v)
+    # Strip common markdown punctuation that surrounds the label.
+    for ch in ("`", "*", "$", "\\", "_"):
+        s = s.replace(ch, "")
+    # Drop spaces and lower-case so "O ( n^2 )" / "O(N^2)" both match.
+    return s.replace(" ", "").lower()
+
+
 def _extract_label(raw: str) -> str:
-    """Find the first taxonomy label in the model's free-form output."""
+    """
+    Find the first taxonomy label in the model's free-form output.
+
+    Tries, in order:
+      1. Content inside <label>...</label> tags (the v2 prompt asks for this).
+      2. Literal taxonomy substring match (e.g. 'O(n^2 log n)') after
+         unicode/markdown normalisation.
+      3. Natural-language synonym fallback (e.g. 'quadratic' -> O(n^2)).
+    """
     if not raw:
         return "unknown"
-    # Try exact-match first (preferring more-specific labels)
-    # Sort by length DESC so 'O(n^2 log n)' matches before 'O(n^2)'.
-    cleaned = raw.replace(" ", "").lower()
+
+    # 1. Prefer content inside <label>...</label>
+    m = re.search(r"<label>\s*(.*?)\s*</label>", raw, flags=re.DOTALL | re.IGNORECASE)
+    payload = m.group(1) if m else raw
+
+    cleaned = _normalise(payload)
+    # 2. Substring match against taxonomy, longest-first (so 'O(n^2 log n)'
+    # wins over 'O(n^2)').
     for label in sorted(TAXONOMY, key=lambda s: -len(s)):
+        if label == "unknown":
+            continue
         key = label.replace(" ", "").lower()
         if key in cleaned:
             return label
+
+    # 3. Natural-language fallback — scan the original payload (case-insensitive)
+    # so multi-word synonyms like 'n log n' aren't destroyed by space stripping.
+    payload_lc = payload.lower()
+    for needle, label in _NL_SYNONYMS:
+        if needle in payload_lc:
+            return label
+
     return "unknown"
 
 
 def _local_predictor_fn(source: str) -> str:
-    """Default predictor: zero/few-shot with the already-loaded local model."""
+    """Default predictor: few-shot with <label>...</label> output gating."""
     from local_llm import quick_inference
     # Cap the source to keep the prompt tight; the model only needs to see
     # the structure, not every line of trivial bookkeeping.
-    prompt = _COMPLEXITY_PROMPT_V1.format(code=source[:4000])
-    return quick_inference(prompt, max_new_tokens=20)
+    prompt = _COMPLEXITY_PROMPT_V2.format(code=source[:4000])
+    # 64 tokens leaves room for preamble + the tagged label without runaway.
+    return quick_inference(prompt, max_new_tokens=64)
 
 
 _inmem_cache = {}    # {predictor_id: {sample_id: complexity}}
@@ -115,7 +202,7 @@ _inmem_cache = {}    # {predictor_id: {sample_id: complexity}}
 
 def predict_complexity(sample_id: str,
                        source_code: str,
-                       predictor_id: str = "qwen7b_v1",
+                       predictor_id: str = "qwen7b_v2",
                        predictor_fn: Optional[Callable[[str], str]] = None,
                        ) -> dict:
     """
@@ -148,7 +235,7 @@ def predict_complexity(sample_id: str,
             "raw": raw, "cached": False}
 
 
-def get_cache(predictor_id: str = "qwen7b_v1") -> dict:
+def get_cache(predictor_id: str = "qwen7b_v2") -> dict:
     """Read the on-disk cache as a {sample_id: complexity} dict."""
     return _load_cache(_cache_path(predictor_id))
 
@@ -157,7 +244,7 @@ if __name__ == "__main__":
     # Quick CLI smoke test
     import argparse
     ap = argparse.ArgumentParser()
-    ap.add_argument("--predictor-id", default="qwen7b_v1")
+    ap.add_argument("--predictor-id", default="qwen7b_v2")
     ap.add_argument("--source-file", help="Path to a .cpp file to classify")
     ap.add_argument("--sample-id", default=None,
                     help="Cache key (defaults to filename stem)")
