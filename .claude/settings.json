@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(gcov -b gcov_smoke_p02695.bin-gcov_smoke_p02695.gcno)"
-    ]
-  }
-}
