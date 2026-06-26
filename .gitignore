@@ -1,7 +1,32 @@
+# ── Run outputs / transient artefacts ─────────────────────────────────────
 results/
+workspace/
+*.log
+run.log
+gmon.out
+
+# ── External data — clone separately per README §1.4 ──────────────────────
 pie-perf/
+
+# ── Browseable extracts produced by tools/ ────────────────────────────────
+pie_extracted/
+pie_extracted_*/
+pie_profiles/
+pie_profiles_*/
+
+# ── Python ────────────────────────────────────────────────────────────────
 __pycache__/
 *.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# ── Old experiments / scratch ─────────────────────────────────────────────
 defects4c/
 defects4c_local/
-workspace/
+
+# ── OS / editor ───────────────────────────────────────────────────────────
+.DS_Store
+.idea/
+.vscode/

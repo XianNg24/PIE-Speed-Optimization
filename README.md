@@ -1,341 +1,398 @@
-# Profile-Guided Code Correction using LLM
+# Profile-Guided Code Correction & Optimisation with LLMs
 
-Research project: does providing **dynamic execution feedback** and/or **low-level profiling data** help an LLM fix C++ bugs better than reading the code alone?
+Research pipeline that asks **does richer feedback help an LLM optimise C++?**
+Three ablation modes are compared on the [PIE / IBM CodeNet](https://pie4perf.com)
+performance-improving-edits dataset:
 
-Three ablation modes are compared:
-
-- **static** — code only
-- **dynamic** — code + runtime output diff (Actual vs Expected)
-- **profiling** — code + runtime output diff + gprof flat profile + perf stat counters
-
----
-
-## Project Structure
-
-```
-defects4c_project/
-├── pipeline.py       # Main entry point — orchestrates compile → profile → LLM → verify
-├── local_llm.py      # HuggingFace local model inference (repair_static / repair_dynamic)
-├── llm_agent.py      # Anthropic API backend (optional alternative)
-├── compiler.py       # Compiles & runs C++ code, captures stdout
-├── profiler.py       # Runs gprof, formats profile summary for LLM prompt
-├── config.py         # Paths, compile flags, timeouts, model defaults
-├── data/
-│   └── bugs.py       # Synthetic bug samples (SAMPLES list)
-├── results/          # JSONL output — one file per model run
-└── workspace/        # Temp binaries and gmon.out files
-```
-
----
-
-## Dependencies
-
-Python packages are installed in a shared directory (already on `sys.path` via `config.py`):
-
-| Package | Location |
-|---------|----------|
-| `transformers`, `bitsandbytes`, `accelerate` | `/cs/student/project_msc/2025/dsml/nmxian/py_packages/` |
-| `torch` 2.5.1 | `~/.local/lib/python3.9/site-packages/` |
-
-HuggingFace model cache: `/cs/student/project_msc/2025/dsml/nmxian/huggingface_cache/`
-
-No installation step needed — `config.py` injects the package path automatically.
-
----
-
-## Quick Start
-
-### 1. Smoke test — single sample, one model
-
-```bash
-cd /cs/student/project_msc/2025/dsml/nmxian/defects4c_project
-python3 local_llm.py
-```
-
-Runs static + dynamic repair on `001_off_by_one` using the default model
-(`Qwen/Qwen2.5-Coder-7B-Instruct`) and prints pass/fail + token counts.
-
-### 2. Run the full pipeline (all samples, all three modes)
-
-```bash
-python3 pipeline.py --backend local --mode all
-```
-
-### 3. Run a single sample by ID
-
-```bash
-python3 pipeline.py --backend local --id 001_off_by_one --mode all
-```
-
-### 4. Run only N samples
-
-```bash
-python3 pipeline.py --backend local --samples 2 --mode all
-```
-
-### 5. Run a single mode
-
-```bash
-python3 pipeline.py --backend local --mode static
-python3 pipeline.py --backend local --mode dynamic
-python3 pipeline.py --backend local --mode profiling
-```
-
-### 6. Use a different model
-
-```bash
-python3 pipeline.py --backend local --model deepseek-ai/deepseek-coder-6.7b-instruct
-```
-
-### 7. Run on the PIE (CodeNet) speedup benchmark
-
-PIE samples are `(slow correct, fast correct)` C++ pairs from IBM CodeNet.
-Public test cases live under `pie-perf/data/public_test_cases/<problem_id>/`
-and slow/fast code is in `pie-perf/data/cpp_splits/test.jsonl`.
-
-```bash
-# 5 PIE samples, all three modes, default model
-python3 pipeline.py --dataset pie --samples 5 --mode all
-
-# Tighter filter: keep only oracle pairs with ≥ 50% improvement, ≤ 60 LOC
-python3 pipeline.py --dataset pie --samples 10 \
-        --pie-min-improvement 50 --pie-max-lines 60
-```
-
-Pass criterion changes for PIE: a candidate "passes" only if **all** test cases
-produce correct output. Speedup vs. the slow baseline is reported per mode.
-
-Results are saved to `results/results_pie_<model>.jsonl` (synthetic runs land
-under `results/results_synthetic_<model>.jsonl`).
-
----
-
-## Models Tested (≤ 16 GB VRAM)
-
-| # | Model | HuggingFace ID | VRAM |
-|---|-------|----------------|------|
-| 1 | Qwen2.5-Coder-7B-Instruct ⭐ | `Qwen/Qwen2.5-Coder-7B-Instruct` | ~14 GB fp16 / ~5 GB Q4 |
-| 2 | DeepSeek-Coder-6.7B-Instruct | `deepseek-ai/deepseek-coder-6.7b-instruct` | ~13 GB fp16 / ~4 GB Q4 |
-| 3 | CodeLlama-13B-Instruct | `codellama/CodeLlama-13b-Instruct-hf` | ~7 GB Q4 |
-| 4 | Qwen2.5-Coder-14B-Instruct | `Qwen/Qwen2.5-Coder-14B-Instruct` | ~9 GB Q4 |
-| 5 | Llama-3.1-8B-Instruct | `meta-llama/Llama-3.1-8B-Instruct` | ~16 GB fp16 |
-
-The pipeline auto-detects free VRAM: if < 15 GB free, it loads in 4-bit NF4
-(`bitsandbytes`) instead of fp16. No manual flag needed.
-
----
-
-## Pipeline Modes
-
-| Mode | Synthetic dataset | PIE dataset |
-|------|------------------|-------------|
-| `static` | Buggy C++ source only | Slow C++ source only |
-| `dynamic` | + runtime output diff (Actual vs Expected) | + per-test-case timing summary |
-| `profiling` | + gprof flat profile + perf stat | + gprof flat profile + perf stat |
-| `all` | Runs all three side by side | Runs all three side by side |
-
----
-
-## Output
-
-Results are saved as JSONL in `results/`, one file per (dataset, model):
-
-```
-results/results_synthetic_Qwen2.5-Coder-7B-Instruct.jsonl
-results/results_pie_Qwen2.5-Coder-7B-Instruct.jsonl
-```
-
-Synthetic each line:
-
-```json
-{
-  "id": "001_off_by_one",
-  "bug_type": "buffer-overread",
-  "static":    { "passed": true, "prompt_tokens": 312, "elapsed_s": 14.2, ... },
-  "dynamic":   { "passed": true, "prompt_tokens": 389, "elapsed_s": 15.4, ... },
-  "profiling": { "passed": true, "prompt_tokens": 489, "elapsed_s": 16.1, ... }
-}
-```
-
-PIE each line additionally records timing and speedup:
-
-```json
-{
-  "id": "pie_p00465_s878145104",
-  "source": "pie",
-  "problem_id": "p00465",
-  "improvement_frac_oracle": 46.0,
-  "baseline":  { "compiled": true, "passed": true, "mean_ms": 27.7, ... },
-  "static":    { "passed": true, "mean_ms": 9.0, "speedup": 3.07, ... },
-  "dynamic":   { ... },
-  "profiling": { ... }
-}
-```
-
----
-
-## Key Metrics
-
-- **pass@1** — did the LLM's first attempt produce correct output?
-- **prompt tokens** — how many tokens the static vs dynamic prompt consumed
-
----
-
-## Inspecting Samples and Profiles
-
-Two extractor scripts under `tools/` produce browseable folders of PIE
-samples and profiling artefacts. Useful for sanity-checking what the LLM
-sees, doing manual diff comparisons, and writing up case studies.
-
-### Extract C++ source pairs → `pie_extracted/`
-
-[tools/extract_pie_code.py](tools/extract_pie_code.py) pulls each
-`(slow, fast)` pair out of a PIE JSONL split into individual `.cpp`
-files plus a metadata sidecar.
-
-```bash
-# 30 unique-problem pairs from the test split (~30 problems × 4 files = 120 files)
-python3 tools/extract_pie_code.py --limit 30 --unique-problems --out pie_extracted/
-
-# All 5116 test pairs (heavy — ~20k files)
-python3 tools/extract_pie_code.py --out pie_extracted_full/
-
-# Specific problems we've cited in reflection.md
-python3 tools/extract_pie_code.py \
-    --problems p03146,p00465,p02714,p02695,p00729 \
-    --out pie_extracted_cited/
-
-# Big-improvement, short-code subset for casual browsing
-python3 tools/extract_pie_code.py --limit 50 --unique-problems \
-    --min-improvement 50 --max-loc 50 --out pie_extracted_short/
-```
-
-Layout per pair (one folder per problem, four files per submission):
-
-```
-pie_extracted/
-├── README.md
-├── p00465/
-│   ├── s878145104__v0_slow.cpp     # slow correct version
-│   ├── s878145104__v1_fast.cpp     # gold faster version
-│   ├── s878145104__diff.txt        # textual diff between v0 and v1
-│   └── s878145104__meta.json       # cpu_time, memory, improvement_frac, ...
-└── p03146/...
-```
-
-Useful follow-ups:
-
-```bash
-# side-by-side diff in terminal
-diff -u pie_extracted/p03146/*v0_slow.cpp pie_extracted/p03146/*v1_fast.cpp
-
-# in VS Code: open both .cpp files, right-click first → "Compare Selected"
-
-# read the metadata
-cat pie_extracted/p03146/*meta.json
-```
-
-CLI flags:
-
-| Flag | Effect |
+| Mode | What the LLM sees |
 |---|---|
-| `--input PATH` | which JSONL split (default: `pie-perf/data/cpp_splits/test.jsonl`) |
-| `--out DIR` | output directory (default `pie_extracted/`) |
-| `--limit N` | cap number of pairs |
-| `--problems p1,p2,...` | whitelist by `problem_id` |
-| `--unique-problems` | one pair per `problem_id` |
-| `--min-improvement F` | skip pairs below F% oracle improvement |
-| `--max-loc N` | skip pairs whose slow code exceeds N LOC |
+| `static` | the slow C++ source only |
+| `dynamic` | + runtime feedback (output diff, per-test timings) |
+| `profiling` | + gprof flat profile, `perf stat` counters, gcov hot lines |
 
-### Extract profiling artefacts → `pie_profiles_cited/`
+On top of the base ablation, the pipeline can layer:
+- **Pass@k sampling** with self-repair retry on failure
+- **Iterate-on-speedup**: ask for a strictly faster version after a pass
+- **LLM-side problem classifier** (problem-statement → tag, JIT-cached on disk)
+- **LLM-side complexity predictor** (source → Big-O class, JIT-cached on disk)
+- **Reasoning agent** (three-tier optimisation plan injected into the optimiser prompt)
+- **Critic agent** (failure diagnoses + literal C++ patches; delta-debug input shrinker as a tool)
 
-[tools/extract_profile.py](tools/extract_profile.py) runs the full
-profiling pipeline (compile with `-pg -g`, run on test cases, gprof,
-`perf stat`, hotspot extraction, prompt formatting) and saves every
-intermediate to a folder. This is exactly what the LLM sees in dynamic
-and profiling modes — written to disk for inspection.
-
-```bash
-# 5 cited samples (matches our reflection.md case studies)
-python3 tools/extract_profile.py \
-    --problems p03146,p00465,p02714,p02695,p00729 \
-    --out pie_profiles_cited/
-
-# 10 unique-problem fast-baseline samples (cputime≥100, gprof has signal)
-python3 tools/extract_profile.py --limit 10 --unique-problems \
-    --min-baseline-cputime 100 --out pie_profiles/
-
-# Slowest baselines only — strongest gprof signal
-python3 tools/extract_profile.py --limit 5 --unique-problems \
-    --min-baseline-cputime 500 --out pie_profiles_slow/
-```
-
-Layout per sample:
-
-```
-pie_profiles_cited/
-├── README.md
-├── p00465/s878145104/
-│   ├── v0_slow.cpp                    # slow code (input to optimisation)
-│   ├── v1_fast.cpp                    # gold fast code (oracle)
-│   ├── meta.json                      # cpu_time, improvement_frac, baseline_ms_local, ...
-│   ├── timing.json                    # per-test-case mean_ms / std_ms / pass
-│   ├── gprof_flat.txt                 # full flat profile
-│   ├── gprof_callgraph.txt            # call graph
-│   ├── perf_stat.txt                  # cycles, instructions, cache-misses, branch-misses
-│   ├── hotspots.json                  # parsed user-fn + top-entry hotspots used by the prompt
-│   ├── annotated_source.cpp           # source after annotate_source_with_hotspots()
-│   ├── prompt_runtime_feedback.txt    # exact LLM prompt block in dynamic mode
-│   └── prompt_profile_summary.txt     # exact LLM prompt block in profiling mode
-└── p03146/...
-```
-
-Useful follow-ups:
-
-```bash
-# what's in the gprof flat profile for every cited sample?
-for d in pie_profiles_cited/*/*/; do
-  echo "=== $d ==="
-  head -8 "$d/gprof_flat.txt"
-done
-
-# what does the LLM actually see in profiling mode?
-cat pie_profiles_cited/p00465/*/prompt_profile_summary.txt
-
-# does the profile-mode source get hotspot annotations or the file-level fallback?
-diff -u pie_profiles_cited/p00465/*/v0_slow.cpp \
-        pie_profiles_cited/p00465/*/annotated_source.cpp
-```
-
-CLI flags:
-
-| Flag | Effect |
-|---|---|
-| `--out DIR` | output directory (default `pie_profiles/`) |
-| `--limit N` | cap number of samples (default 10) |
-| `--problems p1,p2,...` | extract specific problem IDs (overrides `--limit`) |
-| `--unique-problems` | one sample per `problem_id` |
-| `--min-baseline-cputime MS` | drop samples with `cpu_time_v0 < MS` (default 100) |
-| `--min-improvement F` | drop pairs below F% oracle improvement (default 30) |
-| `--max-lines N` | drop pairs whose slow code exceeds N LOC (default 80) |
-
-### When to use which
-
-- Use **`extract_pie_code.py`** when you want to read or diff the source
-  pairs themselves — comparing what changed between slow and fast.
-- Use **`extract_profile.py`** when you want to understand *what signal
-  the pipeline gives the LLM* — gprof attribution, perf counters,
-  hotspot annotations, and the exact prompt blocks.
+See [`architecture.md`](architecture.md) for the full agentic design.
 
 ---
 
-## Optional: Anthropic API backend
+## 1. Setup
 
-Set the API key and switch backend:
+### 1.1 Clone the repo
+
+```bash
+git clone https://github.com/<you>/profile-guided-llm-opt.git
+cd profile-guided-llm-opt
+```
+
+### 1.2 System tools
+
+The pipeline needs C++ build tools and Linux profilers:
+
+```bash
+# Debian / Ubuntu
+sudo apt install g++ binutils linux-tools-generic gcov clang-format
+
+# RHEL / Rocky / Fedora
+sudo dnf install gcc-c++ binutils perf gcc clang-tools-extra
+```
+
+Verify:
+
+```bash
+g++ --version && gprof --version | head -1 && perf --version
+```
+
+### 1.3 Python environment
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+The default backend uses HuggingFace `transformers` locally (GPU recommended:
+a single 24 GB card handles all listed 7B models). For the Anthropic backend
+only the `anthropic` SDK is needed.
+
+If you are on a managed cluster with a pre-installed shared package directory,
+`config.py` injects `_PKG_DIR` via `sys.path`. Edit or delete those two lines
+if not applicable.
+
+### 1.4 PIE / CodeNet dataset
+
+The PIE dataset is a separate repo. Clone it under the project root as
+`pie-perf/`:
+
+```bash
+git clone https://github.com/madaan/pie-perf.git
+```
+
+This gives you `pie-perf/data/cpp_splits/{train,val,test}.jsonl` and the
+`public_test_cases/` directory (~11 000 sample inputs across ~3 900 problems,
+1-8 tests per problem). It also contains the English-translated CodeNet
+problem statements at `pie-perf/data/problem_statements_translated.zip` —
+the loader reads this directly, no extraction needed.
+
+### 1.5 Merged test cases (optional, recommended)
+
+PIE's public test cases are 2-4 per problem on average — too narrow for
+reliable correctness validation (the pipeline reports several cases where a
+candidate passes the 2 visible tests but is algorithmically wrong on the
+hidden ones). The PIE authors also distribute a `merged_testcases.tar.gz`
+archive with ~100 tests per problem (≈ 178 k cases across 2 013 problems).
+Grab it from the [PIE website](https://pie4perf.com) or the dataset link in
+`pie-perf/README.md`, then:
+
+```bash
+mv merged_testcases.tar.gz pie-perf/
+cd pie-perf && tar -xzf merged_testcases.tar.gz -C data/
+```
+
+You should see `pie-perf/data/merged_test_cases/<problem_id>/input.N.txt`
+etc. The pipeline automatically prefers `merged_test_cases/` when it exists
+and falls back to `public_test_cases/` for problems not in the merged set.
+
+Disk cost: ~700 MB extracted. Eval cost grows roughly linearly with test
+count — use `--pie-max-tests N` to cap.
+
+### 1.6 HuggingFace cache (for big models)
+
+By default model weights download to `~/.cache/huggingface`. Override via:
+
+```bash
+export HF_HOME=/path/with/space
+export TRANSFORMERS_CACHE=$HF_HOME/hub
+```
+
+For gated models (CodeLlama, Llama-3, etc.) set `HF_TOKEN` after accepting
+the licence on the HuggingFace model page.
+
+### 1.7 Anthropic backend (optional)
+
+Only needed if you want `--backend anthropic`:
 
 ```bash
 export ANTHROPIC_API_KEY=sk-ant-...
-python3 pipeline.py --backend anthropic --samples 2
 ```
 
-Model is set in `config.py` (`LLM_MODEL`, default: `claude-haiku-4-5-20251001`).
+---
+
+## 2. Quick start
+
+```bash
+# 5 PIE samples, all three modes, default model (Qwen2.5-Coder-7B-Instruct)
+python3 pipeline.py --dataset pie --samples 5
+
+# Same, with sampling (k=4) and 2 self-repair rounds
+python3 pipeline.py --dataset pie --samples 5 --k 4 --repair-rounds 2
+
+# Add the reasoning agent (three-tier plan injected into the optimiser prompt)
+python3 pipeline.py --dataset pie --samples 5 --reason
+
+# Full agentic loop (reasoner + Critic between repair rounds)
+python3 pipeline.py --dataset pie --samples 5 --reason --agentic --repair-rounds 2
+```
+
+Each run produces a fresh `results/run_<timestamp>/` directory with:
+- `meta.json`             — exact config snapshot, for reproducibility
+- `results.jsonl`         — one line per sample, full schema
+- `results.json`          — same data, prettified array form
+- `summary.txt`           — per-sample pass/fail/speedup table + aggregates
+- `samples/<id>/`         — per-sample artefacts (prompts, candidates, diffs, gprof, …)
+
+---
+
+## 3. CLI reference
+
+### 3.1 Sample selection
+
+| Flag | Default | Effect |
+|---|---|---|
+| `--dataset {pie,synthetic}` | `synthetic` | PIE = CodeNet speedup pairs; synthetic = bug-fix samples in `data/bugs.py` |
+| `--samples N` | 5 (PIE) / all (synth) | how many samples to run |
+| `--id ID` | — | run only the sample with this id |
+| `--pie-min-improvement F` | 30.0 | keep PIE pairs with ≥ F% oracle improvement |
+| `--pie-max-lines N` | 80 | drop pairs whose slow code exceeds N LOC |
+| `--pie-min-baseline-cputime MS` | 0 | drop pairs with `cpu_time_v0 < MS` (use ≥ 100 for meaningful gprof signal) |
+| `--pie-max-tests N` | unlimited | cap test cases per problem (relevant when `merged_test_cases/` is present) |
+
+### 3.2 Modes
+
+| Flag | Default | Effect |
+|---|---|---|
+| `--mode static\|dynamic\|profiling\|all` | `all` | which mode(s) to run |
+| `--mode static,profiling` | — | comma-separated subset works too |
+
+### 3.3 LLM behaviour
+
+| Flag | Default | Effect |
+|---|---|---|
+| `--backend {local,anthropic}` | `local` | which LLM backend |
+| `--model NAME` | `Qwen/Qwen2.5-Coder-7B-Instruct` | HF model id (local) |
+| `--k N` | 1 | candidates per (sample, mode); `k>1` enables sampling |
+| `--temperature F` | 0.6 | only used at `k>1` |
+| `--seed N` | 0 | sampling seed (vary across runs to estimate variance) |
+| `--force-4bit` | off | force NF4 quantisation regardless of free VRAM |
+| `--repair-rounds N` | 0 | self-repair retries when all `k` initial candidates fail |
+| `--iterate-speedup-rounds N` | 0 | mutate-on-pass retries asking for a strictly faster version |
+
+### 3.4 Prompt-content flags
+
+| Flag | Default | Effect |
+|---|---|---|
+| `--no-problem-statement` | (statement on) | drop the problem statement from the prompt |
+| `--full-problem-statement` | (constraints only) | include the full statement, not just `Constraints:` block |
+| `--no-test-case-sample` | (sample on) | drop the worked test case from the prompt |
+| `--no-complexity-hint` | (hint on) | drop the LLM-predicted Big-O block |
+| `--no-gcov` | (gcov on) | skip gcov line-level execution counts in profiling mode |
+| `--tag-advice` | off | add tag-conditional advice (regresses correctness on Qwen-7B; opt-in) |
+| `--reason` | off | run the reasoning agent (three-tier plan) before the optimiser |
+| `--agentic` | off | run the Critic agent between repair rounds |
+
+---
+
+## 4. Repository layout
+
+```
+.
+├── README.md                  # ← you are here
+├── architecture.md            # agentic-pipeline design doc
+├── requirements.txt           # Python deps
+├── pipeline.py                # entry point — orchestrator + CLI
+├── local_llm.py               # HuggingFace local-model inference
+├── llm_agent.py               # Anthropic API backend (alternative)
+├── compiler.py                # compile + run C++ with timing
+├── profiler.py                # gprof / perf / gcov + prompt formatters
+├── config.py                  # paths, compile flags, timeouts, model default
+├── reasoner.py                # reasoning agent (three-tier plan, v2)
+├── agent_state.py             # AgentState + Attempt dataclasses
+├── agent_critic.py            # Critic agent — diagnose + emit C++ patch
+├── data/
+│   ├── bugs.py                # synthetic bug samples (no LLM cost)
+│   ├── pie_loader.py          # PIE JSONL → sample dicts; merged-or-public test loader
+│   ├── problem_classifier.py  # LLM-side problem → tag, JIT-cached
+│   ├── complexity_predictor.py# LLM-side source → Big-O, JIT-cached
+│   ├── problem_tags_*.csv     # disk cache (per classifier_id)
+│   ├── code_complexity_*.csv  # disk cache (per predictor_id)
+│   ├── reasoning_*.csv        # disk cache (per reasoner_id × mode)
+│   └── critic_*.csv           # disk cache (per critic_id)
+├── tools/
+│   ├── extract_pie_code.py    # write PIE (slow, fast) pairs to disk
+│   ├── extract_profile.py     # run gprof/perf/gcov for inspection
+│   ├── backfill_summary_txt.py# regenerate summary.txt for an older run
+│   ├── backfill_diffs.py      # regenerate clang-format-normalised diffs
+│   ├── split_results.py       # split a results.jsonl by mode/outcome
+│   └── jsonl_to_json.py       # convert .jsonl → pretty .json
+├── pie-perf/                  # NOT in this repo — clone separately (see §1.4)
+├── workspace/                 # transient compile artefacts (gitignored)
+└── results/                   # per-run output directories (gitignored)
+```
+
+---
+
+## 5. Pipeline at a glance
+
+```
+PIE sample = (v0_slow.cpp, v1_fast.cpp, test_cases, problem_statement)
+                              │
+                              ▼
+     ┌────────────────────────────────────────────────┐
+     │  Baseline: compile v0 → run on each test case  │
+     │  → mean_ms                                      │
+     └────────────────────────────────────────────────┘
+                              │
+        ┌─────────────────────┼─────────────────────┐
+        ▼                     ▼                     ▼
+     STATIC               DYNAMIC               PROFILING
+     code only        + runtime diff       + gprof + perf + gcov
+        │                     │                     │
+        ▼ (optional: reason → critic on failure)    ▼
+     LLM call → k candidates → compile + run → pick winner
+        │                     │                     │
+        ▼                     ▼                     ▼
+     winner.cpp           winner.cpp           winner.cpp
+     speedup vs v0        speedup vs v0        speedup vs v0
+```
+
+For each (sample, mode) the orchestrator runs:
+1. **Initial pass** — one LLM call producing `k` candidates
+2. **Self-repair** if all `k` fail (up to `--repair-rounds N`)
+3. **Iterate-on-speedup** if any candidate passes (up to `--iterate-speedup-rounds N`)
+
+`--reason` adds a three-tier optimisation plan (reasoner.py) to every LLM
+call. `--agentic` adds a structured Critic diagnosis between repair rounds.
+Full design in [`architecture.md`](architecture.md).
+
+---
+
+## 6. Output schema
+
+Per-run directory:
+
+```
+results/run_<timestamp>/
+├── meta.json                 # CLI flags + run config
+├── results.jsonl             # one line per sample
+├── results.json              # same content, pretty-printed array
+├── summary.txt               # human-readable table + aggregates
+└── samples/<sample_id>/
+    ├── v0_slow.cpp           # the slow input
+    ├── v1_fast.cpp           # the gold-fast oracle (PIE only)
+    ├── sample_meta.json
+    ├── baseline_timing.json
+    ├── problem_statement.txt
+    ├── test_case_sample.txt
+    ├── complexity_analysis.json / complexity_block.txt
+    ├── tag_advice.txt        # if --tag-advice
+    ├── reasoning_<mode>.txt  # if --reason
+    ├── agent_trace_<mode>.json # if --agentic; per-attempt trajectory
+    ├── gprof_flat.txt        # if profiling mode ran
+    ├── perf_stat.txt
+    ├── gcov_raw.txt / gcov_hot_lines.json
+    ├── prompt_runtime_feedback.txt   # exact prompt blocks per mode
+    ├── prompt_profile_summary.txt
+    └── <mode>/               # static/, dynamic/, profiling/
+        ├── prompt.txt        # the assembled LLM prompt for the initial pass
+        ├── candidate_0.cpp … candidate_<k-1>.cpp
+        ├── candidate_<i>_run.json
+        ├── candidate_<i>_vs_v0.diff
+        ├── repair_round_<N>_prompt.txt   # if self-repair fired
+        ├── winner.cpp
+        └── winner_vs_v0.diff
+```
+
+A line in `results.jsonl` (PIE):
+
+```jsonc
+{
+  "id": "pie_p03146_s047505757",
+  "source": "pie",
+  "problem_id": "p03146",
+  "improvement_frac_oracle": 89.4,    // PIE metadata; not used by the loop
+  "baseline":  { "compiled": true, "passed": true, "mean_ms": 168.7 },
+  "static":    { "passed": true, "mean_ms": 20.5, "speedup": 8.20,
+                 "k_correct": 5, "candidates_summary": [/*...*/],
+                 "repair_history": [/*...*/] },
+  "profiling": { /* ... */ }
+}
+```
+
+---
+
+## 7. Models tested
+
+Trade-off: 7B fits in fp16 on a single 24 GB card; larger models need 4-bit
+or distributed inference. The auto-fallback in `local_llm.py` quantises to
+NF4 if free VRAM < 15 GB at load time. `--force-4bit` overrides.
+
+| Model | HF ID | fp16 VRAM | 4-bit VRAM |
+|---|---|---|---|
+| Qwen2.5-Coder-7B-Instruct (default) ⭐ | `Qwen/Qwen2.5-Coder-7B-Instruct` | 14 GB | 5 GB |
+| DeepSeek-Coder-6.7B-Instruct | `deepseek-ai/deepseek-coder-6.7b-instruct` | 13 GB | 4 GB |
+| CodeLlama-7B-Instruct | `codellama/CodeLlama-7b-Instruct-hf` | 13 GB | 4 GB |
+| CodeLlama-13B-Instruct | `codellama/CodeLlama-13b-Instruct-hf` | 26 GB ❌ | 7 GB |
+| Qwen2.5-Coder-14B-Instruct | `Qwen/Qwen2.5-Coder-14B-Instruct` | 28 GB ❌ | 9 GB |
+
+Note that **KV cache** dominates memory at higher `k`. At `k=8` with rich
+prompts on a 7B model, peak VRAM is ~21 GB just for the KV cache. Drop `k`
+or set `PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True` to mitigate.
+
+---
+
+## 8. Tools (under `tools/`)
+
+### `extract_pie_code.py`
+Write PIE `(slow, fast)` source pairs and metadata to a browseable
+directory tree — useful for manual diff inspection.
+
+### `extract_profile.py`
+Run the full profiling pipeline (gprof, perf, gcov, prompt-formatting) and
+write every intermediate to disk — useful for understanding what the LLM
+sees in dynamic/profiling modes.
+
+### `backfill_summary_txt.py` / `backfill_diffs.py`
+Regenerate `summary.txt` and `*_vs_v0.diff` artefacts for older runs that
+predate those features.
+
+### `split_results.py`
+Split a `results.jsonl` by mode × outcome for cross-run analysis.
+
+See `--help` on each script for the full CLI.
+
+---
+
+## 9. Notable design points
+
+These are documented in detail in [`architecture.md`](architecture.md) and
+the per-run error reports under `results/run_*/`. In one paragraph each:
+
+- **Oracle speedup is never used inside the loop.** It appears only as a
+  reference column in `summary.txt`. All in-loop comparisons are
+  self-relative (winner vs previous winner) to avoid eval-time leakage.
+- **JIT LLM-side caches.** The problem classifier, complexity predictor,
+  reasoning agent, and Critic all cache their outputs to CSV in `data/`
+  keyed by a per-version `_id`. Bump the `_id` to invalidate.
+- **Mode isolation.** The reasoner and Critic see only the signals the
+  current mode is allowed to: `static` sees code + problem statement;
+  `dynamic` adds runtime diff; `profiling` adds the full profile summary.
+- **Critic v2 (current).** Emits a literal C++ patch in `replacement_block`,
+  not a free-text suggestion. Uses delta-debug bisection against v0 to
+  shrink failing stdin to a minimal example before diagnosing. See
+  `architecture.md §10` for the v1 → v2 changelog and the run that motivated
+  it.
+
+---
+
+## 10. License & acknowledgments
+
+- PIE dataset: [pie4perf.com](https://pie4perf.com), licensed per the upstream
+  [pie-perf](https://github.com/madaan/pie-perf) repository.
+- CodeNet problem statements (English-translated) ship with the PIE dataset.
+- Pipeline code in this repository: research / educational use.

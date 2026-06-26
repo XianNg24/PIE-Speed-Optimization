@@ -1,0 +1,15 @@
+# Core
+torch>=2.0
+transformers>=4.40
+accelerate>=0.30
+bitsandbytes>=0.42         # 4-bit NF4 quantisation fallback for tight VRAM
+
+# Anthropic backend (optional — only when --backend anthropic)
+anthropic>=0.30
+
+# Note: the pipeline also depends on these SYSTEM tools (install via apt/yum, not pip):
+#   g++         (C++17 compiler, with -pg/-fprofile-arcs support)
+#   gprof       (typically ships with binutils)
+#   perf        (linux-tools-<kernel>)
+#   gcov        (ships with gcc)
+#   clang-format (optional, for normalising candidate diffs in artefacts)

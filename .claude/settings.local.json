@@ -27,7 +27,8 @@
       "Bash(/usr/bin/python3)",
       "Bash(/usr/bin/python3 pipeline.py --help)",
       "Bash(/usr/bin/python3 -c \"import ast; ast.parse\\(open\\('local_llm.py'\\).read\\(\\)\\); ast.parse\\(open\\('pipeline.py'\\).read\\(\\)\\); print\\('OK'\\)\")",
-      "Bash(/usr/bin/python3 -c \"from local_llm import load_model, clear_cuda_cache; import inspect; print\\('load_model sig:', inspect.signature\\(load_model\\)\\); print\\('clear_cuda_cache callable:', callable\\(clear_cuda_cache\\)\\)\")"
+      "Bash(/usr/bin/python3 -c \"from local_llm import load_model, clear_cuda_cache; import inspect; print\\('load_model sig:', inspect.signature\\(load_model\\)\\); print\\('clear_cuda_cache callable:', callable\\(clear_cuda_cache\\)\\)\")",
+      "Bash(/usr/bin/python3 agent_critic.py)"
     ],
     "ask": [
       "Bash(rm *)",

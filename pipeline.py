@@ -480,6 +480,7 @@ def run_pie_sample(sample: dict, modes=ALL_MODES, verbose: bool = True,
                    include_gcov: bool = True,
                    include_complexity_hint: bool = True,
                    include_reasoning: bool = False,
+                   include_agentic: bool = False,
                    run_dir: str = None) -> dict:
     """
     PIE pipeline: each sample is a (slow, fast) pair plus public test cases.
@@ -787,11 +788,51 @@ def run_pie_sample(sample: dict, modes=ALL_MODES, verbose: bool = True,
         "profiling": reasoning_block_profiling,
     }
 
+    # Per-mode AgentState (Phase 1: used by the Critic agent when --agentic
+    # is on; trajectory is serialised at end-of-mode for offline inspection).
+    _agent_state_by_mode = {}
+    if include_agentic:
+        from agent_state import AgentState
+        for m in modes:
+            _agent_state_by_mode[m] = AgentState(
+                sample_id=sid, mode=m, problem_tag=problem_tag,
+            )
+
     def _self_repair_round(mode_name, base_feedback, prev_winner, round_idx):
         """Single self-repair round. Returns the new candidate's run dict."""
         repair_fb = format_self_repair_feedback(
             prev_winner["fixed_code"], prev_winner["run"], base_feedback,
         )
+
+        # ── Critic agent — only when --agentic is on. Reads the failed
+        # candidate + per-test diffs and emits a structured diagnosis that
+        # we splice into the feedback the optimiser sees, so the next attempt
+        # has a named failure class to target instead of just raw stdout diff.
+        critic_diag = None
+        if include_agentic:
+            try:
+                from agent_critic import critique, format_critic_block
+                critic_diag = critique(
+                    sample_id=sid,
+                    failed_code=prev_winner["fixed_code"],
+                    failed_verdict=prev_winner["run"],
+                    prev_plan=_reasoning_by_mode.get(mode_name) or "",
+                    # v0 enables Tool B (failing-input shrinker via delta-debug
+                    # against the known-correct slow program).
+                    v0_source=sample["buggy_code"],
+                )
+                critic_block = format_critic_block(critic_diag)
+                if critic_block:
+                    repair_fb = f"{repair_fb}\n\n{critic_block}"
+                if verbose:
+                    cached_tag = " (cached)" if critic_diag.get("cached") else ""
+                    print(f"  [critic] {critic_diag.get('failure_class')}"
+                          f" (plan_wrong={critic_diag.get('plan_was_wrong')})"
+                          f"{cached_tag}")
+            except Exception as e:
+                if verbose:
+                    print(f"  [critic] skipped due to error: {e}")
+
         rh = _reasoning_by_mode.get(mode_name)
         kw = dict(mode=f"{mode_name}", model_name=model_name, k=1,
                   task_type="optimize", problem_statement=ps,
@@ -817,7 +858,26 @@ def run_pie_sample(sample: dict, modes=ALL_MODES, verbose: bool = True,
             )
         new_runs = _eval_candidates(mode_name, new_out,
                                     label_offset=k + round_idx)
-        return new_runs[0]    # k=1 by design
+        new_cand = new_runs[0]    # k=1 by design
+
+        # Record this attempt in the per-mode AgentState trajectory.
+        if include_agentic and mode_name in _agent_state_by_mode:
+            # v2 schema: critic_note captures whichever the v2 prompt gave us
+            # (replacement_block — a code patch), falling back to the v1
+            # suggested_fix shape for backwards-compat with older cache rows.
+            if critic_diag:
+                note = (critic_diag.get("replacement_block")
+                        or critic_diag.get("suggested_fix") or None)
+            else:
+                note = None
+            _agent_state_by_mode[mode_name].add_attempt(
+                plan=_reasoning_by_mode.get(mode_name),
+                candidate_code=new_cand["fixed_code"],
+                verdict=new_cand["run"],
+                critic_note=note,
+            )
+
+        return new_cand
 
     def _iterate_speedup_round(mode_name, base_feedback, prev_winner,
                                 round_idx, label_offset):
@@ -1018,6 +1078,15 @@ def run_pie_sample(sample: dict, modes=ALL_MODES, verbose: bool = True,
             except Exception:
                 pass
 
+    def _maybe_serialise_agent_trace(mode_name):
+        """Write the per-mode AgentState trajectory artefact when --agentic on."""
+        if not (include_agentic and sample_dir):
+            return
+        st = _agent_state_by_mode.get(mode_name)
+        if st and st.attempts:
+            st.serialise(os.path.join(sample_dir,
+                                       f"agent_trace_{mode_name}.json"))
+
     if "static" in modes:
         result["static"] = _run_mode("static", _static_fn,
                                      sample["buggy_code"],
@@ -1029,6 +1098,7 @@ def run_pie_sample(sample: dict, modes=ALL_MODES, verbose: bool = True,
                                    original_code=sample["buggy_code"],
                                    original_name="v0_slow.cpp")
         _maybe_release_vram()
+        _maybe_serialise_agent_trace("static")
     if "dynamic" in modes and runtime_feedback:
         result["dynamic"] = _run_mode("dynamic", _dynamic_fn,
                                       sample["buggy_code"], runtime_feedback,
@@ -1040,6 +1110,7 @@ def run_pie_sample(sample: dict, modes=ALL_MODES, verbose: bool = True,
                                    original_code=sample["buggy_code"],
                                    original_name="v0_slow.cpp")
         _maybe_release_vram()
+        _maybe_serialise_agent_trace("dynamic")
     if "profiling" in modes and profile_summary:
         result["profiling"] = _run_mode("profiling", _profiling_fn,
                                         profile_buggy_code, profile_summary,
@@ -1054,6 +1125,7 @@ def run_pie_sample(sample: dict, modes=ALL_MODES, verbose: bool = True,
                                    original_code=sample["buggy_code"],
                                    original_name="v0_slow.cpp")
         _maybe_release_vram()
+        _maybe_serialise_agent_trace("profiling")
 
     # Per-sample summary (mirror of the JSONL row)
     if sample_dir:
@@ -1161,6 +1233,15 @@ def main():
                              "heuristic. Use when sharing the GPU or when "
                              "k+reasoning blow the KV-cache budget in fp16 "
                              "(e.g. 7B fp16 + k=8 + long profiling prompts).")
+    parser.add_argument("--agentic", action="store_true",
+                        help="(PIE only) Enable the agentic self-repair loop: "
+                             "between repair rounds, a Critic agent diagnoses "
+                             "the failed candidate (off-by-one, missing edge "
+                             "case, tie-break inverted, etc.) and injects a "
+                             "structured note into the next attempt's prompt. "
+                             "Per-mode trajectory is written to "
+                             "samples/<id>/agent_trace_<mode>.json. See "
+                             "architecture.md for the full design. DEFAULT OFF.")
     parser.add_argument("--reason", action="store_true",
                         help="(PIE only) Run a reasoning-agent pass per "
                              "(sample, mode) BEFORE optimisation: Qwen reads "
@@ -1233,6 +1314,7 @@ def main():
         "include_complexity_hint": (args.dataset == "pie" and
                                       not args.no_complexity_hint),
         "include_reasoning": (args.dataset == "pie" and args.reason),
+        "include_agentic": (args.dataset == "pie" and args.agentic),
         "force_4bit": args.force_4bit,
         "seed": args.seed,
         "pie_min_improvement": args.pie_min_improvement,
@@ -1268,6 +1350,7 @@ def main():
         runner_kw["include_gcov"] = not args.no_gcov
         runner_kw["include_complexity_hint"] = not args.no_complexity_hint
         runner_kw["include_reasoning"] = args.reason
+        runner_kw["include_agentic"] = args.agentic
     for sample in samples:
         r = runner(sample, **runner_kw)
         r["run_id"] = run_id
