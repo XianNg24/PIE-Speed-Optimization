@@ -22,10 +22,6 @@ __pycache__/
 venv/
 *.egg-info/
 
-# ── Old experiments / scratch ─────────────────────────────────────────────
-defects4c/
-defects4c_local/
-
 # ── OS / editor ───────────────────────────────────────────────────────────
 .DS_Store
 .idea/

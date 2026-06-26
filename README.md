@@ -27,8 +27,8 @@ See [`architecture.md`](architecture.md) for the full agentic design.
 ### 1.1 Clone the repo
 
 ```bash
-git clone https://github.com/<you>/profile-guided-llm-opt.git
-cd profile-guided-llm-opt
+git clone https://github.com/XianNg24/PIE-SPEED-OPTIMIZATION
+cd PIE-SPEED-OPTIMIZATION
 ```
 
 ### 1.2 System tools
@@ -36,18 +36,32 @@ cd profile-guided-llm-opt
 The pipeline needs C++ build tools and Linux profilers:
 
 ```bash
-# Debian / Ubuntu
-sudo apt install g++ binutils linux-tools-generic gcov clang-format
+# Debian / Ubuntu — gcov ships with g++ (no separate package).
+sudo apt install g++ binutils linux-tools-generic clang-format
 
 # RHEL / Rocky / Fedora
 sudo dnf install gcc-c++ binutils perf gcc clang-tools-extra
 ```
 
-Verify:
+On AWS EC2 the `linux-tools-generic` perf binary may not match the
+AWS-flavoured kernel. If `perf --version` complains, install the matching
+variant:
 
 ```bash
-g++ --version && gprof --version | head -1 && perf --version
+sudo apt install linux-tools-aws "linux-tools-$(uname -r)"
 ```
+
+Verify everything is on PATH:
+Y
+```bash
+g++ --version | head -1 \
+  && gcov --version | head -1 \
+  && gprof --version | head -1 \
+  && perf --version
+```
+
+`perf` is optional — without it, `--mode profiling` skips the `perf stat`
+block but keeps gprof + gcov.
 
 ### 1.3 Python environment
 
