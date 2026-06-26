@@ -75,9 +75,16 @@ The default backend uses HuggingFace `transformers` locally (GPU recommended:
 a single 24 GB card handles all listed 7B models). For the Anthropic backend
 only the `anthropic` SDK is needed.
 
-If you are on a managed cluster with a pre-installed shared package directory,
-`config.py` injects `_PKG_DIR` via `sys.path`. Edit or delete those two lines
-if not applicable.
+If you are on a managed cluster where heavy deps (torch, transformers,
+bitsandbytes) live in a shared partition outside your home quota, point
+`config.py` at it via:
+
+```bash
+export PROJECT_PKG_DIR=/path/to/shared/py_packages
+```
+
+The variable is opt-in — unset, `config.py` simply ignores it and your
+virtualenv supplies the packages as usual.
 
 ### 1.4 PIE / CodeNet dataset
 
@@ -88,11 +95,21 @@ The PIE dataset is a separate repo. Clone it under the project root as
 git clone https://github.com/madaan/pie-perf.git
 ```
 
-This gives you `pie-perf/data/cpp_splits/{train,val,test}.jsonl` and the
-`public_test_cases/` directory (~11 000 sample inputs across ~3 900 problems,
-1-8 tests per problem). It also contains the English-translated CodeNet
-problem statements at `pie-perf/data/problem_statements_translated.zip` —
-the loader reads this directly, no extraction needed.
+The clone gives you `public_test_cases/`, the English-translated CodeNet
+problem statements (`problem_statements_translated.zip`), `knn_prompts/`,
+and `sample/`. The actual **C++ training/eval splits**
+(`cpp_splits/{train,val,test}.jsonl`) are hosted on Google Drive as a
+separate ~100 MB archive — without these the loader can't find any samples.
+Download them with `gdown`:
+
+```bash
+pip install gdown    # if not already installed
+cd pie-perf/data
+gdown 1NqMT7kqCwk99hj4BjpUcsxLIzPFv_DtT -O cpp_splits.zip
+unzip cpp_splits.zip && rm cpp_splits.zip
+cd ../..
+ls pie-perf/data/cpp_splits/    # expect: train.jsonl, val.jsonl, test.jsonl, test-1k.jsonl
+```
 
 ### 1.5 Merged test cases (optional, recommended)
 

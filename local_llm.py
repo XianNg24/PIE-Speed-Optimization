@@ -16,10 +16,12 @@ _PKG_DIR = "/cs/student/project_msc/2025/dsml/nmxian/py_packages"
 if _PKG_DIR not in sys.path:
     sys.path.insert(0, _PKG_DIR)
 
-# Point HuggingFace cache at the shared cache dir (has plenty of space)
-HF_CACHE = "/cs/student/project_msc/2025/dsml/nmxian/huggingface_cache"
-os.environ["HF_HOME"] = HF_CACHE
-os.environ["TRANSFORMERS_CACHE"] = os.path.join(HF_CACHE, "hub")
+# HuggingFace cache: respect the user's env vars if set, otherwise fall
+# back to ~/.cache/huggingface (the HF library's own default). The previous
+# hard-coded path was UCL-cluster-specific and broke on other machines.
+HF_CACHE = os.environ.get("HF_HOME") or os.path.expanduser("~/.cache/huggingface")
+os.environ.setdefault("HF_HOME", HF_CACHE)
+os.environ.setdefault("TRANSFORMERS_CACHE", os.path.join(HF_CACHE, "hub"))
 
 DEFAULT_MODEL = "Qwen/Qwen2.5-Coder-7B-Instruct"
 

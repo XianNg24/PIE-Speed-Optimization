@@ -1,9 +1,14 @@
 """Central configuration for the Profile-Guided Code Correction pipeline."""
 import os, sys
 
-# ── Extra Python packages (installed to project partition, not home) ──────────
-_PKG_DIR = "/cs/student/project_msc/2025/dsml/nmxian/py_packages"
-if _PKG_DIR not in sys.path:
+# ── Extra Python packages (optional shared install dir) ───────────────────────
+# Allow an out-of-tree package directory via PROJECT_PKG_DIR env var. Useful
+# on managed clusters where a shared partition holds the heavy deps (torch,
+# transformers, bitsandbytes) outside the home quota. No-op on machines that
+# don't set the variable or where the path doesn't exist — packages are then
+# expected to come from the active virtualenv (see README §1.3).
+_PKG_DIR = os.environ.get("PROJECT_PKG_DIR", "")
+if _PKG_DIR and os.path.isdir(_PKG_DIR) and _PKG_DIR not in sys.path:
     sys.path.insert(0, _PKG_DIR)
 
 # ── LLM ──────────────────────────────────────────────────────────────────────
